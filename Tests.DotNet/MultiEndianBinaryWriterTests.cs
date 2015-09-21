@@ -1,13 +1,12 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class MultiEndianBinaryWriterTests
 	{
 		private MultiEndianBinaryWriter _bigEndianWriter;
@@ -15,7 +14,11 @@
 		private MultiEndianBinaryWriter _littleEndianWriter;
 		private byte[] _littleEndianBuffer;
 
-		[SetUp]
+		public MultiEndianBinaryWriterTests()
+		{
+			Reset();
+		}
+
 		public void Reset()
 		{
 			_bigEndianBuffer = new byte[8];
@@ -25,7 +28,7 @@
 			_littleEndianWriter = new MultiEndianBinaryWriter(new MemoryStream(_littleEndianBuffer), ByteOrder.LittleEndian);
 		}
 
-		[Test]
+		[Fact]
 		public void TestBinaryWriteMethods()
 		{
 			// We write all the stuff with both writers and compare.
@@ -79,7 +82,7 @@
 			var oneData = one.Take(dataSize).ToArray();
 			var otherData = other.Take(dataSize).Reverse().ToArray();
 
-			CollectionAssert.AreEqual(oneData, otherData);
+			Assert.Equal(oneData, otherData);
 		}
 	}
 }

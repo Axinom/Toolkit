@@ -1,4 +1,4 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
@@ -6,12 +6,11 @@
 	using Axinom.Toolkit;
 	using Axinom.Toolkit.DotNet.NLog;
 	using NLog;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class NLogListenerTests
 	{
-		[Test]
+		[Fact]
 		public void NLogListener_WritesLogEntriesToNLog()
 		{
 			using (var log = new Log())
@@ -28,12 +27,12 @@
 				log.Error("Error");
 				log.Wtf("Wtf");
 
-				Assert.AreEqual(5, memoryTarget.Logs.Count);
-				Assert.AreEqual("Debug", memoryTarget.Logs[0]);
-				Assert.AreEqual("Info", memoryTarget.Logs[1]);
-				Assert.AreEqual("Warning", memoryTarget.Logs[2]);
-				Assert.AreEqual("Error", memoryTarget.Logs[3]);
-				Assert.AreEqual("Wtf", memoryTarget.Logs[4]);
+				Assert.Equal(5, memoryTarget.Logs.Count);
+				Assert.Equal("Debug", memoryTarget.Logs[0]);
+				Assert.Equal("Info", memoryTarget.Logs[1]);
+				Assert.Equal("Warning", memoryTarget.Logs[2]);
+				Assert.Equal("Error", memoryTarget.Logs[3]);
+				Assert.Equal("Wtf", memoryTarget.Logs[4]);
 			}
 		}
 	}

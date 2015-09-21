@@ -1,15 +1,14 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class QueryStringTests
 	{
-		[Test]
+		[Fact]
 		public void DifferentUriTypesAreFine()
 		{
 			QueryString.FromUrl(new Uri("http://example.com?a=b", UriKind.Absolute));
@@ -22,136 +21,136 @@
 			QueryString.FromUrl(new Uri("index.html", UriKind.RelativeOrAbsolute));
 		}
 
-		[Test]
+		[Fact]
 		public void StringUrlWithoutQueryStringIsFine()
 		{
 			QueryString.FromUrl("page.html");
 		}
 
-		[Test]
+		[Fact]
 		public void EmptyStringIsFineAsUrl()
 		{
 			QueryString.FromUrl("");
 		}
 
-		[Test]
+		[Fact]
 		public void EmptyStringIsFineAsQs()
 		{
 			QueryString.FromQueryString("");
 		}
 
-		[Test]
+		[Fact]
 		public void QuestionMarkIsFineAsQs()
 		{
 			QueryString.FromQueryString("?");
 		}
 
-		[Test]
+		[Fact]
 		public void EmptyInEmptyOut()
 		{
 			var qs = QueryString.FromUrl("http://example.com/index");
 
-			Assert.AreEqual("?", qs.ToString());
+			Assert.Equal("?", qs.ToString());
 		}
 
-		[Test]
+		[Fact]
 		public void OneParameterIsRead()
 		{
 			var qs = QueryString.FromUrl("http://example.com?name=value");
 
-			Assert.IsTrue(qs.Contains("name"));
-			Assert.AreEqual("value", qs["name"]);
+			Assert.True(qs.Contains("name"));
+			Assert.Equal("value", qs["name"]);
 		}
 
-		[Test]
+		[Fact]
 		public void ThreeParametersAreReadFromString()
 		{
 			var qs = QueryString.FromUrl("http://example.com?name1=value1&name2=value2&name3=value3");
 
-			Assert.IsTrue(qs.Contains("name1"));
-			Assert.AreEqual("value1", qs["name1"]);
-			Assert.IsTrue(qs.Contains("name2"));
-			Assert.AreEqual("value2", qs["name2"]);
-			Assert.IsTrue(qs.Contains("name3"));
-			Assert.AreEqual("value3", qs["name3"]);
+			Assert.True(qs.Contains("name1"));
+			Assert.Equal("value1", qs["name1"]);
+			Assert.True(qs.Contains("name2"));
+			Assert.Equal("value2", qs["name2"]);
+			Assert.True(qs.Contains("name3"));
+			Assert.Equal("value3", qs["name3"]);
 		}
 
-		[Test]
+		[Fact]
 		public void ThreeParametersAreReadFromUri()
 		{
 			// Same as ThreeParametersAreReadFromString but using Uri as input (to ensure parsing works for all sources)
 			var qs = QueryString.FromUrl(new Uri("http://example.com?name1=value1&name2=value2&name3=value3"));
 
-			Assert.IsTrue(qs.Contains("name1"));
-			Assert.AreEqual("value1", qs["name1"]);
-			Assert.IsTrue(qs.Contains("name2"));
-			Assert.AreEqual("value2", qs["name2"]);
-			Assert.IsTrue(qs.Contains("name3"));
-			Assert.AreEqual("value3", qs["name3"]);
+			Assert.True(qs.Contains("name1"));
+			Assert.Equal("value1", qs["name1"]);
+			Assert.True(qs.Contains("name2"));
+			Assert.Equal("value2", qs["name2"]);
+			Assert.True(qs.Contains("name3"));
+			Assert.Equal("value3", qs["name3"]);
 		}
 
-		[Test]
+		[Fact]
 		public void ThreeParametersAreReadFromQs()
 		{
 			// Same as ThreeParametersAreReadFromString but using a QS string as input (to ensure parsing works for all sources)
 			var qs = QueryString.FromQueryString("?name1=value1&name2=value2&name3=value3");
 
-			Assert.IsTrue(qs.Contains("name1"));
-			Assert.AreEqual("value1", qs["name1"]);
-			Assert.IsTrue(qs.Contains("name2"));
-			Assert.AreEqual("value2", qs["name2"]);
-			Assert.IsTrue(qs.Contains("name3"));
-			Assert.AreEqual("value3", qs["name3"]);
+			Assert.True(qs.Contains("name1"));
+			Assert.Equal("value1", qs["name1"]);
+			Assert.True(qs.Contains("name2"));
+			Assert.Equal("value2", qs["name2"]);
+			Assert.True(qs.Contains("name3"));
+			Assert.Equal("value3", qs["name3"]);
 		}
 
-		[Test]
+		[Fact]
 		public void EmptyValueIsReadAsEmpty()
 		{
 			var qs = QueryString.FromQueryString("name=");
 
-			Assert.AreEqual("", qs["name"]);
+			Assert.Equal("", qs["name"]);
 		}
 
-		[Test]
+		[Fact]
 		public void NoValueIsReadAsNull()
 		{
 			var qs = QueryString.FromQueryString("name");
 
-			Assert.IsTrue(qs.Contains("name"));
-			Assert.AreEqual(null, qs["name"]);
+			Assert.True(qs.Contains("name"));
+			Assert.Equal(null, qs["name"]);
 		}
 
-		[Test]
+		[Fact]
 		public void EmptyValueIsWrittenAsEmpty()
 		{
 			var qs = new QueryString();
 
 			qs["name"] = "";
 
-			Assert.AreEqual("?name=", qs.ToString());
+			Assert.Equal("?name=", qs.ToString());
 		}
 
-		[Test]
+		[Fact]
 		public void NullIsWrittenAsNull()
 		{
 			var qs = new QueryString();
 
 			qs["name"] = null;
 
-			Assert.AreEqual("?name", qs.ToString());
+			Assert.Equal("?name", qs.ToString());
 		}
 
-		[Test]
+		[Fact]
 		public void OneParameterIsWritten()
 		{
 			var qs = new QueryString();
 
 			qs["name"] = "value";
 
-			Assert.AreEqual("?name=value", qs.ToString());
+			Assert.Equal("?name=value", qs.ToString());
 		}
 
-		[Test]
+		[Fact]
 		public void TwoParametersAreWritten()
 		{
 			var qs = new QueryString();
@@ -167,29 +166,29 @@
 			};
 
 			if (!validAnswers.Contains(result))
-				Assert.Fail("Two parameter QS was not written correctly. Got result: " + result);
+				throw new Exception("Two parameter QS was not written correctly. Got result: " + result);
 		}
 
-		[Test]
+		[Fact]
 		public void BasicOperations()
 		{
 			var qs = new QueryString();
 
 			qs.Set("key", "value");
-			Assert.AreEqual("value", qs.Get("key"));
-			Assert.AreEqual("value", qs["key"]);
-			Assert.AreEqual("value", qs.TryGet("key", "default"));
-			Assert.AreEqual("default", qs.TryGet("nonexistingkey", "default"));
+			Assert.Equal("value", qs.Get("key"));
+			Assert.Equal("value", qs["key"]);
+			Assert.Equal("value", qs.TryGet("key", "default"));
+			Assert.Equal("default", qs.TryGet("nonexistingkey", "default"));
 
-			Assert.IsTrue(qs.Contains("key"));
+			Assert.True(qs.Contains("key"));
 			qs.Remove("key");
-			Assert.IsFalse(qs.Contains("key"));
+			Assert.False(qs.Contains("key"));
 
 			qs["key"] = "value";
-			Assert.IsTrue(qs.Contains("key"));
+			Assert.True(qs.Contains("key"));
 		}
 
-		[Test]
+		[Fact]
 		public void NamesAreCaseInsensitive()
 		{
 			var qs = new QueryString();
@@ -197,17 +196,17 @@
 			qs["name"] = "value1";
 			qs["NAme"] = "value2";
 
-			Assert.AreEqual("value2", qs["name"]);
+			Assert.Equal("value2", qs["name"]);
 		}
 
-		[Test]
+		[Fact]
 		public void NamesCaseIsPreserved()
 		{
 			var qs = QueryString.FromQueryString("?NamE=value");
 
 			qs["NamE"] = "value2";
 
-			Assert.AreEqual("?NamE=value2", qs.ToString());
+			Assert.Equal("?NamE=value2", qs.ToString());
 		}
 	}
 }

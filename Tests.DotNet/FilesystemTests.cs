@@ -1,16 +1,15 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class FilesystemTests
 	{
-		[Test]
+		[Fact]
 		public void RemoveRoot_RemovesRootFromPath()
 		{
 			var path = MakeRootedPath(Path.Combine("aa", "bb", "cc"));
@@ -18,10 +17,10 @@
 
 			var relativePath = Helpers.Filesystem.RemoveRoot(path, root);
 
-			Assert.AreEqual(Path.Combine("bb", "cc"), relativePath);
+			Assert.Equal(Path.Combine("bb", "cc"), relativePath);
 		}
 
-		[Test]
+		[Fact]
 		public void RemoveRoot_WithAndWithoutSlashAtEndOfRoot_GivesSameResult()
 		{
 			var path = MakeRootedPath(Path.Combine("aa", "bb", "cc"));
@@ -31,17 +30,16 @@
 			var relativePath1 = Helpers.Filesystem.RemoveRoot(path, root1);
 			var relativePath2 = Helpers.Filesystem.RemoveRoot(path, root2);
 
-			Assert.AreEqual(relativePath1, relativePath2);
+			Assert.Equal(relativePath1, relativePath2);
 		}
 
-		[Test]
-		[ExpectedException(typeof(ArgumentException))]
+		[Fact]
 		public void RemoveRoot_WithInvalidRoot_ThrowsException()
 		{
 			var path = MakeRootedPath(Path.Combine("aa", "bb", "cc"));
 			var root = MakeRootedPath("dd");
 
-			Helpers.Filesystem.RemoveRoot(path, root);
+			Assert.Throws<ArgumentException>(() => Helpers.Filesystem.RemoveRoot(path, root));
 		}
 
 		private static string MakeRootedPath(string path)

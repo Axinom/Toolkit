@@ -1,4 +1,4 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections;
@@ -7,9 +7,8 @@
 	using System.Diagnostics;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class DebugTests
 	{
 		private const string StringValue = "et6ujhaeõ'54a";
@@ -67,7 +66,7 @@
 			public Hashtable HashtableField;
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithGuidField_OutputContainsValue()
 		{
 			var o = new TestClassObject();
@@ -75,10 +74,10 @@
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			StringAssert.Contains(GuidValue.ToString(), output);
+			Assert.Contains(GuidValue.ToString(), output);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithStringProperty_OutputContainsPropertyValue()
 		{
 			var o = new TestClassObject();
@@ -86,10 +85,10 @@
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			StringAssert.Contains(StringValue, output);
+			Assert.Contains(StringValue, output);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithRecursion_OutputsOnlyOneInstanceOfObject()
 		{
 			const string canary = "at'jhõ''õõõa'f'f''f'f'f'f'f";
@@ -105,11 +104,11 @@
 			var first = output.IndexOf(canary);
 			var last = output.LastIndexOf(canary);
 
-			Assert.AreNotEqual(-1, first);
-			Assert.AreEqual(first, last);
+			Assert.NotEqual(-1, first);
+			Assert.Equal(first, last);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithStruct_OutputContainsStructData()
 		{
 			const string canary1 = "46464646546879887987654321";
@@ -131,11 +130,11 @@
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			StringAssert.Contains(canary1, output);
-			StringAssert.Contains(canary2, output);
+			Assert.Contains(canary1, output);
+			Assert.Contains(canary2, output);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithDateTime_OutputContainsOnlyExpectedString()
 		{
 			var o = DateTime.Now;
@@ -146,10 +145,10 @@
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			Assert.AreEqual(expected, output);
+			Assert.Equal(expected, output);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithDateTimeOffset_OutputContainsOnlyExpectedString()
 		{
 			var o = DateTimeOffset.Now;
@@ -159,10 +158,10 @@
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			Assert.AreEqual(expected, output);
+			Assert.Equal(expected, output);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithTimeSpan_OutputContainsOnlyExpectedString()
 		{
 			var o = TimeSpan.FromSeconds(358357835753.2567247246572467);
@@ -172,31 +171,31 @@
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			Assert.AreEqual(expected, output);
+			Assert.Equal(expected, output);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithEnum_OutputContainsOnlyExpectedString()
 		{
-			var o = PlatformID.MacOSX;
+			var o = AttributeTargets.GenericParameter;
 
 			var expected = o + Environment.NewLine;
 
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			Assert.AreEqual(expected, output);
+			Assert.Equal(expected, output);
 		}
 
-		[Test]
+		[Fact]
 		public void ToDebugString_WithGenericType_DoesNotPrintGenericArgumentSpam()
 		{
-			var o = new KeyValuePair<string, ErrorReportConfiguration>("asdfasdf", null);
+			var o = new KeyValuePair<string, DebugTests>("asdfasdf", null);
 
 			var output = Helpers.Debug.ToDebugString(o);
 			Debug.WriteLine(output);
 
-			StringAssert.DoesNotContain(typeof(ErrorReportConfiguration).Name, output);
+			Assert.DoesNotContain(typeof(DebugTests).Name, output);
 		}
 	}
 }

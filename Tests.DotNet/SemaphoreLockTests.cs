@@ -1,4 +1,4 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
@@ -7,12 +7,11 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class SemaphoreLockTests
 	{
-		[Test]
+		[Fact]
 		public void BasicLockingLogic_SeemsToWork()
 		{
 			// Start one long-running operation and one short-running one.
@@ -29,7 +28,7 @@
 					using (await SemaphoreLock.TakeAsync(semaphore))
 					{
 						Debug.WriteLine("Long acquired lock.");
-						Thread.Sleep(5000);
+						await Task.Delay(5000);
 						Debug.WriteLine("Long completed.");
 						longCompletedAt = Environment.TickCount;
 					}
@@ -38,12 +37,12 @@
 				var shortTask = Task.Run(async () =>
 				{
 					Debug.WriteLine("Short entered.");
-					Thread.Sleep(500);
+					await Task.Delay(500);
 					Debug.WriteLine("Short starting work.");
 					using (await SemaphoreLock.TakeAsync(semaphore))
 					{
 						Debug.WriteLine("Short acquired lock.");
-						Thread.Sleep(50);
+						await Task.Delay(50);
 						Debug.WriteLine("Short completed.");
 						shortCompletedAt = Environment.TickCount;
 					}
@@ -51,13 +50,13 @@
 
 				Task.WaitAll(longTask, shortTask);
 
-				Assert.IsTrue(shortCompletedAt.HasValue);
-				Assert.IsTrue(longCompletedAt.HasValue);
-				Assert.IsTrue(longCompletedAt.Value < shortCompletedAt.Value);
+				Assert.True(shortCompletedAt.HasValue);
+				Assert.True(longCompletedAt.HasValue);
+				Assert.True(longCompletedAt.Value < shortCompletedAt.Value);
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void LockingLogic_WithTimeout_SeemsToWork()
 		{
 			// Start one long-running operation and two short-running ones, where one of the shorts times out on the lock.
@@ -75,7 +74,7 @@
 					using (await SemaphoreLock.TakeAsync(semaphore))
 					{
 						Debug.WriteLine("Long acquired lock.");
-						Thread.Sleep(5000);
+						await Task.Delay(5000);
 						Debug.WriteLine("Long completed.");
 						longCompletedAt = Environment.TickCount;
 					}
@@ -84,7 +83,7 @@
 				var shortTask1 = Task.Run(async () =>
 				{
 					Debug.WriteLine("Short1 entered.");
-					Thread.Sleep(500);
+					await Task.Delay(500);
 					Debug.WriteLine("Short1 starting work.");
 					var lockInstance = await SemaphoreLock.TryTakeAsync(semaphore, TimeSpan.FromSeconds(1));
 
@@ -98,7 +97,7 @@
 						using (lockInstance)
 						{
 							Debug.WriteLine("Short1 acquired lock.");
-							Thread.Sleep(50);
+							await Task.Delay(50);
 							Debug.WriteLine("Short1 completed.");
 							short1CompletedAt = Environment.TickCount;
 						}
@@ -108,12 +107,12 @@
 				var shortTask2 = Task.Run(async () =>
 				{
 					Debug.WriteLine("Short2 entered.");
-					Thread.Sleep(500);
+					await Task.Delay(500);
 					Debug.WriteLine("Short2 starting work.");
 					using (await SemaphoreLock.TakeAsync(semaphore))
 					{
 						Debug.WriteLine("Short2 acquired lock.");
-						Thread.Sleep(50);
+						await Task.Delay(50);
 						Debug.WriteLine("Short2 completed.");
 						short2CompletedAt = Environment.TickCount;
 					}
@@ -121,17 +120,17 @@
 
 				Task.WaitAll(longTask, shortTask1, shortTask2);
 
-				Assert.IsFalse(short1CompletedAt.HasValue);
-				Assert.IsTrue(short1TimedOutAt.HasValue);
-				Assert.IsTrue(short2CompletedAt.HasValue);
-				Assert.IsTrue(longCompletedAt.HasValue);
-				Assert.IsTrue(short1TimedOutAt.Value < longCompletedAt.Value);
-				Assert.IsTrue(short1TimedOutAt.Value < short2CompletedAt.Value);
-				Assert.IsTrue(longCompletedAt.Value < short2CompletedAt.Value);
+				Assert.False(short1CompletedAt.HasValue);
+				Assert.True(short1TimedOutAt.HasValue);
+				Assert.True(short2CompletedAt.HasValue);
+				Assert.True(longCompletedAt.HasValue);
+				Assert.True(short1TimedOutAt.Value < longCompletedAt.Value);
+				Assert.True(short1TimedOutAt.Value < short2CompletedAt.Value);
+				Assert.True(longCompletedAt.Value < short2CompletedAt.Value);
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void Exception_Unlocks()
 		{
 			using (var semaphore = new SemaphoreSlim(1))
@@ -148,7 +147,7 @@
 				}
 
 				// If this is false, the lock is still being held.
-				Assert.IsTrue(semaphore.Wait(0));
+				Assert.True(semaphore.Wait(0));
 			}
 		}
 	}

@@ -1,12 +1,11 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public class XmlSerializationTests
 	{
 		public class MyClass
@@ -14,7 +13,7 @@
 			public string MyProperty { get; set; }
 		}
 
-		[Test]
+		[Fact]
 		public void BasicSeriAndDeseriSeemsToWork()
 		{
 			#region Doc example: basic seri/deseri
@@ -32,17 +31,17 @@
 			object alternativeResult = Helpers.XmlSerialization.XmlDeserialize(xml, dataType);
 			#endregion
 
-			Assert.AreEqual(input.MyProperty, result.MyProperty);
-			Assert.IsInstanceOf<MyClass>(alternativeResult);
-			Assert.AreEqual(input.MyProperty, ((MyClass)alternativeResult).MyProperty);
+			Assert.Equal(input.MyProperty, result.MyProperty);
+			Assert.IsType<MyClass>(alternativeResult);
+			Assert.Equal(input.MyProperty, ((MyClass)alternativeResult).MyProperty);
 		}
 
-		[Test]
+		[Fact]
 		public void OutputIsUtf8()
 		{
 			string xml = Helpers.XmlSerialization.XmlSerialize(new MyClass());
 
-			Assert.IsTrue(xml.Contains(@"encoding=""utf-8"""));
+			Assert.True(xml.Contains(@"encoding=""utf-8"""));
 		}
 	}
 }

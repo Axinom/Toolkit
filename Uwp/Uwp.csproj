@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="ColorConverter.cs" />
     <Compile Include="DebugConverter.cs" />
+    <Compile Include="EnvironmentHelpers.cs" />
     <Compile Include="ExtensionsForIAsyncAction.cs" />
     <Compile Include="ExtensionsForIAsyncOperation.cs" />
     <Compile Include="ExtensionsForIRandomAccessStream.cs" />

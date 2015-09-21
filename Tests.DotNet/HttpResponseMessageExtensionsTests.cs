@@ -1,4 +1,4 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
@@ -8,28 +8,26 @@
 	using System.Net.Http;
 	using System.Threading.Tasks;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class HttpResponseMessageExtensionsTests
 	{
-		[Test]
+		[Fact]
 		public async Task EnsureSuccessStatusCodeAndReportFailureDetailsAsync_WithOkResponse_PassesVerification()
 		{
 			var response = new HttpResponseMessage(HttpStatusCode.OK);
 			await response.EnsureSuccessStatusCodeAndReportFailureDetailsAsync();
 		}
 
-		[Test]
-		[ExpectedException(typeof(HttpRequestException))]
+		[Fact]
 		public async Task EnsureSuccessStatusCodeAndReportFailureDetailsAsync_WithNotFoundResponse_FailsVerification()
 		{
 			var response = new HttpResponseMessage(HttpStatusCode.NotFound);
-			await response.EnsureSuccessStatusCodeAndReportFailureDetailsAsync();
+
+			await Assert.ThrowsAsync<HttpRequestException>(() => response.EnsureSuccessStatusCodeAndReportFailureDetailsAsync());
 		}
 
-		[Test]
-		[ExpectedException(typeof(HttpRequestException))]
+		[Fact]
 		public async Task EnsureSuccessStatusCodeAndReportFailureDetailsAsync_WithNotFoundResponse_ProvidesStringContentInDetails()
 		{
 			const string canary = "gioiiiiiiiiiiooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
@@ -40,14 +38,14 @@
 			try
 			{
 				await response.EnsureSuccessStatusCodeAndReportFailureDetailsAsync();
+
+				throw new Exception("Expected exception to be thrown here.");
 			}
 			catch (HttpRequestException ex)
 			{
-				Trace.WriteLine(ex.Message);
+				Log.Default.Debug(ex.Message);
 
-				StringAssert.Contains(canary, ex.Message);
-
-				throw;
+				Assert.Contains(canary, ex.Message);
 			}
 		}
 	}

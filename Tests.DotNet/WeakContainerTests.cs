@@ -1,27 +1,25 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class WeakContainerTests
 	{
-		[Test]
+		[Fact]
 		public void BasicOperations()
 		{
 			var container = new WeakContainer<object>();
 
 			object item = new object();
 
-			Assert.IsFalse(container.Contains(item), "WeakContainer contained item before it was added.");
+			Assert.False(container.Contains(item), "WeakContainer contained item before it was added.");
 
 			container.Add(item);
 
-			Assert.IsTrue(container.Contains(item), "WeakContainer did not contain item after adding it.");
+			Assert.True(container.Contains(item), "WeakContainer did not contain item after adding it.");
 
 			int count = 0;
 
@@ -30,18 +28,19 @@
 				count++;
 			}
 
-			Assert.AreEqual(1, count, "WeakContainer did not contain exactly 1 item after it was added.");
+			Assert.Equal(1, count);
 
 			container.Remove(item);
 
-			Assert.IsFalse(container.Contains(item), "WeakContainer contained item after it was removed.");
+			Assert.False(container.Contains(item), "WeakContainer contained item after it was removed.");
 		}
 
-		[Test]
+		[Fact]
 		public void DeadItemsAreForgotten()
 		{
-			InconclusiveInDebugBuild(); // GC might not clean the dead item up in debug build.
+			// This test is not reliable in debug build, as objects may live longer than they should.
 
+#if !DEBUG
 			var container = new WeakContainer<Bongo>();
 
 			// Item to forget.
@@ -59,7 +58,7 @@
 				count++;
 			}
 
-			Assert.AreEqual(2, count, "WeakContainer did not contain exactly 2 items after they were added.");
+			Assert.Equal(2, count);
 
 			item1 = null; // Die!
 			GC.Collect();
@@ -71,15 +70,10 @@
 				count++;
 			}
 
-			Assert.AreEqual(1, count, "WeakContainer did not contain exactly 1 item after one dead item was GCed.");
+			Assert.Equal(1, count);
 
-			Assert.IsTrue(container.Contains(item2), "WeakContainer did not contain alive item after another item was GCed.");
-		}
-
-		[Conditional("DEBUG")]
-		private void InconclusiveInDebugBuild()
-		{
-			Assert.Inconclusive("This test requires the tests to be built with a release configuration.");
+			Assert.True(container.Contains(item2));
+#endif
 		}
 	}
 
