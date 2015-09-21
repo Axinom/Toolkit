@@ -1,16 +1,15 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Windows.Input;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public class DelegateCommandTests
 	{
-		[Test]
+		[Fact]
 		public void ExecuteIsCalled()
 		{
 			int callCount = 0;
@@ -29,11 +28,11 @@
 
 			cmd.Execute(expectedParameter);
 
-			Assert.AreEqual(1, callCount, "Execute() delegate was not called exactly once.");
-			Assert.AreEqual(expectedParameter, gotParameter, "Execute() delegate got wrong parameter.");
+			Assert.Equal(1, callCount);
+			Assert.Equal(expectedParameter, gotParameter);
 		}
 
-		[Test]
+		[Fact]
 		public void CanExecuteIsCalled()
 		{
 			int callCount = 0;
@@ -53,12 +52,12 @@
 
 			var returnValue = cmd.CanExecute(expectedParameter);
 
-			Assert.AreEqual(1, callCount, "CanExecute() delegate was not called exactly once.");
-			Assert.AreEqual(expectedParameter, gotParameter, "CanExecute() delegate got wrong parameter.");
-			Assert.IsFalse(returnValue, "CanExecute() returned wrong value.");
+			Assert.Equal(1, callCount);
+			Assert.Equal(expectedParameter, gotParameter);
+			Assert.False(returnValue);
 		}
 
-		[Test]
+		[Fact]
 		public void MissingExecuteDoesNothing()
 		{
 			ICommand cmd = new DelegateCommand
@@ -69,35 +68,27 @@
 			cmd.Execute(null);
 		}
 
-		[Test]
+		[Fact]
 		public void MissingCanExecuteAlwaysAllows()
 		{
 			ICommand cmd = new DelegateCommand();
 
-			Assert.IsTrue(cmd.CanExecute(null), "CanExecute() must be true when no CanExecuteDelegate given.");
+			Assert.True(cmd.CanExecute(null));
 		}
 
-		[Test]
-		[ExpectedException(typeof(InvalidOperationException))]
+		[Fact]
 		public void CannotExecuteWhenCanExecuteForbids()
 		{
-			bool wasExecuted = false;
-
 			ICommand cmd = new DelegateCommand
 			{
-				Execute = delegate { wasExecuted = true; },
+				Execute = delegate { },
 				CanExecute = delegate { return false; }
 			};
 
-			cmd.Execute(null);
-
-			if (wasExecuted)
-				Assert.Fail("Execute() was called even though CanExecute() was false and no exception occurred.");
-			else
-				Assert.Fail("Execute() was not called when CanExecute() was false but no exception happened either.");
+			Assert.Throws<InvalidOperationException>(() => cmd.Execute(null));
 		}
 
-		[Test]
+		[Fact]
 		public void CanExecuteChangedIsRaised()
 		{
 			bool wasCalled = false;
@@ -107,7 +98,7 @@
 
 			((DelegateCommand)cmd).RaiseCanExecuteChanged();
 
-			Assert.IsTrue(wasCalled, "CanExecuteChanged was not raised.");
+			Assert.True(wasCalled);
 		}
 	}
 }

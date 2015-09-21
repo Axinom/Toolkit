@@ -1,60 +1,50 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public class StructTests
 	{
-		// Some shared variables here to avoid re-declaring in every test.
-		private MemoryStream _stream;
-		private Packet _packet;
-
-		[SetUp]
-		public void Setup()
-		{
-			_stream = new MemoryStream();
-			_packet = new Packet
-			{
-				A = 50
-			};
-		}
-
 		private struct Packet
 		{
 			public int A;
 		}
 
-		[Test]
+		[Fact]
 		public void BasicReadWriteSucceeds()
 		{
-			Helpers.Struct.Write(_packet, _stream);
-			_stream.Position = 0;
+			var stream = new MemoryStream();
+			var packet = new Packet
+			{
+				A = 50
+			};
 
-			var other = Helpers.Struct.Read<Packet>(_stream);
+			Helpers.Struct.Write(packet, stream);
+			stream.Position = 0;
 
-			Assert.AreEqual(_packet, other);
+			var other = Helpers.Struct.Read<Packet>(stream);
+
+			Assert.Equal(packet, other);
 		}
 
-		[Test]
+		[Fact]
 		public void ByteOrderIsLittleEndian()
 		{
 			var stream = new MemoryStream(new byte[] { 1, 0, 0, 0 });
 
 			var packet = Helpers.Struct.Read<Packet>(stream);
 
-			Assert.AreEqual(1, packet.A);
+			Assert.Equal(1, packet.A);
 		}
 
-		[Test]
-		[ExpectedException(typeof(ArgumentException))]
+		[Fact]
 		public void InvalidTypeIsRejected()
 		{
-			Helpers.Struct.Write(new StructTests(), _stream);
+			Assert.Throws<ArgumentException>(() => Helpers.Struct.Write(new StructTests(), new MemoryStream()));
 		}
 	}
 }

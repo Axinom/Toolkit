@@ -1,16 +1,15 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public class CompositingStreamTests
 	{
-		[Test]
+		[Fact]
 		public void BasicWriteTest()
 		{
 			var first = new MemoryStream(new byte[1]);
@@ -21,11 +20,11 @@
 			byte[] data = new[] { (byte)1, (byte)2 };
 			composite.Write(data, 0, 2);
 
-			Assert.AreEqual(1, first.ToArray()[0]);
-			Assert.AreEqual(2, second.ToArray()[0]);
+			Assert.Equal(1, first.ToArray()[0]);
+			Assert.Equal(2, second.ToArray()[0]);
 		}
 
-		[Test]
+		[Fact]
 		public void BasicReadTest()
 		{
 			var first = new MemoryStream(new[] { (byte)1 });
@@ -36,13 +35,12 @@
 			byte[] buffer = new byte[2];
 			var readBytes = composite.Read(buffer, 0, 2);
 
-			Assert.AreEqual(2, readBytes);
-			Assert.AreEqual(1, buffer[0]);
-			Assert.AreEqual(2, buffer[1]);
+			Assert.Equal(2, readBytes);
+			Assert.Equal(1, buffer[0]);
+			Assert.Equal(2, buffer[1]);
 		}
 
-		[Test]
-		[ExpectedException(typeof(ObjectDisposedException))]
+		[Fact]
 		public void ChildrenAreClosed()
 		{
 			var first = new MemoryStream(new[] { (byte)1 });
@@ -54,10 +52,10 @@
 
 			composite.Dispose();
 
-			second.Seek(0, SeekOrigin.Begin);
+			Assert.Throws<ObjectDisposedException>(() => second.Seek(0, SeekOrigin.Begin));
 		}
 
-		[Test]
+		[Fact]
 		public void EmptyStreamIgnoredOnWrite()
 		{
 			var first = new MemoryStream(new byte[1]);
@@ -69,11 +67,11 @@
 			byte[] data = new[] { (byte)1, (byte)2 };
 			composite.Write(data, 0, 2);
 
-			Assert.AreEqual(1, first.ToArray()[0]);
-			Assert.AreEqual(2, second.ToArray()[0]);
+			Assert.Equal(1, first.ToArray()[0]);
+			Assert.Equal(2, second.ToArray()[0]);
 		}
 
-		[Test]
+		[Fact]
 		public void EmptyStreamIgnoredOnRead()
 		{
 			var first = new MemoryStream(new[] { (byte)1 });
@@ -85,9 +83,9 @@
 			byte[] buffer = new byte[2];
 			var readBytes = composite.Read(buffer, 0, 2);
 
-			Assert.AreEqual(2, readBytes);
-			Assert.AreEqual(1, buffer[0]);
-			Assert.AreEqual(2, buffer[1]);
+			Assert.Equal(2, readBytes);
+			Assert.Equal(1, buffer[0]);
+			Assert.Equal(2, buffer[1]);
 		}
 	}
 }

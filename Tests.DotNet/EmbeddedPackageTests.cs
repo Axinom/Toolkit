@@ -1,4 +1,4 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
@@ -6,43 +6,49 @@
 	using System.Linq;
 	using System.Reflection;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class EmbeddedPackageTests
 	{
-		[Test]
+		private static readonly Assembly _testsAssembly;
+
+		static EmbeddedPackageTests()
+		{
+			_testsAssembly = typeof(EmbeddedPackageTests).GetTypeInfo().Assembly;
+		}
+
+		[Fact]
 		public void Dispose_RemovesFilesystemObjects()
 		{
 			string packagePath;
 
-			using (var package = new EmbeddedPackage(Assembly.GetExecutingAssembly(), "Tests.DotNet.TestData", "MediaInfo.dll"))
+			using (var package = new EmbeddedPackage(_testsAssembly, "Tests.TestData", "MediaInfo.dll"))
 			{
 				packagePath = package.Path;
 
-				Assert.IsTrue(File.Exists(Path.Combine(packagePath, "MediaInfo.dll")));
+				Assert.True(File.Exists(Path.Combine(packagePath, "MediaInfo.dll")));
 			}
 
-			Assert.IsFalse(File.Exists(Path.Combine(packagePath, "MediaInfo.dll")));
-			Assert.IsFalse(Directory.Exists(packagePath));
+			Assert.False(File.Exists(Path.Combine(packagePath, "MediaInfo.dll")));
+			Assert.False(Directory.Exists(packagePath));
 		}
 
-		[Test]
+		[Fact]
 		public void Initializer_ExtractsSingleFile()
 		{
-			using (var package = new EmbeddedPackage(Assembly.GetExecutingAssembly(), "Tests.DotNet.TestData", "MediaInfo.dll"))
+			using (var package = new EmbeddedPackage(_testsAssembly, "Tests.TestData", "MediaInfo.dll"))
 			{
-				Assert.IsTrue(File.Exists(Path.Combine(package.Path, "MediaInfo.dll")));
+				Assert.True(File.Exists(Path.Combine(package.Path, "MediaInfo.dll")));
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void Initializer_ExtractsMultipleFiles()
 		{
-			using (var package = new EmbeddedPackage(Assembly.GetExecutingAssembly(), "Tests.DotNet.TestData", "MediaInfo.dll", "Gangster.xml"))
+			using (var package = new EmbeddedPackage(_testsAssembly, "Tests.TestData", "MediaInfo.dll", "Gangster.xml"))
 			{
-				Assert.IsTrue(File.Exists(Path.Combine(package.Path, "MediaInfo.dll")));
-				Assert.IsTrue(File.Exists(Path.Combine(package.Path, "gangster.xml")));
+				Assert.True(File.Exists(Path.Combine(package.Path, "MediaInfo.dll")));
+				Assert.True(File.Exists(Path.Combine(package.Path, "gangster.xml")));
 			}
 		}
 	}

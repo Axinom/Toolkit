@@ -1,12 +1,11 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class ConvertTests
 	{
 		private static readonly byte[] TestBytes = new byte[15001];
@@ -18,49 +17,49 @@
 			TestString = Helpers.Random.GetWords(5000, 5000);
 		}
 
-		[Test]
+		[Fact]
 		public void Base32EncodeAndDecodeBytesMatch()
 		{
 			var encoded = Helpers.Convert.Base32EncodeBytes(TestBytes);
 			var decoded = Helpers.Convert.Base32DecodeBytes(encoded);
 
-			CollectionAssert.AreEqual(TestBytes, decoded);
+			Assert.Equal(TestBytes, decoded);
 		}
 
-		[Test]
+		[Fact]
 		public void Base32EncodeAndDecodeStringMatch()
 		{
 			var encoded = Helpers.Convert.Base32EncodeString(TestString);
 			var decoded = Helpers.Convert.Base32DecodeString(encoded);
 
-			Assert.AreEqual(TestString, decoded);
+			Assert.Equal(TestString, decoded);
 		}
 
-		[Test]
+		[Fact]
 		public void ByteArrayToHexString_WithEmptyByteArray_ReturnsEmptyString()
 		{
 			var hexString = Helpers.Convert.ByteArrayToHexString(new byte[0]);
-			Assert.AreEqual(0, hexString.Length);
+			Assert.Equal(0, hexString.Length);
 		}
 
-		[Test]
+		[Fact]
 		public void ByteArrayToHexString_ReturnsExpectedString()
 		{
 			var hexString = Helpers.Convert.ByteArrayToHexString(new byte[] { 0x01, 0x0A, 0xCC });
-			StringAssert.AreEqualIgnoringCase("010acc", hexString);
+			Assert.True("010acc".Equals(hexString, StringComparison.OrdinalIgnoreCase));
 		}
 
-		[Test]
+		[Fact]
 		public void ByteArrayToHexString_ThenHexStringToByteArray_ReturnsOriginalByteArray()
 		{
 			var bytes = new byte[] { 0x01, 0x0A, 0xCC };
 			var hexString = Helpers.Convert.ByteArrayToHexString(bytes);
 			var bytes2 = Helpers.Convert.HexStringToByteArray(hexString);
 
-			CollectionAssert.AreEqual(bytes, bytes2);
+			Assert.Equal(bytes, bytes2);
 		}
 
-		[Test]
+		[Fact]
 		public void HexStringToByteArray_WithLowercaseAndUppercase_ReturnsSameByteArrayForBoth()
 		{
 			const string hexString = "005f8adc";
@@ -68,10 +67,10 @@
 			var bytes1 = Helpers.Convert.HexStringToByteArray(hexString.ToUpperInvariant());
 			var bytes2 = Helpers.Convert.HexStringToByteArray(hexString.ToLowerInvariant());
 
-			CollectionAssert.AreEqual(bytes1, bytes2);
+			Assert.Equal(bytes1, bytes2);
 		}
 
-		[Test]
+		[Fact]
 		public void HexStringToByteArray_WithOddNumberOfCharacters_ThrowsException()
 		{
 			Assert.Throws<ArgumentException>(() => Helpers.Convert.HexStringToByteArray("a"));

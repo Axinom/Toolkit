@@ -1,106 +1,98 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public class InjectionContainerTests
 	{
-		private InjectionContainer _container;
+		private readonly InjectionContainer _container = new InjectionContainer();
 
-		[SetUp]
-		public void Initialize()
-		{
-			_container = new InjectionContainer();
-		}
-
-		[Test]
+		[Fact]
 		public void DefaultConstructorIsUsed()
 		{
 			_container.Resolve<InjectionTestObject1>();
 		}
 
-		[Test]
+		[Fact]
 		public void LongestConstructorIsUsed()
 		{
 			var instance = _container.Resolve<InjectionTestObject2>();
 
-			Assert.AreEqual("long", instance.UsedConstructor);
+			Assert.Equal("long", instance.UsedConstructor);
 		}
 
-		[Test]
+		[Fact]
 		public void SingletonIsSingleton()
 		{
 			var instance = new InjectionTestObject1();
 
 			_container.RegisterInstance(instance);
 
-			Assert.AreSame(instance, _container.Resolve<InjectionTestObject1>());
+			Assert.Same(instance, _container.Resolve<InjectionTestObject1>());
 		}
 
-		[Test]
-		[ExpectedException(typeof(ArgumentException))]
+		[Fact]
 		public void ValueTypeIsNotResolved()
 		{
-			_container.Resolve<int>();
+			Assert.Throws<ArgumentException>(() => _container.Resolve<int>());
 		}
 
-		[Test]
+		[Fact]
 		public void NotSingletonIsNotSingleton()
 		{
 			_container.RegisterType(c => new object());
 
-			Assert.AreNotSame(_container.Resolve<object>(), _container.Resolve<object>());
+			Assert.NotSame(_container.Resolve<object>(), _container.Resolve<object>());
 		}
 
-		[Test]
+		[Fact]
 		public void CanOverwriteRegistration1()
 		{
 			_container.RegisterType(c => new InjectionTestObject1());
 			_container.RegisterType(c => new InjectionTestObject1());
 		}
 
-		[Test]
+		[Fact]
 		public void CanOverwriteRegistration2()
 		{
 			_container.RegisterInstance(new InjectionTestObject1());
 			_container.RegisterInstance(new InjectionTestObject1());
 		}
 
-		[Test]
+		[Fact]
 		public void CanOverwriteRegistration3()
 		{
 			_container.RegisterType(c => new InjectionTestObject1());
 			_container.RegisterInstance(new InjectionTestObject1());
 		}
 
-		[Test]
+		[Fact]
 		public void CanOverwriteRegistration4()
 		{
 			_container.RegisterInstance(new InjectionTestObject1());
 			_container.RegisterType(c => new InjectionTestObject1());
 		}
 
-		[Test]
+		[Fact]
 		public void ContainerResolvesItself()
 		{
-			Assert.AreSame(_container, _container.Resolve<InjectionContainer>());
+			Assert.Same(_container, _container.Resolve<InjectionContainer>());
 		}
 
-		[Test]
+		[Fact]
 		public void ChildIsSeparateFromParent()
 		{
 			var child = _container.CreateChildContainer();
 
-			Assert.AreSame(child, child.Resolve<InjectionContainer>());
-			Assert.AreSame(_container, _container.Resolve<InjectionContainer>());
-			Assert.AreNotSame(_container, child);
+			Assert.Same(child, child.Resolve<InjectionContainer>());
+			Assert.Same(_container, _container.Resolve<InjectionContainer>());
+			Assert.NotSame(_container, child);
 		}
 
-		[Test]
+		[Fact]
 		public void ChildDoesNotContaminateParent()
 		{
 			var child = _container.CreateChildContainer();
@@ -108,14 +100,14 @@
 			var instance = new InjectionTestObject1();
 			child.RegisterInstance(instance);
 
-			Assert.AreNotSame(instance, _container.Resolve<InjectionTestObject1>());
+			Assert.NotSame(instance, _container.Resolve<InjectionTestObject1>());
 
 			child.RegisterType(c => new InjectionTestObject2());
-			Assert.AreEqual("short", child.Resolve<InjectionTestObject2>().UsedConstructor);
-			Assert.AreEqual("long", _container.Resolve<InjectionTestObject2>().UsedConstructor);
+			Assert.Equal("short", child.Resolve<InjectionTestObject2>().UsedConstructor);
+			Assert.Equal("long", _container.Resolve<InjectionTestObject2>().UsedConstructor);
 		}
 
-		[Test]
+		[Fact]
 		public void ChildOverridesParent()
 		{
 			var singleton = new InjectionTestObject1();
@@ -124,42 +116,40 @@
 			var child = _container.CreateChildContainer();
 			child.RegisterType(c => new InjectionTestObject1());
 
-			Assert.AreSame(_container.Resolve<InjectionTestObject1>(), _container.Resolve<InjectionTestObject1>());
-			Assert.AreNotSame(child.Resolve<InjectionTestObject1>(), child.Resolve<InjectionTestObject1>());
+			Assert.Same(_container.Resolve<InjectionTestObject1>(), _container.Resolve<InjectionTestObject1>());
+			Assert.NotSame(child.Resolve<InjectionTestObject1>(), child.Resolve<InjectionTestObject1>());
 		}
 
-		[Test]
+		[Fact]
 		public void InterfaceIsDirectlyResolved()
 		{
 			_container.RegisterType<IInjectionTestInterface1>(c => new InjectionTestObject1());
 
 			var instance = _container.Resolve<IInjectionTestInterface1>();
 
-			Assert.IsNotNull(instance);
+			Assert.NotNull(instance);
 		}
 
-		[Test]
+		[Fact]
 		public void InterfaceIsIndirectlyResolved()
 		{
 			_container.RegisterType<IInjectionTestInterface1>(c => new InjectionTestObject1());
 
 			var instance = _container.Resolve<InjectionTestObject3>();
 
-			Assert.IsNotNull(instance.Item);
+			Assert.NotNull(instance.Item);
 		}
 
-		[Test]
-		[ExpectedException(typeof(ArgumentException))]
+		[Fact]
 		public void InterfaceIsNotDirectlyResolvedWithoutRegistration()
 		{
-			_container.Resolve<IInjectionTestInterface1>();
+			Assert.Throws<ArgumentException>(() => _container.Resolve<IInjectionTestInterface1>());
 		}
 
-		[Test]
-		[ExpectedException(typeof(ArgumentException))]
+		[Fact]
 		public void InterfaceIsNotIndirectlyResolvedWithoutRegistration()
 		{
-			_container.Resolve<InjectionTestObject3>();
+			Assert.Throws<ArgumentException>(() => _container.Resolve<InjectionTestObject3>());
 		}
 	}
 

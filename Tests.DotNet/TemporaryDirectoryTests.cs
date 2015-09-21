@@ -1,16 +1,15 @@
-﻿namespace Tests.DotNet
+﻿namespace Tests
 {
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using Axinom.Toolkit;
-	using NUnit.Framework;
+	using Xunit;
 
-	[TestFixture]
 	public sealed class TemporaryDirectoryTests
 	{
-		[Test]
+		[Fact]
 		public void TemporaryFolderIsCreatedAndRemoved()
 		{
 			string temporaryDirectory;
@@ -18,20 +17,20 @@
 			using (var folder = new TemporaryDirectory())
 			{
 				temporaryDirectory = folder.Path;
-				Assert.IsTrue(Directory.Exists(folder.Path));
+				Assert.True(Directory.Exists(folder.Path));
 			}
 
-			Assert.IsFalse(Directory.Exists(temporaryDirectory));
+			Assert.False(Directory.Exists(temporaryDirectory));
 		}
 
-		[Test]
+		[Fact]
 		public void Initializer_WithCustomPrefix_CreatesDirectoryWithCustomPrefix()
 		{
 			const string prefix = "ez5b8 y5ekht ";
 
 			using (var folder = new TemporaryDirectory(prefix))
 			{
-				StringAssert.StartsWith(prefix, Path.GetFileName(folder.Path));
+				Assert.StartsWith(prefix, Path.GetFileName(folder.Path));
 			}
 		}
 	}
