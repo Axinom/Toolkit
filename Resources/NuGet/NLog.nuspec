@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata minClientVersion="2.8">
+		<id>Axinom.Toolkit.NLog</id>
+		<version>6.0.0-prerelease02</version>
+		<authors>Axinom</authors>
+		<description>Provides NLog related helper functionaltiy and enables Axinom Toolkit logging output to be sent to NLog loggers.</description>
+		<dependencies>
+			<dependency id="Axinom.Toolkit" version="6.0.0-prerelease20" />
+			<dependency id="NLog" version="4.0.1" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\..\DotNet.NLog\bin\release\Axinom.Toolkit.DotNet.NLog.*" target="lib\net46" />
+	</files>
+</package>

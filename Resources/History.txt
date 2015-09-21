@@ -1,0 +1,241 @@
+﻿6.0.0 - Axinom Toolkit is now compatible with .NET 4.6 and UWP 10.0.
+	* Created assembly Core that houses portable classes.
+	* Services.Client package merged into Core assembly and NuGet package marked obsolete.
+	* Refactored helper method access patterns from FilesystemHelper.DoWhatever() to Helpers.Filesystem.DoEhatever() to better facilitate multi-framework library composition using extension methods.
+	* Removed thread information from logging system log entries, since it was not portable.
+	* Helpers.Async.BackgroundThreadInvoke() now uses Task instead of explicitly using Thread, for enhanced portability.
+	* AsyncHelper.WaitSafe() had confusing naming, now renamed to just .WaitAndUnwrapExceptions() extension method - nothing particularly safe about it, we just unwarp the exceptions from AggregrateException and that's it.
+	* Added more async helper methods that become relevant with async programming.
+	* Added DurationLogger, DebugLogListener, StreamWriterLogListener.
+	* Helpers.Argument.ValidateLength now takes any collection, not just array.
+	* Added Uwp library for UWP specific features, starting out with FixedAspectRatioBox and an assortment of converters.
+	* RandomText renamed to Helpers.Random and added various more random data retrieval methods.
+	* WeakEventListener now supports IDispose for easy detaching.
+	* Added Helpers.PlayReady.GenerateRightsManagementHeader() and Helpers.PlayReady.EnsureActivatedAsync() (UWP).
+	* Added ExtensionsForObservableCollection.WeakObserve().
+	* Added Helpers.Network.IsInternetAvailable() (UWP).
+	* Added Helpers.PlayReady.AcquireLicenseAsync() (UWP).
+	* Added ExtensionsForIAsyncAction and ExtensionsForIAsyncOperation (UWP).
+	* Added Helpers.Filesystem.GetFreeSpace() (UWP).
+	* Added Helpers.PlayReady.IsPersistentLicensePresent() (UWP).
+	* Added ExtensionsForUwpHttpResponseMessage to target the UWP version of HttpClient with the same feature set as .NET.
+	* Added ExtensionsForIRandomAccessStream (UWP) to easily clear streams (got to remember to seek!).
+
+5.8.0 - Added ability to redirect standard input/output/error streams via ExternalTool.
+5.7.0 - Added StringHelper.AsNonemptyLines().
+5.6.1 - ExternalTool now uses BelowNormal priority to avoid lagging out the overall system UX.
+5.6.0 - ExternalTool now hides the window of the tool it starts (it didn't show anything there anyway - just window spam).
+5.5.0 - ExternalTool now immediately closes child processes when they crash. TemporaryDirectory can now use a custom prefix on the directory name, for easier identification. Added FilteringLogListener to make it easier to filter out spam if Axinom Toolkit logging output is directed to a human-readable location. Added FilesystemHelper.MakeUnique() to ensure paths are unique. Added UnreachableCodeException for easy marking of unreachable code. Added MediaHelper.Crop() for calculating picture cropping dimensions.
+5.4.1 - TemporaryDirectory now silently ignores exceptions that occur during cleanup. EmbeddedPackage now no longer silently ignores exceptions that occur during initialization.
+5.4.0 - Added EmbeddedPackage, Argument.ValidateIsNotNullOrEmpty(string) and StringHelper.RemoveSuffix().
+5.3.0 - DebugHelper now nicely displays GUIDs.
+5.2.0 - Added hexstring-bytearray conversion functions to ConvertHelper.
+5.1.0 - Added useful functionality for working with binary data streams: MultiEndianBinaryWriter/MultiEndianBinaryReader, ExtensionsForBinaryReader.ReadBytesAndVerify() and ExtensionsForStream.SeekOrReadForward().
+5.0.0 - ExternalTool error detection heuristics now treat stderr as failure by default but a tuning parameter is exposed to disbale this behavior. This also creates an extension point for addition of more heuristics in the future.
+4.2.0 - Added ArrayHelper.ContainsArray().
+4.1.0 - Added big endian GUID serialization/deserialization helper methods.
+4.0.8 - DebugHelper.ToDebugString() now outputs the simple type name, without namespace or generic type arguments, for brevity and reduction of spam in large listings.
+4.0.7 - DynamicConfigurationSection now outputs details about errors via the Log class.
+4.0.6 - ConsoleLogListener now pads the log entry severity for nicer aligned output.
+4.0.5 - Added EnvironmentHelper.IsMicrosoftOperatingSystem.
+4.0.4 - Added FilesystemHelper.EnsureExecutePermission().
+4.0.3 - DebugHelper.ToDebugString() now supports "nice" printing of DateTime, DateTimeOffset, TimeSpan, StringBuilder, Type, RuntimeType and enums.
+	Fixed glitch in DebugHelper.ToDebugString() that caused invalid reference numbers to be printed for unreferencible items.
+4.0.2 - Refactored DebugHelper.ToDebugString() for more compact and better formatted output.
+4.0.1 - ConsoleLogListener no longer uses ColoredConsole (it is not thread-safe).
+	ConsoleLogListener no longer puts a newline between message metadata and the message.
+4.0.0 - Removed support for WPF, Silverlight and WCF. DotNet part is now compatible with Mono on Ubuntu.
+	Added ExternalTool that was previously in build automation libraries.
+	Added ConsoleLogListener.
+	Added NLogListener.
+3.5.2 - Adjusted FilesystemHelper to be Linux-compatible.
+3.5.1 - TraceLogListener now uses the loglevel-specific Trace static methods to report its output, to better conform to expectations of Azure infrastructure that assumes this.
+3.5.0 - Added AsyncHelper.WaitSafe(Task) for providing this functionality in case of void tasks.
+3.4.0 - Added GuidHelper.NewCryptographicallySecureGuid() and ExtensionsForDateTimeOffset.IsInRange() from AxCAS.
+3.3.0 - Added HttpResponseMessageExtensions.GetStatusLine() to simplify this common task.
+3.2.0 - Added Axinom.Toolkit.Services for Web API services and Axinom.Toolkit.Services.Client for Web API service clients.
+	Added HttpResponseMessageExtensions.EnsureSuccessStatusCodeWithDetailsAsync() that provides a highly detailed exception on failure.
+3.1.9 - Added Argument.ValidateIsNotNullOrEmpty to check array emptiness.
+3.1.8 - Added FilesystemHelper.RemoveRoot() to create a relative path from an absolute path and a root.
+3.1.7 - Added TemporaryDirectory class.
+3.1.6 - Reverted changes to CopyFiles().
+3.1.5 - Renamed CopyFiles() to CopyDirectory() and changed the function logic accordingly.
+3.1.4 - Added FilesystemHelper.CopyFiles() for simple recursive copy.
+3.1.3 - Added ColoredConsole for easy console output coloring.
+3.1.2 - Added AsyncHelper.WaitSafe() for simpler synchronous waiting on Tasks.
+3.1.1 - Renamed Filesystem to FilesystemHelper to match general naming scheme and avoid project-specific conflicts.
+	Added FilesystemHelper.ResolvePath() to resolve paths using the PATH environment variable.
+	Added FilesystemHelper.EnsureEmptyDirectory() to easily create empty directories on demand.
+3.1.0 - DotNet now requires .NET 4.5. Added SemaphoreLock.
+
+3.0.8 - Added Argument.ValidateIsNotNullOrWhitespace().
+3.0.7 - Fixed invalid WMDRM date/time format string (was using 12-hour clock accidentally).
+3.0.6 - StructHelper can now also operate on buffers, in addition to streams.
+3.0.5 - Added simple logging system to .NET as well.
+3.0.4 - Excluding Phone7 from build for now (until needed again).
+3.0.3 - Added base32-ish encoder and decoder.
+3.0.2 - Adjusted Stopwatch to publish average and removed obsolete warts from the class.
+3.0.1 - VS 2010 compatibility fix; removed needless namespace mapping declaration that was crashing XAML designer.
+
+-- 3.0.0 --
+* Merged Silverlight.Ui project into Silverlight project.
+* Removed obsolete features that are not used or should not be used anymore:
+	* Silverlight.Xml project (nobody uses XML serialization these days)
+	* VideoPlayer class (use MMPPF)
+	* XGrid (was just a bad idea)
+	* Infrastructure namespace (was just a bad idea)
+	* WPF interactivity features (needs more research for compatibility verification)
+* Interactivity libraries are now distributed together with Axinom Toolkit, so users do not need Expression Blend.
+
+
+2.1.9 - Added minimalistic Silverlight logging system.
+2.1.8 - Added AsyncHelper.EnsureUiThread() in Silverlight, to easily enforce UI thread for calls.
+2.1.7 - Migrated to Silverlight 5.
+2.1.6 - Added EnvironmentException.
+
+-- 2.1.5 --
+General
+* InjectionContainer now includes non-generic methods.
+
+-- 2.1.4 --
+Phone
+* Merged latest updates to Silverlight also to Phone, which was missing some latest goodies.
+
+-- 2.1.3 --
+General
+* RandomText is now properly thread-safe.
+
+-- 2.1.2 --
+Silverlight
+* Added CoverFlowCarousel.ProjectionRotationY & CoverFlowCarousel.FocusedItemHorizontalSpacingConstant.
+* Updated CoverFlowCarousel with new properties from above.
+
+.NET
+* WebServiceHelper.TryGetHttpRequestBody() is now compatible with WCF 4.5.
+
+
+-- 2.1.0 --
+General
+* Added GuidHelper.NewCombGuid()
+* WeakContainer<T> now defaults to publishing generic IEnumerable instead of object-typed variant.
+* Added WeakEventListener from Silverlight Toolkit.
+* Added ExtensionsForStream.CopyBytes()
+
+.NET
+* Refactored ErrorReport to focus on more useful data.
+* Added WebServiceHelper which simplifies common web service implementation tasks over ASP.NET and WCF web service engines.
+ * Get client IP address.
+ * Get HTTP request body.
+* DynamicConfigurationSection now gives nice and proper error message when you specify an invalid type on the section.
+
+Silverlight
+* DelegateCommand now provides constructors for easier initializations.
+
+-- 2.0.5 --
+General
+* Added ExtensionsForStream.ReadAndVerify()
+* Added Argument for common argument validation helpers.
+* Added ContractException.
+* Removed LanguageHelper and NullSafeExpression due to unreliability.
+* Added PositionReportingStream.
+* Added ExceptionPeekingStream.
+* Added CompositingStream.
+* Added AsfHelper for working with ASF files.
+* Added WmDrmHelper for working with Windows Media DRM.
+* Added ReadByteAndVerify() to ExtensionsForStream.
+
+.NET
+* Upgraded to .NET 4.0.
+* ErrorReport can now write error reports to a custom event log.
+* DebugHelper.ToDebugString() now uses shorter form for URIs
+* Bugfix: ErrorReportingErrorHandler ran into null references under high load.
+* Added possibility to ignore exceptions of certain types in ErrorReportingErrorHandler.
+* ErrorReport now also reports to Trace output.
+* ErrorReport now silently ignores any configuration errors and notifies Trace output of them.
+* Added StructHelper for easy struct-byte marshalling.
+* Added ComHelper.
+* Added JsonHelper.
+* BaseAddressDetectingServiceHostFactory marked obsolete.
+
+WPF
+* Added technology branch for WPF. Right now, just includes a few converters.
+
+Silverlight
+* VideoPlayer is more tolerant of bad timing information in video files now.
+
+-- 2.0.4 --
+General
+* Adjusted projects files to eliminate accidentally created dependencies on Silverlight Toolkit.
+* SerializationHelper and DataContractHelper now generate "nice" XML with newlines and indentation.
+* Added Windows Phone 7 branch. Help file not generated due to Sandcastle compatibility issues.
+* Added InvokeDataContextCommandAction.
+* Increased ErrorReport robustness.
+* ErrorReport now adds response body to report when reporting on WebExceptions.
+* Added lightweight dependency injection container: InjectionContainer (mainly useful for Phone, which does not have any so far).
+
+-- 2.0.3 --
+General
+* Added AsyncHelper to .NET branch of Axinom Toolkit, in addition to Silverlight branch.
+* Added WeakContainer to assist with easy handling of weak references.
+* Various QueryString bugfixes.
+
+.NET
+* ErrorReport now truncates event log entries if they exceed a certain amount of characters.
+* ErrorReport now does not report the same exception twice but only if it is reported without any extra data.
+  This might have happened before if e.g. different layers of the application were reporting errors and re-throwing.
+* You can now omit the assembly name from the type attribute of a DynamicConfigurationSection.
+
+Silverlight
+* Added ExtensionsForFrameworkElement.FindChildByPath()
+* Added AsyncHelper.UiThreadInvoke(Action action, TimeSpan delay)
+* VideoPlayer live streaming compatibility improvements.
+* Added soft fail detection to VideoPlayer - if it tries to buffer for 30 seconds but fails, this is considered a playback failure.
+* Added ToggleIsFullScreenAction.
+* Added ErrorRetryButton for VideoPlayer template Failed state
+* Added Can(not)SeekVideo states for VideoPlayer
+* Added UpdateSourceOnTextChangedBehavior.
+* Made ExtensionsForDependencyObject and FrameworkElementExtensions internal (they're not good enough at the moment).
+* Added ErrorContainer - helps with implementing INotifyDataErrorInfo.
+
+-- 2.0.2 --
+.NET
+* ErrorReport now catches errors for every server variable separately, so only the unreadable ones are skipped. It used to skip the entire block when it encountered the first unreadable server variable.
+
+General
+* Small fixes for help file generation, to adjust paths for new solution location.
+* Made each platform branch of Axinom Toolkit use a different assembly name to avoid .NET type loader conflicts.
+* Removed: ExtensionsForIValidatable.ValidateRecursive (not useful).
+* Added: ExtensionsForICollection.UpdateCollection().
+* Added LanguageHelper with SafeGet method (automatically evaluates property chains for potential nulls).
+
+Silverlight
+* CoverFlowCarousel now preloads some items before they become visible.
+* Bugfix: Trace.WriteLine did not append NewLine.
+* Bugfix: FixedAspectRatioBox broke layout logic of child controls in some situations.
+* Bugfix: FullscreenBehavior was leaking memory because it never unsubscribed from a global event.
+* Bugfix: VideoPlayer was leaking memory because it kept its timers running even after it was unloaded.
+* Removed: MouseWheelScrollDetector (problematic implementation; use built-in Silverlight MouseWheel event).
+* Bugfix: VideoPlayer did not fill "played" side of the track slider in default theme.
+* Bugfix: VideoPlayer was leaking memory because it never unsubscribed from a global event.
+* Bugfix: VideoPlayer did not switch fullscreen mode on doubleclick if the preview image was visible.
+* Bugfix: ClickableSlider layout was broken when used in VideoPlayer in SilverHD Portal. Reason unknown. Added magic refresh workaround.
+* Bugfix: VideoPlayer slider was mistakenly treating some actionable position changes as non-actionable.
+* VideoPlayer can now survive Load-Unload-Load-... cycles (these occur with FullscreenBehavior in some scenarios).
+* FullscreenBehavior now switches out active fullscreen-mode element instead of existing fullscreen mode if a new (not currently fullscreen) elements requests fullscreen mode toggle while in fullscreen mode.
+* Added DebugConverter (Silverlight), which converts anything to its debug-string representation.
+* Bugfix: Carousel did not correctly clear internal state when its entire items list was replaced at once.
+* Added FirstLetterUppercase support to TextCaseConverter.
+* Added ExtensionsforICommand.TryExecute.
+
+-- 2.0.1 --
+* Eliminated all external dependencies for development environment.
+* Eliminated JavaScript fork of Axinom Toolkit functionality.
+* Simplified usage and extension scenarios greatly.
+* Separated Silverlight code-behind helper classes from Silverlight UI
+  functionality by creating separate assembly for UI components.
+
+-- 2.0 --
+* First public release.
+* Documented things thoroughly.
+* Some BREAKING CHANGES with respect to pre-release versions.
+  Obsolete classes were removed, among other changes.
