@@ -1,4 +1,8 @@
-﻿6.0.0 - Axinom Toolkit is now compatible with .NET 4.6 and UWP 10.0.
+﻿6.1.0
+	* Added support for automatic domain joining when acquiring PlayReady licenses.
+	* Added Helpers.PlayReady.FulfillServiceRequest().
+
+6.0.0 - Axinom Toolkit is now compatible with .NET 4.6 and UWP 10.0.
 	* Created assembly Core that houses portable classes.
 	* Services.Client package merged into Core assembly and NuGet package marked obsolete.
 	* Refactored helper method access patterns from FilesystemHelper.DoWhatever() to Helpers.Filesystem.DoEhatever() to better facilitate multi-framework library composition using extension methods.

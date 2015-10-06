@@ -73,6 +73,7 @@
     <Compile Include="NetworkHelpers.cs" />
     <Compile Include="OpacityConverter.cs" />
     <Compile Include="PlayReadyHelpers.cs" />
+    <Compile Include="PlayReadyRequestException.cs" />
     <Compile Include="SolidColorBrushConverter.cs" />
     <Compile Include="StringToAppResourceMappingConverter.cs" />
     <Compile Include="TextCaseConverter.cs" />
