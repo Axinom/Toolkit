@@ -143,6 +143,9 @@
     <Compile Include="..\Tests.DotNet\InjectionContainerTests.cs">
       <Link>InjectionContainerTests.cs</Link>
     </Compile>
+    <Compile Include="..\Tests.DotNet\MediaTests.cs">
+      <Link>MediaTests.cs</Link>
+    </Compile>
     <Compile Include="..\Tests.DotNet\MultiEndianBinaryReaderTests.cs">
       <Link>MultiEndianBinaryReaderTests.cs</Link>
     </Compile>
@@ -187,6 +190,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <EmbeddedResource Include="TestData\SingleKeySmoothManifest.xml" />
     <EmbeddedResource Include="TestData\Tests.Echo.pdb" />
     <EmbeddedResource Include="TestData\Tests.Echo.exe" />
     <EmbeddedResource Include="TestData\MediaInfo.dll" />

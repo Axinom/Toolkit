@@ -1,4 +1,7 @@
-﻿6.1.0
+﻿6.2.0
+	* Added Helpers.Media.GetKeyIds() and related Helpers.PlayReady methods.
+
+6.1.0
 	* Added support for automatic domain joining when acquiring PlayReady licenses.
 	* Added Helpers.PlayReady.FulfillServiceRequest().
 

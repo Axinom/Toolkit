@@ -2,7 +2,9 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Linq;
+	using System.Xml.Linq;
 
 	public static partial class CoreHelpers
 	{
@@ -45,6 +47,46 @@
 					YOffset = 0
 				};
 			}
+		}
+
+		/// <summary>
+		/// Extracts the key IDs from a protected media file. The contents of the input stream can be any supported
+		/// type of presentation manifest or container file that contains key IDs.
+		/// </summary>
+		/// <remarks>
+		/// Currently supports Smooth Streaming manifests as input.
+		/// </remarks>
+		/// <returns>
+		/// The set of key IDs found or an empty set if the input was valid but contained no key IDs.
+		/// No duplicates will be returned.
+		/// </returns>
+		public static ICollection<Guid> GetKeyIds(this HelpersContainerClasses.Media container, Stream stream)
+		{
+			Helpers.Argument.ValidateIsNotNull(stream, nameof(stream));
+
+			var document = XDocument.Load(stream);
+			var playReadyProtectionHeader = document.Root.Element("Protection")?.Elements("ProtectionHeader")?.Where(ph =>
+			{
+				var systemIdAttribute = ph.Attribute("SystemID");
+
+				if (systemIdAttribute == null)
+					return false;
+
+				var systemId = Guid.Parse(systemIdAttribute.Value);
+
+				return systemId == PlayReadyConstants.SystemId;
+			}).FirstOrDefault();
+
+			if (playReadyProtectionHeader == null)
+				return new Guid[0];
+
+			var playReadyHeader = Convert.FromBase64String(playReadyProtectionHeader.Value);
+			var headerKeyId = Helpers.PlayReady.GetKeyIdFromPlayReadyHeader(playReadyHeader);
+
+			return new[]
+			{
+				headerKeyId
+			};
 		}
 	}
 }

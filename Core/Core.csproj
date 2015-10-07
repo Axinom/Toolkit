@@ -74,6 +74,7 @@
     <Compile Include="ContractException.cs" />
     <Compile Include="ConvertHelpers.cs" />
     <Compile Include="HelpersContainerClasses.cs" />
+    <Compile Include="PlayReadyConstants.cs" />
     <Compile Include="PlayReadyHelpers.cs" />
     <Compile Include="StreamWriterLogListener.cs" />
     <Compile Include="DebugHelpers.cs" />

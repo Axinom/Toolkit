@@ -5,11 +5,12 @@
 	using System.IO;
 	using System.Linq;
 	using System.Text;
+	using System.Xml.Linq;
 
 	public static partial class CoreHelpers
 	{
 		/// <summary>
-		/// Generates a PlayReady Rights Management Header for the provided key ID.
+		/// Generates a PlayReady Header for the provided key ID.
 		/// </summary>
 		public static byte[] GenerateRightsManagementHeader(this HelpersContainerClasses.PlayReady container, Guid keyId)
 		{
@@ -41,6 +42,59 @@
 
 				return buffer.ToArray();
 			}
+		}
+
+		public static Guid GetKeyIdFromPlayReadyHeader(this HelpersContainerClasses.PlayReady container, byte[] playReadyHeader)
+		{
+			Helpers.Argument.ValidateIsNotNullOrEmpty(playReadyHeader, nameof(playReadyHeader));
+
+			using (var reader = new BinaryReader(new MemoryStream(playReadyHeader)))
+			{
+				var headerLength = reader.ReadUInt32();
+
+				if (headerLength != playReadyHeader.Length)
+					throw new ArgumentException("PlayReady header does not have the expected size.");
+
+				var recordCount = reader.ReadUInt16();
+
+				for (int recordIndex = 0; recordIndex < recordCount; recordIndex++)
+				{
+					var recordType = reader.ReadUInt16();
+					var recordLength = reader.ReadUInt16();
+
+					// 1 is the Rights Management header.
+					if (recordType != 1)
+					{
+						reader.BaseStream.Position += recordLength;
+						continue;
+					}
+
+					var rmHeaderBytes = reader.ReadBytesAndVerify(recordLength);
+					var rmHeader = Encoding.Unicode.GetString(rmHeaderBytes);
+
+					return Helpers.PlayReady.GetKeyIdFromRightsManagementHeader(rmHeader);
+				}
+			}
+
+			throw new ArgumentException("PlayReady header does not contain a rights management header.");
+		}
+
+		public static Guid GetKeyIdFromRightsManagementHeader(this HelpersContainerClasses.PlayReady container, string rmHeader)
+		{
+			Helpers.Argument.ValidateIsNotNullOrWhitespace(rmHeader, nameof(rmHeader));
+
+			var document = XDocument.Parse(rmHeader);
+
+			var kidElement = document.Root
+				.Element(XName.Get("DATA", PlayReadyConstants.RightsManagementHeaderNamespace))
+				?.Element(XName.Get("KID", PlayReadyConstants.RightsManagementHeaderNamespace));
+
+			if (kidElement == null)
+				throw new ArgumentException("Rights Management header does not contain the KID element.", nameof(rmHeader));
+
+			var kidString = kidElement.Value;
+
+			return new Guid(Convert.FromBase64String(kidString));
 		}
 	}
 }
