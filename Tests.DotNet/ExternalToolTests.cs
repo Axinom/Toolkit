@@ -10,7 +10,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class ExternalToolTests
+	public sealed class ExternalToolTests : TestClass
 	{
 		private static readonly TimeSpan ExecuteTimeout = TimeSpan.FromSeconds(5);
 

@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class GuidTests
+	public sealed class GuidTests : TestClass
 	{
 		[Fact]
 		public void ToBigEndianByteArray_ResultIsNotSameAsToByteArray()

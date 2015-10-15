@@ -7,7 +7,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class MultiEndianBinaryWriterTests
+	public sealed class MultiEndianBinaryWriterTests : TestClass
 	{
 		private MultiEndianBinaryWriter _bigEndianWriter;
 		private byte[] _bigEndianBuffer;

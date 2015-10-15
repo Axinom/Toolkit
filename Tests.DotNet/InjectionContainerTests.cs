@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public class InjectionContainerTests
+	public sealed class InjectionContainerTests : TestClass
 	{
 		private readonly InjectionContainer _container = new InjectionContainer();
 

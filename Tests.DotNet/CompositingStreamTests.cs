@@ -7,7 +7,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public class CompositingStreamTests
+	public sealed class CompositingStreamTests : TestClass
 	{
 		[Fact]
 		public void BasicWriteTest()

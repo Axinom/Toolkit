@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public class DataContractTests
+	public sealed class DataContractTests : TestClass
 	{
 		public class MyClass
 		{

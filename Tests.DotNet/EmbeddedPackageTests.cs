@@ -8,7 +8,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class EmbeddedPackageTests
+	public sealed class EmbeddedPackageTests : TestClass
 	{
 		private static readonly Assembly _testsAssembly;
 

@@ -7,7 +7,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class TemporaryDirectoryTests
+	public sealed class TemporaryDirectoryTests : TestClass
 	{
 		[Fact]
 		public void TemporaryFolderIsCreatedAndRemoved()

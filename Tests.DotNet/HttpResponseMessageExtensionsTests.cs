@@ -10,7 +10,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class HttpResponseMessageExtensionsTests
+	public sealed class HttpResponseMessageExtensionsTests : TestClass
 	{
 		[Fact]
 		public async Task EnsureSuccessStatusCodeAndReportFailureDetailsAsync_WithOkResponse_PassesVerification()

@@ -9,7 +9,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class SemaphoreLockTests
+	public sealed class SemaphoreLockTests : TestClass
 	{
 		[Fact]
 		public void BasicLockingLogic_SeemsToWork()

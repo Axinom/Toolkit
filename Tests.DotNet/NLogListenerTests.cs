@@ -8,7 +8,7 @@
 	using NLog;
 	using Xunit;
 
-	public sealed class NLogListenerTests
+	public sealed class NLogListenerTests : TestClass
 	{
 		[Fact]
 		public void NLogListener_WritesLogEntriesToNLog()

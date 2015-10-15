@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class ExtensionsForArrayTests
+	public sealed class ExtensionsForArrayTests : TestClass
 	{
 		[Fact]
 		public void ArrayContainsArray_WithNeedleLargerThanHaystack_ReturnsFalse()

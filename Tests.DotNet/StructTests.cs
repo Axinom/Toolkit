@@ -7,7 +7,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public class StructTests
+	public class StructTests : TestClass
 	{
 		private struct Packet
 		{

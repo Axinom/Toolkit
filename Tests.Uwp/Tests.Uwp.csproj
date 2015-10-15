@@ -161,6 +161,9 @@
     <Compile Include="..\Tests.DotNet\TemporaryDirectoryTests.cs">
       <Link>TemporaryDirectoryTests.cs</Link>
     </Compile>
+    <Compile Include="..\Tests.DotNet\TestClass.cs">
+      <Link>TestClass.cs</Link>
+    </Compile>
     <Compile Include="..\Tests.DotNet\WeakContainerTests.cs">
       <Link>WeakContainerTests.cs</Link>
     </Compile>

@@ -19,34 +19,36 @@
 
 			var inputAspectRatio = width * 1.0 / height;
 
+			int outputHeight;
+			int outputWidth;
+
+			// 1) Decide which way to adjust - does the input need to become wider or narrower.
+			// 2) Decrease the appropriate dimension of the input, giving the first output dimension.
+			// 3) Calculate the other output dimension based on the target aspect ratio.
+			// 4) Center the crop rectangle in the input.
+
 			if (targetAspectRatio > inputAspectRatio)
 			{
 				// We need to make it wider - crop top and bottom.
-				var targetHeight = (int)(width / targetAspectRatio);
-				var cropPixels = height - targetHeight;
-
-				return new CropResult
-				{
-					Width = width,
-					Height = targetHeight,
-					XOffset = 0,
-					YOffset = cropPixels / 2
-				};
+				// We round the results to avoid needless cropping but avoid going out of bounds at all times.
+				outputHeight = (int)Math.Min(height, Math.Round(width / targetAspectRatio, MidpointRounding.AwayFromZero));
+				outputWidth = (int)Math.Min(width, Math.Round(outputHeight * targetAspectRatio, MidpointRounding.AwayFromZero));
 			}
 			else
 			{
 				// We need to make it narrower - crop left and right.
-				var targetWidth = (int)(height * targetAspectRatio);
-				var cropPixels = width - targetWidth;
-
-				return new CropResult
-				{
-					Width = targetWidth,
-					Height = height,
-					XOffset = cropPixels / 2,
-					YOffset = 0
-				};
+				// We round the results to avoid needless cropping but avoid going out of bounds at all times.
+				outputWidth = (int)Math.Min(width, Math.Round(height * targetAspectRatio, MidpointRounding.AwayFromZero));
+				outputHeight = (int)Math.Min(height, Math.Round(outputWidth / targetAspectRatio, MidpointRounding.AwayFromZero));
 			}
+
+			return new CropResult
+			{
+				Width = outputWidth,
+				Height = outputHeight,
+				XOffset = (width - outputWidth) / 2,
+				YOffset = (height - outputHeight) / 2
+			};
 		}
 
 		/// <summary>

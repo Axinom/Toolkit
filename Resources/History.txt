@@ -1,4 +1,7 @@
-﻿6.2.0
+﻿6.3.0
+	* Optimized Helpers.Media.Crop to be more faithful to aspect ratio while avoiding needless cropping.
+
+6.2.0
 	* Added Helpers.Media.GetKeyIds() and related Helpers.PlayReady methods.
 
 6.1.0

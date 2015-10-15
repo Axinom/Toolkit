@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class EnvironmentTests
+	public sealed class EnvironmentTests : TestClass
 	{
 		[Fact]
 		public void IsMicrosoftOperatingSystem_IsOppositeOfIsNonMicrosoftOperatingSystem()

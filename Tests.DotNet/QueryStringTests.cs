@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class QueryStringTests
+	public sealed class QueryStringTests : TestClass
 	{
 		[Fact]
 		public void DifferentUriTypesAreFine()

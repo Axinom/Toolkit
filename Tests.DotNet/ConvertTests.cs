@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class ConvertTests
+	public sealed class ConvertTests : TestClass
 	{
 		private static readonly byte[] TestBytes = new byte[15001];
 		private static readonly string TestString;

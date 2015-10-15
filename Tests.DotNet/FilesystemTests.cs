@@ -7,7 +7,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class FilesystemTests
+	public sealed class FilesystemTests : TestClass
 	{
 		[Fact]
 		public void RemoveRoot_RemovesRootFromPath()

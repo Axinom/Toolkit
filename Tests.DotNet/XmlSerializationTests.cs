@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public class XmlSerializationTests
+	public class XmlSerializationTests : TestClass
 	{
 		public class MyClass
 		{

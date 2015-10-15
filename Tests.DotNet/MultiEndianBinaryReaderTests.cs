@@ -7,7 +7,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class MultiEndianBinaryReaderTests
+	public sealed class MultiEndianBinaryReaderTests : TestClass
 	{
 		private static readonly byte[] TestData = { 1, 2, 3, 4, 5, 6, 7, 8 };
 		private MultiEndianBinaryReader _reader;

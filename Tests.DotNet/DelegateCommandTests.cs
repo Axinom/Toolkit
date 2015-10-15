@@ -7,7 +7,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public class DelegateCommandTests
+	public sealed class DelegateCommandTests : TestClass
 	{
 		[Fact]
 		public void ExecuteIsCalled()

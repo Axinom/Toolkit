@@ -9,7 +9,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class DebugTests
+	public sealed class DebugTests : TestClass
 	{
 		private const string StringValue = "et6ujhaeõ'54a";
 		private const int IntValue = 2367;

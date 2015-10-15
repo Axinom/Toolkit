@@ -6,7 +6,7 @@
 	using Axinom.Toolkit;
 	using Xunit;
 
-	public sealed class WeakContainerTests
+	public sealed class WeakContainerTests : TestClass
 	{
 		[Fact]
 		public void BasicOperations()
