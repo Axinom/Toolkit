@@ -40,8 +40,7 @@ namespace Axinom.Toolkit
 		/// </remarks>
 		public static string ToDebugString(this HelpersContainerClasses.Debug container, object o)
 		{
-			if (o == null)
-				throw new ArgumentNullException("o");
+			Helpers.Argument.ValidateIsNotNull(o, nameof(o));
 
 			StringBuilder s = new StringBuilder();
 			var visitedObjects = new List<object>();
@@ -303,7 +302,11 @@ namespace Axinom.Toolkit
 
 				var expand = val != null && ShouldExpand(val.GetType());
 
-				if (expand)
+				// We also do not expand if we are dealing with a struct that has a static member to another
+				// instance of the same struct (e.g. IntPtr.Zero), since that will recurse forever and not be very useful.
+				var isStructRecursion = val != null && ti.IsValueType && t == property.property.PropertyType;
+
+				if (expand && !isStructRecursion)
 				{
 					if (val is ICollection)
 					{
@@ -355,7 +358,11 @@ namespace Axinom.Toolkit
 
 				var expand = val != null && ShouldExpand(val.GetType());
 
-				if (expand)
+				// We also do not expand if we are dealing with a struct that has a static member to another
+				// instance of the same struct (e.g. IntPtr.Zero), since that will recurse forever and not be very useful.
+				var isStructRecursion = val != null && ti.IsValueType && t == field.FieldType;
+
+				if (expand && !isStructRecursion)
 				{
 					if (val is ICollection)
 					{

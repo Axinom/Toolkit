@@ -72,7 +72,7 @@
 			var o = new TestClassObject();
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.Contains(GuidValue.ToString(), output);
 		}
@@ -83,7 +83,7 @@
 			var o = new TestClassObject();
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.Contains(StringValue, output);
 		}
@@ -99,7 +99,7 @@
 			o.StringProperty = canary;
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			var first = output.IndexOf(canary);
 			var last = output.LastIndexOf(canary);
@@ -128,7 +128,7 @@
 			o.SomeStructObject = s;
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.Contains(canary1, output);
 			Assert.Contains(canary2, output);
@@ -143,7 +143,7 @@
 			var expected = o.ToString("s") + Environment.NewLine;
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.Equal(expected, output);
 		}
@@ -156,7 +156,7 @@
 			var expected = o.ToString("u") + Environment.NewLine;
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.Equal(expected, output);
 		}
@@ -169,7 +169,7 @@
 			var expected = o + Environment.NewLine;
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.Equal(expected, output);
 		}
@@ -182,7 +182,7 @@
 			var expected = o + Environment.NewLine;
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.Equal(expected, output);
 		}
@@ -193,9 +193,24 @@
 			var o = new KeyValuePair<string, DebugTests>("asdfasdf", null);
 
 			var output = Helpers.Debug.ToDebugString(o);
-			Debug.WriteLine(output);
+			_log.Debug(output);
 
 			Assert.DoesNotContain(typeof(DebugTests).Name, output);
 		}
+
+		[Fact]
+		public void ToDebugString_WithStaticStructInstance_DoesNotRecurse()
+		{
+			var o = IntPtr.Zero;
+
+			var output = Helpers.Debug.ToDebugString(o);
+			_log.Debug(output);
+
+			// IntPtr.Zero leads to a new instance.
+			// As long as we have "Zero" only once, we know a second instance was not printed.
+			Assert.Equal(output.IndexOf("Zero"), output.LastIndexOf("Zero"));
+		}
+
+		private static readonly LogSource _log = Log.Default.CreateChildSource(nameof(DebugTests));
 	}
 }
