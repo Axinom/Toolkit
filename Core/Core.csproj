@@ -57,6 +57,7 @@
       <Link>Properties\SolutionAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ArgumentHelpers.cs" />
+    <Compile Include="CertificateHelpers.cs" />
     <Compile Include="CropResult.cs" />
     <Compile Include="ExtensionsForArray.cs" />
     <Compile Include="AsfHelpers.cs" />

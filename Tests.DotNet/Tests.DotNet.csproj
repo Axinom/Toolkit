@@ -100,6 +100,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateTests.cs" />
     <Compile Include="ExtensionsForArrayTests.cs" />
     <Compile Include="CompositingStreamTests.cs" />
     <Compile Include="ConvertTests.cs" />

@@ -18,6 +18,7 @@
 		public static readonly HelpersContainerClasses.Argument Argument = new HelpersContainerClasses.Argument();
 		public static readonly HelpersContainerClasses.Asf Asf = new HelpersContainerClasses.Asf();
 		public static readonly HelpersContainerClasses.Async Async = new HelpersContainerClasses.Async();
+		public static readonly HelpersContainerClasses.Certificate Certificate = new HelpersContainerClasses.Certificate();
 		public static readonly HelpersContainerClasses.Com Com = new HelpersContainerClasses.Com();
 		public static readonly HelpersContainerClasses.Convert Convert = new HelpersContainerClasses.Convert();
 		public static readonly HelpersContainerClasses.DataContract DataContract = new HelpersContainerClasses.DataContract();

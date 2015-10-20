@@ -1,4 +1,6 @@
-﻿	* Helpers.Debug.ToDebugString() now attempts to prevent recursion with static struct fields like IntPtr.Zero.
+﻿6.4.0 prerelease
+	* Added Helpers.Certificate.CleanWindowsThumbprint() for cleaning the certificate thumbprint values from the Windows GUI.
+	* Helpers.Debug.ToDebugString() now attempts to prevent recursion with static struct fields like IntPtr.Zero.
 
 6.3.0
 	* Optimized Helpers.Media.Crop to be more faithful to aspect ratio while avoiding needless cropping.

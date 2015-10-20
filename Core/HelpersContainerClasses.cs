@@ -25,6 +25,10 @@
 		{
 		}
 
+		public sealed class Certificate
+		{
+		}
+
 		public sealed class Com
 		{
 		}
