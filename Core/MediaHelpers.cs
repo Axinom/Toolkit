@@ -90,5 +90,37 @@
 				headerKeyId
 			};
 		}
+
+		/// <summary>
+		/// Creates a PSSH (Protection System Specific Header) box suitable for embedding into a media
+		/// file that follows the ISO Base Media File Format specification.
+		/// </summary>
+		public static byte[] CreatePsshBox(this HelpersContainerClasses.Media container, Guid systemId, byte[] data)
+		{
+			Helpers.Argument.ValidateIsNotNull(data, nameof(data));
+
+			// Size (32) BE
+			// Type (32)
+			// Version (8)
+			// Flags (24)
+			// SystemID (16*8) BE
+			// DataSize (32) BE
+			// Data (DataSize*8)
+
+			using (var buffer = new MemoryStream())
+			{
+				using (var writer = new MultiEndianBinaryWriter(buffer, ByteOrder.BigEndian))
+				{
+					writer.Write(4 + 4 + 1 + 3 + 16 + 4 + data.Length);
+					writer.Write(new[] { 'p', 's', 's', 'h' });
+					writer.Write(0); // 0 flags, 0 version.
+					writer.Write(systemId.ToBigEndianByteArray());
+					writer.Write(data.Length);
+					writer.Write(data);
+				}
+
+				return buffer.ToArray();
+			}
+		}
 	}
 }

@@ -119,6 +119,7 @@
     <Compile Include="WeakContainer.cs" />
     <Compile Include="WeakEventListener.cs" />
     <Compile Include="WebPathHelpers.cs" />
+    <Compile Include="WidevineHelpers.cs" />
     <Compile Include="Wildcard.cs" />
     <Compile Include="WmDrmHelpers.cs" />
   </ItemGroup>

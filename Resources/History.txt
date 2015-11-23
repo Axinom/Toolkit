@@ -1,4 +1,8 @@
-﻿6.4.0
+﻿6.5.0
+	* Added Helpers.Media.CreatePsshBox() for easy generation of ISO Base Media File Format compatible PSSH boxes.
+	* Added Helpers.Widevine.GenerateWidevineCencHeader() for easy generation of a Widevine CENC header.
+
+6.4.0
 	* Added Helpers.Certificate.CleanWindowsThumbprint() for cleaning the certificate thumbprint values from the Windows GUI.
 	* Helpers.Debug.ToDebugString() now attempts to prevent recursion with static struct fields like IntPtr.Zero.
 

@@ -34,6 +34,7 @@
 		public static readonly HelpersContainerClasses.Struct Struct = new HelpersContainerClasses.Struct();
 		public static readonly HelpersContainerClasses.Type Type = new HelpersContainerClasses.Type();
 		public static readonly HelpersContainerClasses.WebPath WebPath = new HelpersContainerClasses.WebPath();
+		public static readonly HelpersContainerClasses.Widevine Widevine = new HelpersContainerClasses.Widevine();
 		public static readonly HelpersContainerClasses.WindowsMediaDrm WindowsMediaDrm = new HelpersContainerClasses.WindowsMediaDrm();
 		public static readonly HelpersContainerClasses.XmlSerialization XmlSerialization = new HelpersContainerClasses.XmlSerialization();
 	}

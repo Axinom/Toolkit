@@ -89,6 +89,10 @@
 		{
 		}
 
+		public sealed class Widevine
+		{
+		}
+
 		public sealed class WindowsMediaDrm
 		{
 		}
