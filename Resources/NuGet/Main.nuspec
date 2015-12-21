@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8">
 		<id>Axinom.Toolkit</id>
-		<version>6.5.0</version>
+		<version>6.5.1</version>
 		<authors>Axinom</authors>
 		<description>Universally useful helper classes and controls for .NET development. The Mono runtime is also supported.</description>
 		<dependencies>
@@ -29,9 +29,8 @@
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="..\..\Core\bin\release\Axinom.Toolkit.Core.*" target="lib\net46" />
-		<file src="..\..\Core\bin\release\Axinom.Toolkit.Core.*" target="lib\uap10.0" />
-
+		<file src="..\..\Core\bin\release\Axinom.Toolkit.Core.*" target="lib\dotnet" />
+		
 		<file src="..\..\DotNet\bin\release\Axinom.Toolkit.DotNet.*" target="lib\net46" />
 
 		<file src="..\..\Uwp\bin\release\Axinom.Toolkit.Uwp.*" target="lib\uap10.0" />
