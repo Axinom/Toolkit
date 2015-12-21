@@ -1,4 +1,7 @@
-﻿6.5.0
+﻿6.6.0
+	* Moved Helpers.XmlSerialization from DotNet to Core.
+
+6.5.0
 	* Added Helpers.Media.CreatePsshBox() for easy generation of ISO Base Media File Format compatible PSSH boxes.
 	* Added Helpers.Widevine.GenerateWidevineCencHeader() for easy generation of a Widevine CENC header.
 

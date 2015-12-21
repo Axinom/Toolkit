@@ -23,7 +23,7 @@
 		None
 	}
 
-	public static partial class DotNetHelpers
+	public static partial class CoreHelpers
 	{
 		/// <summary>
 		/// Uses XML serialization to serialize an object.
@@ -50,8 +50,7 @@
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="obj"/> is null.</exception>
 		public static string XmlSerialize(this HelpersContainerClasses.XmlSerialization container, object obj, XmlSerializationFlags flags)
 		{
-			if (obj == null)
-				throw new ArgumentNullException("obj");
+			Helpers.Argument.ValidateIsNotNull(obj, nameof(obj));
 
 			var serializer = new XmlSerializer(obj.GetType());
 			using (var stream = new MemoryStream())
@@ -110,11 +109,8 @@
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="type"/> is null.</exception>
 		public static object XmlDeserialize(this HelpersContainerClasses.XmlSerialization container, string xml, Type type)
 		{
-			if (xml == null)
-				throw new ArgumentNullException("xml");
-
-			if (type == null)
-				throw new ArgumentNullException("type");
+			Helpers.Argument.ValidateIsNotNull(xml, nameof(xml));
+			Helpers.Argument.ValidateIsNotNull(type, nameof(type));
 
 			var serializer = new XmlSerializer(type);
 			using (var reader = new StringReader(xml))

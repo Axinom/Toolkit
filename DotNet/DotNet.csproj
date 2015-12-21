@@ -73,7 +73,6 @@
     <Compile Include="FilesystemHelpers.cs" />
     <Compile Include="GuidHelpers.cs" />
     <Compile Include="IsolatedStorageXmlLogListener.cs" />
-    <Compile Include="XmlSerializationHelpers.cs" />
     <Compile Include="StructHelpers.cs" />
     <Compile Include="TraceLogListener.cs" />
     <Compile Include="TypeHelpers.cs" />
