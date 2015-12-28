@@ -112,7 +112,7 @@ Vivamus nunc elit, vulputate a accumsan nec, imperdiet nec urna. Cras pretium ma
 			return buffer;
 		}
 
-		public static T GetRandomItem<T>(this HelpersContainerClasses.Random container, IList<T> fromList)
+		public static T GetRandomItem<T>(this HelpersContainerClasses.Random container, IReadOnlyList<T> fromList)
 		{
 			Helpers.Argument.ValidateIsNotNull(fromList, nameof(fromList));
 

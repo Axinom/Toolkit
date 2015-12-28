@@ -72,7 +72,9 @@
     <Compile Include="MappingConverter.cs" />
     <Compile Include="NetworkHelpers.cs" />
     <Compile Include="OpacityConverter.cs" />
+    <Compile Include="PlayReadyClientConfiguration.cs" />
     <Compile Include="PlayReadyHelpers.cs" />
+    <Compile Include="PlayReadyLicenseAcquirer.cs" />
     <Compile Include="PlayReadyRequestException.cs" />
     <Compile Include="SolidColorBrushConverter.cs" />
     <Compile Include="StringToAppResourceMappingConverter.cs" />
