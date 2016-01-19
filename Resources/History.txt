@@ -1,4 +1,7 @@
-﻿6.7.0
+﻿6.8.0
+	* Added DASH support to Helpers.Media.GetKeyIds().
+
+6.7.0
 	* Added PlayReadyLicenseAcquirer class, which enables UWP apps to support PlayReady without the need for Microsoft Player Framework.
 	* Refactored PlayReady client code to use PlayReadyClientConfiguration class instead of stand-alone arguments for configuring the client behavior.
 	* Added capability for adding custom HTTP request headers to PlayReady client requests.

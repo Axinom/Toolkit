@@ -140,6 +140,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="TestData\Manifest_MultiDRM.mpd" />
+    <EmbeddedResource Include="TestData\Manifest_MultiKey.mpd" />
+    <EmbeddedResource Include="TestData\MultiPeriod_Manifest.mpd" />
+    <EmbeddedResource Include="TestData\Manifest_MultiPeriod_MultiKey.mpd" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

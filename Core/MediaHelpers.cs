@@ -56,7 +56,7 @@
 		/// type of presentation manifest or container file that contains key IDs.
 		/// </summary>
 		/// <remarks>
-		/// Currently supports Smooth Streaming manifests as input.
+		/// Currently supports Smooth Streaming and DASH manifests as input.
 		/// </remarks>
 		/// <returns>
 		/// The set of key IDs found or an empty set if the input was valid but contained no key IDs.
@@ -67,7 +67,9 @@
 			Helpers.Argument.ValidateIsNotNull(stream, nameof(stream));
 
 			var document = XDocument.Load(stream);
-			var playReadyProtectionHeader = document.Root.Element("Protection")?.Elements("ProtectionHeader")?.Where(ph =>
+
+			// If we are dealing with a Smooth Streaming manifest, we will find the protection data here.
+			var playReadyProtectionHeaders = document.Root.Element("Protection")?.Elements("ProtectionHeader")?.Where(ph =>
 			{
 				var systemIdAttribute = ph.Attribute("SystemID");
 
@@ -77,18 +79,71 @@
 				var systemId = Guid.Parse(systemIdAttribute.Value);
 
 				return systemId == PlayReadyConstants.SystemId;
-			}).FirstOrDefault();
+			}).ToArray();
 
-			if (playReadyProtectionHeader == null)
-				return new Guid[0];
-
-			var playReadyHeader = Convert.FromBase64String(playReadyProtectionHeader.Value);
-			var headerKeyId = Helpers.PlayReady.GetKeyIdFromPlayReadyHeader(playReadyHeader);
-
-			return new[]
+			if (playReadyProtectionHeaders != null)
 			{
-				headerKeyId
-			};
+				var keyIds = new List<Guid>();
+
+				foreach (var header in playReadyProtectionHeaders)
+				{
+					var playReadyHeader = Convert.FromBase64String(header.Value);
+					var headerKeyId = Helpers.PlayReady.GetKeyIdFromPlayReadyHeader(playReadyHeader);
+
+					keyIds.Add(headerKeyId);
+				}
+
+				return keyIds.Distinct().ToArray();
+			}
+
+			// If we are dealing with a DASH manifest, we will find the protection data here.
+			// Note that this assumes the manifest is GPMF v6 compatible (protection info under AdaptationSet).
+			var adaptationSets = document.Root
+				.Elements(DashConstants.PeriodName)
+				.Elements(DashConstants.AdaptationSetName)
+				.ToArray();
+
+			if (adaptationSets.Length != 0)
+			{
+				var keyIds = new List<Guid>();
+
+				foreach (var adaptationSet in adaptationSets)
+				{
+					// DASH-IF IOP v3 7.5.2 says that ContentProtection must be defined directly under the adaptation set.
+					// DASH allows it to also be elsewhere but we do not support those scenarios.
+					var contentProtections = adaptationSet
+						.Elements(DashConstants.ContentProtectionName)
+						.ToArray();
+
+					// Not a protected adaptation set. That's fine, ignore it.
+					if (contentProtections.Length == 0)
+						continue;
+
+					var mp4ContentProtections = contentProtections.Where(cp => cp.Attribute("schemeIdUri")?.Value == "urn:mpeg:dash:mp4protection:2011").ToArray();
+
+					if (mp4ContentProtections.Length == 0)
+						throw new InvalidDataException("The DASH manifest has protected content but is missing the required mp4protection signaling.");
+
+					if (mp4ContentProtections.Length != 1)
+						throw new InvalidDataException("Multiple mp4protection signaling elements detected for a single adaptation set.");
+
+					var defaultKidAttribute = mp4ContentProtections.Single().Attribute(DashConstants.DefaultKidAttributeName);
+
+					if (defaultKidAttribute == null)
+						throw new InvalidDataException("There is no cenc:default_KID attribute on the mp4protection signaling element.");
+
+					Guid kid;
+					if (!Guid.TryParse(defaultKidAttribute.Value, out kid))
+						throw new InvalidDataException("The value of the cenc:default_KID attribute is not a valid GUID.");
+
+					keyIds.Add(kid);
+				}
+
+				return keyIds.Distinct().ToArray();
+			}
+
+			// No protection information found.
+			return new Guid[0];
 		}
 
 		/// <summary>
@@ -121,6 +176,18 @@
 
 				return buffer.ToArray();
 			}
+		}
+
+		static class DashConstants
+		{
+			public const string MpdNamespace = "urn:mpeg:dash:schema:mpd:2011";
+			public const string CencNamespace = "urn:mpeg:cenc:2013";
+
+			public static readonly XName PeriodName = XName.Get("Period", MpdNamespace);
+			public static readonly XName AdaptationSetName = XName.Get("AdaptationSet", MpdNamespace);
+			public static readonly XName ContentProtectionName = XName.Get("ContentProtection", MpdNamespace);
+
+			public static readonly XName DefaultKidAttributeName = XName.Get("default_KID", CencNamespace);
 		}
 	}
 }

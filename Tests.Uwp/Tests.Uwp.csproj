@@ -185,6 +185,10 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <EmbeddedResource Include="TestData\Manifest_MultiDRM.mpd" />
+    <EmbeddedResource Include="TestData\Manifest_MultiKey.mpd" />
+    <EmbeddedResource Include="TestData\MultiPeriod_Manifest.mpd" />
+    <EmbeddedResource Include="TestData\Manifest_MultiPeriod_MultiKey.mpd" />
     <None Include="Tests.Uwp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
