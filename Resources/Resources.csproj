@@ -52,7 +52,6 @@
     <None Include="NuGet\NLog.nuspec" />
     <None Include="NuGet\Package.ps1" />
     <None Include="NuGet\Publish.ps1" />
-    <None Include="NuGet\Services.Client.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="History.txt" />
