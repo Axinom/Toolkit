@@ -70,6 +70,17 @@
 		}
 
 		[Fact]
+		public void ExternalTool_StandardErrorIsInExceptionMessage()
+		{
+			const string canary = "jtd78d56rereee";
+
+			// Nonsense command, should result in error.
+			var ex = Assert.Throws<EnvironmentException>(() => ExternalTool.Execute(TestData.CommandHandler, TestData.MakeCommandString(canary), ExecuteTimeout));
+
+			Assert.Contains(canary, ex.Message);
+		}
+
+		[Fact]
 		public void ExternalTool_ConsumingResultWithNonSuccessfulExitCode_ThrowsException()
 		{
 			const string canary = "fgujw456hnt";

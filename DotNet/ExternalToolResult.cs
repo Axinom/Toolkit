@@ -11,16 +11,16 @@
 	/// </summary>
 	public sealed class ExternalToolResult
 	{
-		public ExternalTool.Instance Instance { get; private set; }
+		public ExternalTool.Instance Instance { get; }
 
-		public bool Succeeded { get; private set; }
+		public bool Succeeded { get; }
 
-		public string StandardOutput { get; private set; }
-		public string StandardError { get; private set; }
+		public string StandardOutput { get; }
+		public string StandardError { get; }
 
-		public int ExitCode { get; private set; }
+		public int ExitCode { get; }
 
-		public TimeSpan Duration { get; private set; }
+		public TimeSpan Duration { get; }
 
 		/// <summary>
 		/// Forwards the external tool's standard output to the current app's standard output.
@@ -67,7 +67,13 @@
 		public void VerifySuccess()
 		{
 			if (!Succeeded)
-				throw new EnvironmentException(string.Format("External tool failure detected! Command: \"{0}\" {1}; Exit code: {2}; Runtime: {3:F2}s.", Instance.ExecutablePath, Instance.Arguments, ExitCode, Duration.TotalSeconds));
+			{
+				// We report first 1 KB of stderr or stdout, to provide extra information if available.
+				var detailsSource = (!string.IsNullOrWhiteSpace(StandardError) ? StandardError : StandardOutput) ?? "";
+				var details = detailsSource.Substring(0, Math.Min(detailsSource.Length, 1024));
+
+				throw new EnvironmentException($"External tool failure detected! Command: \"{Instance.ExecutablePath}\" {Instance.Arguments}; Exit code: {ExitCode}; Runtime: {Duration.TotalSeconds:F2}s. Head of output: {details}");
+			}
 		}
 
 		#region Implementation details
