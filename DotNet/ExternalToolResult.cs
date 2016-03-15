@@ -34,7 +34,6 @@
 			{
 				// NB! We log standard error to standard output if we did not detect any failure.
 				// This is done because some tools accidentally log to stderr when they should log to stdout.
-				// We only want errors to go to stderr because logging to Builder stderr terminates the build.
 				// This behavior is controlled by the results heuristics settings in the ExternalTool template.
 
 				if (Succeeded)
