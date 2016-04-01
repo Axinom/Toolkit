@@ -66,7 +66,6 @@
     <Compile Include="DynamicConfigurationSection.cs" />
     <Compile Include="EnvironmentHelpers.cs" />
     <Compile Include="ErrorReport.cs" />
-    <Compile Include="ErrorReportConfiguration.cs" />
     <Compile Include="ExternalTool.cs" />
     <Compile Include="ExternalToolResult.cs" />
     <Compile Include="ExternalToolResultHeuristics.cs" />

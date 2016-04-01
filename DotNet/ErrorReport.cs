@@ -2,466 +2,152 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Collections.Specialized;
-	using System.Configuration;
-	using System.Diagnostics;
-	using System.IO;
 	using System.Linq;
-	using System.Net;
-	using System.Net.Mail;
 	using System.Text;
 	using System.Web;
 
 	/// <summary>
-	/// Sends an error report to all configured error report receivers (e-mail and/or event log).
+	/// Sends an error report to the logging system.
 	/// </summary>
-	/// <remarks>
-	/// Receiver configuration is defined by <see cref="ErrorReportConfiguration"/>.
-	/// 
-	/// <para>The error report will automatically include various additional data such as HTTP and WCF context parameters
-	/// and (if available and in appropriate context) the HTTP request body. Additional data can be specified manually.</para>
-	/// 
-	/// <para>Configuration of SMTP server is taken from standard System.Net e-mail configuration section, if available.
-	/// As a fallback, the "SmtpServer" AppSetting is used (this is what AxCMS uses).</para>
-	/// </remarks>
-	/// <example><code><![CDATA[
-	/// try
-	/// {
-	///		ExecuteOperation(stuff, things);
-	///	}
-	///	catch (Exception ex)
-	///	{
-	///		ErrorReport.Send(ex);
-	///	}
-	///	
-	/// try
-	/// {
-	///		ExecuteOperation2(stuff, things);
-	/// }
-	/// catch (Exception ex)
-	/// {
-	///		// Here we provide some extra data manually.
-	///		ErrorReport.Send(ex, new
-	///		{
-	///			IsManagementSystem = CMSConfigurationSettings.IsAxCMS,
-	///			InputData = stuff
-	///		}
-	/// }
-	/// ]]></code></example>
 	public static class ErrorReport
 	{
-		private const string DefaultEventLog = "Application";
-
-		private static readonly WeakContainer<Exception> _reportedExceptions = new WeakContainer<Exception>();
-
-		public static void Send(Exception error)
+		/// <summary>
+		/// Logs an error report with the logging system.
+		/// </summary>
+		/// <param name="exception">An exception that describes error that occurred.</param>
+		/// <param name="additionalData">Any additional data you wish to attach to the report.</param>
+		/// <param name="log">The log to write the output to. A suitable default will be selected if null.</param>
+		public static void Log(Exception exception, object additionalData = null, LogSource log = null)
 		{
-			// This overload remembers the exceptions that it reports and does not report the same exception twice.
-			// Other overloads do not do this check because they also include extra data which may prove useful.
-			if (_reportedExceptions.Contains(error))
-				return;
+			Helpers.Argument.ValidateIsNotNull(exception, nameof(exception));
 
-			_reportedExceptions.Add(error);
-
-			Send(error, null);
-		}
-
-		public static void Send(Exception error, NameValueCollection additionalData)
-		{
-			Send(ExceptionToString(error), additionalData);
-		}
-
-		public static void Send(Exception error, object additionalData)
-		{
-			Send(ExceptionToString(error), additionalData);
-		}
-
-		public static void Send(string error)
-		{
-			Send(error, null);
-		}
-
-		public static void Send(string error, object additionalData)
-		{
-			Send(error, TransformAdditionalData(additionalData));
-		}
-
-		private static NameValueCollection TransformAdditionalData(object data)
-		{
-			var result = new NameValueCollection();
-
-			if (data == null)
-				return result;
-
-			result["AdditionalData"] = Helpers.Debug.ToDebugString(data);
-
-			return result;
-		}
-
-		public static void Send(string error, NameValueCollection additionalData)
-		{
-			if (error == null)
-				throw new ArgumentNullException("error");
-
+			log = log ?? Toolkit.Log.Default.CreateChildSource(nameof(ErrorReport));
 			try
 			{
-				string reportBody = CreateMessageBody(error, additionalData);
+				var details = new StringBuilder();
 
-				Trace.TraceError(reportBody);
+				// First a "subject line" suitable for summarizing and email headering purposes.
+				// We take the last (deepest) exception from the stack, as it is the root cause of the exception.
+				details.AppendLine(Summarize(exception));
 
-				if (ErrorReportConfiguration.IsConfiguredAndShouldWriteToEventLog)
-					WriteToEventLog(reportBody);
+				details.AppendLine();
+				details.AppendFormat("Timestamp: {0}", DateTimeOffset.UtcNow.ToString("u"));
+				details.AppendLine();
+				details.AppendFormat("Machine name: {0}", Environment.MachineName);
+				details.AppendLine();
+				details.AppendFormat("Operating system: {0}", Environment.OSVersion);
+				details.AppendLine();
+				details.AppendFormat("Current user: {0}\\{1}", Environment.UserDomainName, Environment.UserName);
+				details.AppendLine();
+				details.AppendFormat("CLR version: {0}", Environment.Version);
+				details.AppendLine();
 
-				if (ErrorReportConfiguration.IsConfiguredAndShouldSendMail)
-					SendMail(error, reportBody);
+				if (HttpContext.Current != null)
+				{
+					// We cannot access Request in Application_Start because it will throw!
+					// However, we can check if Handler is null and assume we cannot touch Request if so.
+					if (HttpContext.Current.Handler != null)
+					{
+						details.AppendLine();
+						details.AppendFormat("Connected peer: {0}", HttpContext.Current.Request.UserHostAddress);
+						details.AppendLine();
+
+						details.AppendFormat("Request URL: {0} {1}", HttpContext.Current.Request.HttpMethod, HttpContext.Current.Request.Url);
+						details.AppendLine();
+
+						details.AppendFormat("User agent: {0}", HttpContext.Current.Request.UserAgent);
+						details.AppendLine();
+
+						details.AppendLine("HTTP headers:");
+						foreach (var header in HttpContext.Current.Request.Headers.AllKeys)
+						{
+							try
+							{
+								details.AppendFormat("    {0}: {1}", header, HttpContext.Current.Request.Headers[header]);
+								details.AppendLine();
+							}
+							catch
+							{
+								// There have been known issues with HTTP header parsing in the past.
+								// While the situations may be rare, we better be safe than sorry.
+							}
+						}
+
+						details.AppendLine();
+					}
+				}
+
+				details.AppendLine();
+				details.AppendLine("Loaded non-system assemblies:");
+				var loadedAssemblyNames = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetName());
+
+				// We filter out system assemblies because they are boring.
+				foreach (var assemblyName in loadedAssemblyNames
+					.Where(a => !a.Name.StartsWith("System."))
+					.OrderBy(a => a.Name))
+				{
+					details.AppendLine($"{assemblyName.Name} {assemblyName.Version}");
+				}
+
+				details.AppendLine();
+				details.AppendLine("Exception message stack:");
+
+				// We want the deepest exceptions first, as they are the most important.
+				var exceptionStack = FlattenException(exception).Reverse().ToList();
+
+				for (int i = 0; i < exceptionStack.Count; i++)
+				{
+					details.AppendLine($"{i + 1}. {exceptionStack[i]}");
+				}
+
+				details.AppendLine();
+
+				if (additionalData != null)
+				{
+					details.AppendLine();
+					details.AppendLine("Additional data:");
+					details.AppendLine(Helpers.Debug.ToDebugString(additionalData));
+
+					details.AppendLine();
+				}
+
+				log.Error(details.ToString());
 			}
 			catch (Exception ex)
 			{
-				// We can't do much else here, so...
-				Trace.TraceError(ex.ToString());
+				log.Wtf("Exception occurred when attempting to create error report! " + ex);
 			}
 		}
 
-		private const int MaxEventLogEntryBodySize = 15000;
-
-		private static void WriteToEventLog(string notificationBody)
+		/// <summary>
+		/// Exceptions may contain inner exceptions. This method transforms this
+		/// hierarchical structure into the simple collection of exceptions.
+		/// </summary>
+		private static IEnumerable<Exception> FlattenException(Exception ex)
 		{
-			try
-			{
-				if (notificationBody.Length > MaxEventLogEntryBodySize)
-					notificationBody = notificationBody.Remove(MaxEventLogEntryBodySize) + "[... entry truncated due to size]";
+			var currentException = ex;
 
-				MyEventLog.WriteEntry(notificationBody, EventLogEntryType.Error);
-			}
-			catch (Exception ex)
+			do
 			{
-				// We can't do much else here, so...
-				Trace.TraceError(ex.ToString());
-			}
+				yield return currentException;
+
+				currentException = currentException.InnerException;
+			} while (currentException != null);
 		}
 
-		private static EventLog MyEventLog
+		private static string Summarize(Exception exception)
 		{
-			get
-			{
-				lock (EventLogLock)
-				{
-					if (_myEventLog == null)
-					{
-						string logName = DefaultEventLog;
-						if (!string.IsNullOrEmpty(ErrorReportConfiguration.Current.EventLog))
-							logName = ErrorReportConfiguration.Current.EventLog;
+			const string replaceSequence = ", ";
 
-						_myEventLog = new EventLog(logName);
-						_myEventLog.Source = ErrorReportConfiguration.Current.EventSource;
-					}
+			var rootCause = FlattenException(exception).Last();
 
-					return _myEventLog;
-				}
-			}
-		}
+			var subjectLine = rootCause.Message
+				// The order is very important. Make sure that it's correct.
+				.Replace("\r\n", replaceSequence)
+				.Replace("\n", replaceSequence)
+				.Replace("\r", replaceSequence);
 
-		private static readonly object EventLogLock = new object();
-		private static EventLog _myEventLog;
-
-		private static void SendMail(string error, string notificationBody)
-		{
-			try
-			{
-				using (var message = new MailMessage())
-				{
-					message.To.Add(ErrorReportConfiguration.Current.ReceiverAddress);
-
-					message.Body = notificationBody;
-					message.Subject = GenerateMessageTitle(error);
-					message.From = new MailAddress("noreply@axinom.com"); // Meaningless, so we hardcode it.
-
-					// NOTE: we use configuration file settings for network configuration, by default.
-					var client = new SmtpClient();
-					if (string.IsNullOrEmpty(client.Host))
-					{
-						// As a fallback, we'll try the "SmtpServer" AppSetting from host/from.
-						client.Host = ConfigurationManager.AppSettings["SmtpServer"];
-					}
-
-					client.Send(message);
-				}
-			}
-			catch (Exception ex)
-			{
-				// We can't do much else here, so...
-				Trace.TraceError(ex.ToString());
-			}
-		}
-
-		private static string GenerateMessageTitle(string error)
-		{
-			// Subject can only take 1 line. Some exceptions have more.
-			string firstLineOfExceptionMessage;
-
-			using (StringReader reader = new StringReader(error))
-				firstLineOfExceptionMessage = reader.ReadLine();
-
-			// The subject is the first line of the message, prepended by:
-			// machine name, process name, remote WCF address OR remote HTTP address.
-			string remoteEndpoint = null;
-			if (HttpContext.Current != null)
-				remoteEndpoint = HttpContext.Current.Request.UserHostAddress;
-
-			if (remoteEndpoint == null)
-				return string.Format("{0} : {1} : {2}", Environment.MachineName, Process.GetCurrentProcess().ProcessName, firstLineOfExceptionMessage);
-			else
-				return string.Format("{0} : {1} : {2} : {3}", Environment.MachineName, Process.GetCurrentProcess().ProcessName, remoteEndpoint, firstLineOfExceptionMessage);
-		}
-
-		private const string SEPARATOR = "-------------------------------------------";
-
-		private static string CreateMessageBody(string error, NameValueCollection additionalData)
-		{
-			StringBuilder body = new StringBuilder();
-
-			body.Append(error);
-			body.AppendLine();
-			body.AppendLine();
-			body.AppendFormat("Timestamp: {0}", DateTime.UtcNow.ToString());
-			body.AppendLine();
-			body.AppendLine();
-
-			Action<string, Action> failsafeAppend = delegate(string name, Action a)
-			{
-				try
-				{
-					body.AppendLine();
-					body.AppendLine(SEPARATOR);
-					body.AppendLine();
-					body.AppendLine(name);
-					body.AppendLine();
-
-					a();
-				}
-				catch (Exception ex)
-				{
-					body.AppendLine("Unable to gather data for this section: " + ex.Message);
-				}
-			};
-
-			failsafeAppend("Additional data", delegate
-			{
-				if (additionalData == null || additionalData.Count == 0)
-				{
-					body.AppendLine("No additional data.");
-					return;
-				}
-
-				foreach (string key in additionalData.AllKeys)
-				{
-					body.AppendFormat("{0}: {1}", key, additionalData[key]);
-					body.AppendLine();
-				}
-			});
-
-			failsafeAppend("Environment information", delegate
-			{
-				string[] properties = new[]
-				{
-					"CommandLine",
-					"CurrentDirectory",
-					"ExitCode",
-					"HasShutdownStarted",
-					"Is64BitOperatingSystem",
-					"Is64BitProcess",
-					"MachineName",
-					"OSVersion",
-					"ProcessorCount",
-					"SystemDirectory",
-					"SystemPageSize",
-					"TickCount",
-					"UserDomainName",
-					"UserInteractive",
-					"UserName",
-					"Version",
-					"WorkingSet"
-				};
-
-				WriteStaticProperties(body, typeof(Environment), null, properties);
-			});
-
-			failsafeAppend("ASP.NET server variables", delegate
-			{
-				var context = HttpContext.Current;
-
-				if (context == null)
-				{
-					body.AppendLine("No ASP.NET context.");
-					return;
-				}
-
-				foreach (string key in context.Request.ServerVariables.AllKeys)
-				{
-					try
-					{
-						body.AppendFormat("{0}: {1}", key, context.Request.ServerVariables[key]);
-						body.AppendLine();
-					}
-					catch (Exception ex)
-					{
-						body.AppendFormat("Error reading server variable {0}: {1}", key, ex.Message);
-						body.AppendLine();
-					}
-				}
-			});
-
-			failsafeAppend("ASP.NET HTTP request properties", delegate
-			{
-				var context = HttpContext.Current;
-
-				if (context == null)
-				{
-					body.AppendLine("No ASP.NET context.");
-					return;
-				}
-
-				if (context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated)
-				{
-					body.AppendFormat("Logged-in user: {0}", context.User.Identity.Name);
-					body.AppendLine();
-				}
-
-				string[] properties = new[]
-				{
-					"ApplicationPath",
-					"AppRelativeCurrentExecutionFilePath",
-					"ContentEncoding",
-					"ContentLength",
-					"ContentType",
-					"CurrentExecutionFilePath",
-					"FilePath",
-					"HttpMethod",
-					"IsAuthenticated",
-					"Path",
-					"PathInfo",
-					"PhysicalApplicationPath",
-					"PhysicalPath",
-					"RawUrl",
-					"TotalBytes",
-					"UrlReferrer",
-					"UserAgent",
-					"UserHostAddress",
-					"UserHostName",
-					"UserLanguages"
-				};
-
-				string[] complexProperties = new[]
-				{
-					"Form",
-					"Headers",
-					"QueryString"
-				};
-
-				WriteInstanceProperties(body, context.Request, properties, complexProperties);
-			});
-
-			return body.ToString();
-		}
-
-		private static void WriteInstanceProperties(StringBuilder body, object instance, IEnumerable<string> basicProperties, IEnumerable<string> complexProperties)
-		{
-			var instanceType = instance.GetType();
-
-			if (basicProperties != null)
-			{
-				foreach (var propertyName in basicProperties)
-				{
-					try
-					{
-						var value = instanceType.GetProperty(propertyName).GetValue(instance, null);
-						body.AppendFormat("{0}: {1}", propertyName, value);
-						body.AppendLine();
-					}
-					catch (Exception ex)
-					{
-						body.AppendFormat("{0} could not be read: {1}", propertyName, ex.Message);
-						body.AppendLine();
-					}
-				}
-
-				body.AppendLine();
-			}
-
-			if (complexProperties != null)
-			{
-				foreach (var propertyName in complexProperties)
-				{
-					try
-					{
-						var value = instanceType.GetProperty(propertyName).GetValue(instance, null);
-						body.AppendFormat("{0}: {1}", propertyName, Helpers.Debug.ToDebugString(value));
-					}
-					catch (Exception ex)
-					{
-						body.AppendFormat("{0} could not be read: {1}", propertyName, ex.Message);
-						body.AppendLine();
-					}
-				}
-			}
-		}
-
-		private static void WriteStaticProperties(StringBuilder body, Type type, IEnumerable<string> basicProperties, IEnumerable<string> complexProperties)
-		{
-			if (basicProperties != null)
-			{
-				foreach (var propertyName in basicProperties)
-				{
-					try
-					{
-						var value = type.GetProperty(propertyName).GetValue(null, null);
-						body.AppendFormat("{0}: {1}", propertyName, value);
-						body.AppendLine();
-					}
-					catch (Exception ex)
-					{
-						body.AppendFormat("{0} could not be read: {1}", propertyName, ex.Message);
-						body.AppendLine();
-					}
-				}
-
-				body.AppendLine();
-			}
-
-			if (complexProperties != null)
-			{
-				foreach (var propertyName in complexProperties)
-				{
-					try
-					{
-						var value = type.GetProperty(propertyName).GetValue(null, null);
-						body.AppendFormat("{0}: {1}", propertyName, Helpers.Debug.ToDebugString(value));
-					}
-					catch (Exception ex)
-					{
-						body.AppendFormat("{0} could not be read: {1}", propertyName, ex.Message);
-						body.AppendLine();
-					}
-				}
-			}
-		}
-
-		private static string ExceptionToString(Exception ex)
-		{
-			string result = ex.ToString();
-
-			if (ex is WebException)
-			{
-				try
-				{
-					result += Environment.NewLine + "Response body: " + new StreamReader(((WebException)ex).Response.GetResponseStream()).ReadToEnd();
-				}
-				catch
-				{
-				}
-			}
-
-			return result;
+			return subjectLine;
 		}
 	}
 }
