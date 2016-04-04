@@ -135,6 +135,8 @@
 			} while (currentException != null);
 		}
 
+		private const int MaxSummaryLength = 1000;
+
 		private static string Summarize(Exception exception)
 		{
 			const string replaceSequence = ", ";
@@ -146,6 +148,10 @@
 				.Replace("\r\n", replaceSequence)
 				.Replace("\n", replaceSequence)
 				.Replace("\r", replaceSequence);
+
+			// Let's limit the length - it's supposed to be a summary, after all!
+			if (subjectLine.Length > MaxSummaryLength)
+				subjectLine = subjectLine.Substring(0, MaxSummaryLength);
 
 			return subjectLine;
 		}
