@@ -7,25 +7,33 @@
 	using Axinom.Toolkit;
 
 	/// <summary>
-	/// Come on xunit, what do you force us to do. No global initialization built-in.
+	/// Base class to coordinate global tasks like log system initialization.
+	/// We don't use the "collection fixtures" because they force single-threaded test execution, which is not desired.
 	/// </summary>
 	public abstract class TestClass : IDisposable
 	{
+		private static readonly StreamWriter _logWriter;
+		private static readonly object _coordinationLock = new object();
+
 		static TestClass()
 		{
-			// Write output to temp file because for whatever reason, ReSharper does not show output via xunit.
-			var filename = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fffffff") + ".log";
-			var path = Path.Combine(Path.GetTempPath(), filename);
-			var stream = File.Create(path);
+			lock (_coordinationLock)
+			{
+				// If we have already created the log writer, we are set up and nothing more needs to be done.
+				if (_logWriter != null)
+					return;
 
-			_logWriter = new StreamWriter(stream);
-			Log.Default.RegisterListener(new StreamWriterLogListener(_logWriter));
+				// This creates it in the same directory as the tests assembly, atleast using ReSharper and VSTS runners.
+				// The stream is closed when the runner shuts down - we just flush more contents out to disk periodically.
+				var logStream = File.Create("Tests.log");
+				_logWriter = new StreamWriter(logStream);
+				Log.Default.RegisterListener(new StreamWriterLogListener(_logWriter));
+			}
 		}
 
-		private static readonly StreamWriter _logWriter;
-
-		public virtual void Dispose()
+		public void Dispose()
 		{
+			// Not guaranteed to be thread-safe but uhh cross your fingers?! Seems to work okay, though.
 			_logWriter.Flush();
 		}
 	}
