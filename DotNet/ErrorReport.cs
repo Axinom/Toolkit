@@ -141,7 +141,7 @@
 
 			var rootCause = FlattenException(exception).Last();
 
-			var subjectLine = rootCause.Message
+			var subjectLine = (rootCause.Message ?? "")
 				// The order is very important. Make sure that it's correct.
 				.Replace("\r\n", replaceSequence)
 				.Replace("\n", replaceSequence)
