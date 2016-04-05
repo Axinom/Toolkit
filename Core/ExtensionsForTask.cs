@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Runtime.CompilerServices;
+	using System.Threading;
 	using System.Threading.Tasks;
 
 	public static class ExtensionsForTask
@@ -58,6 +59,40 @@
 			Helpers.Argument.ValidateIsNotNull(task, nameof(task));
 
 			return task.GetAwaiter().GetResult();
+		}
+
+		/// <summary>
+		/// Abandons the task after a cancellation is signaled and throws TaskCanceledException.
+		/// The task continues to run in reality but will appear cancelled to any callers.
+		/// </summary>
+		/// <exception cref="TaskCanceledException">Thrown when the task is abandoned.</exception>
+		public static Task<T> WithAbandonment<T>(this Task<T> task, CancellationToken cancellationToken)
+		{
+			Helpers.Argument.ValidateIsNotNull(task, nameof(task));
+
+			if (task.IsCompleted)
+				return task;
+
+			// From https://stackoverflow.com/questions/25219287/c-sharp-net-httpclient-cancel-readasstringasync
+
+			return task.ContinueWith(completedTask => completedTask.WaitAndUnwrapExceptions(), cancellationToken, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+		}
+
+		/// <summary>
+		/// Abandons the task after a cancellation is signaled and throws TaskCanceledException.
+		/// The task continues to run in reality but will appear cancelled to any callers.
+		/// </summary>
+		/// <exception cref="TaskCanceledException">Thrown when the task is abandoned.</exception>
+		public static Task WithAbandonment(this Task task, CancellationToken cancellationToken)
+		{
+			Helpers.Argument.ValidateIsNotNull(task, nameof(task));
+
+			if (task.IsCompleted)
+				return task;
+
+			// From https://stackoverflow.com/questions/25219287/c-sharp-net-httpclient-cancel-readasstringasync
+
+			return task.ContinueWith(completedTask => completedTask.WaitAndUnwrapExceptions(), cancellationToken, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
 		}
 	}
 }

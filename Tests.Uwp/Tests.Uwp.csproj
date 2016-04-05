@@ -131,6 +131,9 @@
     <Compile Include="..\Tests.DotNet\ExtensionsForArrayTests.cs">
       <Link>ExtensionsForArrayTests.cs</Link>
     </Compile>
+    <Compile Include="..\Tests.DotNet\ExtensionsForTaskTests.cs">
+      <Link>ExtensionsForTaskTests.cs</Link>
+    </Compile>
     <Compile Include="..\Tests.DotNet\FilesystemTests.cs">
       <Link>FilesystemTests.cs</Link>
     </Compile>

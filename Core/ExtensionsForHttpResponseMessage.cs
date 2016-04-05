@@ -6,6 +6,7 @@
 	using System.Net.Http;
 	using System.Net.Http.Headers;
 	using System.Text;
+	using System.Threading;
 	using System.Threading.Tasks;
 
 	public static class ExtensionsForHttpResponseMessage
@@ -24,7 +25,16 @@
 		/// Ensures that the response message has a response code indicating success.
 		/// On failure, throws an exception that contains detailed information about the response message.
 		/// </summary>
-		public static async Task<HttpResponseMessage> EnsureSuccessStatusCodeAndReportFailureDetailsAsync(this HttpResponseMessage response)
+		public static Task<HttpResponseMessage> EnsureSuccessStatusCodeAndReportFailureDetailsAsync(this HttpResponseMessage response)
+		{
+			return EnsureSuccessStatusCodeAndReportFailureDetailsAsync(response, CancellationToken.None);
+		}
+
+		/// <summary>
+		/// Ensures that the response message has a response code indicating success.
+		/// On failure, throws an exception that contains detailed information about the response message.
+		/// </summary>
+		public static async Task<HttpResponseMessage> EnsureSuccessStatusCodeAndReportFailureDetailsAsync(this HttpResponseMessage response, CancellationToken cancellationToken)
 		{
 			Helpers.Argument.ValidateIsNotNull(response, "response");
 
@@ -39,7 +49,7 @@
 			details.Append("', Version: ");
 			details.Append(response.Version);
 			details.Append(", Headers:\r\n");
-			details.Append(DumpHeaders(new HttpHeaders[] { response.Headers, (response.Content == null) ? null : response.Content.Headers }));
+			details.Append(DumpHeaders(response.Headers, response.Content?.Headers));
 
 			if (response.Content == null)
 			{
@@ -49,7 +59,7 @@
 			{
 				try
 				{
-					var responseBody = await response.Content.ReadAsStringAsync().IgnoreContext();
+					var responseBody = await response.Content.ReadAsStringAsync().WithAbandonment(cancellationToken).IgnoreContext();
 					details.Append(", Content: ");
 					details.Append(responseBody);
 				}
@@ -62,7 +72,7 @@
 			throw new HttpRequestException("Response status code does not indicate success. " + details);
 		}
 
-		internal static string DumpHeaders(params HttpHeaders[] headers)
+		private static string DumpHeaders(params HttpHeaders[] headers)
 		{
 			StringBuilder builder = new StringBuilder();
 			builder.Append("{\r\n");

@@ -1,6 +1,8 @@
-﻿7.0.0 PRERELEASE 01
+﻿7.0.0 PRERELEASE
 	* ErrorReport.Send() replaced with ErrorReport.Log(). The error reports are now written to the logging system instead of sent via email and event log. You are still able to accomplish the latter but you must use an appropriate log listener to do the actual delivery. This significantly simplifies the implementation and maintenace of ErrorReport.
 	* ErrorReport contents rewritten to include less irrelevant spam. Some edge cases may no longer be supported. Scream if some important info is missing and it will likely be added to the next version.
+	* Added Task.WithAbandonment() extension method, to abandon tasks.
+	* Added timeout-enabled overload for HttpResponseMessage.EnsureSuccessStatusCodeAndReportFailureDetailsAsync().
 
 6.9.0
 	* ExternalTool now reports part of any error output in its exception message when an external tool failure is detected, for ease of diagnostics.

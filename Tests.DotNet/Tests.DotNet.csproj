@@ -109,6 +109,7 @@
     <Compile Include="DelegateCommandTests.cs" />
     <Compile Include="EmbeddedPackageTests.cs" />
     <Compile Include="EnvironmentTests.cs" />
+    <Compile Include="ExtensionsForTaskTests.cs" />
     <Compile Include="ExternalToolTests.cs" />
     <Compile Include="FilesystemTests.cs" />
     <Compile Include="GuidTests.cs" />
