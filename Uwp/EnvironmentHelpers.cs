@@ -4,6 +4,10 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
+	/// <summary>
+	/// Code container for helper methods available only on Universal Windows Platform.
+	/// Do not use this directly - always access helper methods via the <see cref="Helpers"/> container type.
+	/// </summary>
 	public static partial class UwpHelpers
 	{
 		/// <summary>

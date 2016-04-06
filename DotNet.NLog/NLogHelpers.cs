@@ -7,6 +7,9 @@
 	using global::NLog.Config;
 	using global::NLog.Targets;
 
+	/// <summary>
+	/// Helper methods related to NLog.
+	/// </summary>
 	public static class NLogHelpers
 	{
 		/// <summary>
@@ -15,7 +18,7 @@
 		private const string OnlyMessageLayout = "${message}";
 
 		/// <summary>
-		/// Sets up a capturing NLog configuration that saves all messages to the returned MemoryTarget.
+		/// Sets up an NLog configuration that stores all messages in the MemoryTarget instance returned by this method.
 		/// </summary>
 		public static MemoryTarget SetupCapturingLoggingConfiguration(this HelpersContainerClasses.NLog container, LogFactory logFactory, LogLevel minLevel = null,
 			string layout = OnlyMessageLayout)

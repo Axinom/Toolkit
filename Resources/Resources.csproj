@@ -48,12 +48,64 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Documentation\.gitignore" />
+    <None Include="Documentation\api\.gitignore" />
+    <None Include="Documentation\api\index.md" />
+    <None Include="Documentation\docfx.json" />
+    <None Include="Documentation\index.md" />
+    <None Include="Documentation\toc.yml" />
     <None Include="NuGet\Main.nuspec" />
     <None Include="NuGet\NLog.nuspec" />
     <None Include="NuGet\Package.ps1" />
     <None Include="NuGet\Publish.ps1" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Docfx\CommandLine.dll" />
+    <None Include="Docfx\docfx.exe" />
+    <None Include="Docfx\DotLiquid.dll" />
+    <None Include="Docfx\GitSharp.Core.dll" />
+    <None Include="Docfx\GitSharp.dll" />
+    <None Include="Docfx\HtmlAgilityPack.dll" />
+    <None Include="Docfx\ICSharpCode.SharpZipLib.dll" />
+    <None Include="Docfx\Jint.dll" />
+    <None Include="Docfx\Microsoft.Build.dll" />
+    <None Include="Docfx\Microsoft.Build.Engine.dll" />
+    <None Include="Docfx\Microsoft.Build.Framework.dll" />
+    <None Include="Docfx\Microsoft.Build.Tasks.Core.dll" />
+    <None Include="Docfx\Microsoft.Build.Utilities.Core.dll" />
+    <None Include="Docfx\Microsoft.CodeAnalysis.CSharp.dll" />
+    <None Include="Docfx\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" />
+    <None Include="Docfx\Microsoft.CodeAnalysis.dll" />
+    <None Include="Docfx\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <None Include="Docfx\Microsoft.CodeAnalysis.VisualBasic.Workspaces.dll" />
+    <None Include="Docfx\Microsoft.CodeAnalysis.Workspaces.Desktop.dll" />
+    <None Include="Docfx\Microsoft.CodeAnalysis.Workspaces.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.Common.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.Dfm.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.EntityModel.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.Glob.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.MarkdownLite.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.Plugins.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.Utility.dll" />
+    <None Include="Docfx\Microsoft.DocAsCode.YamlSerialization.dll" />
+    <None Include="Docfx\Microsoft.Owin.dll" />
+    <None Include="Docfx\Microsoft.Owin.FileSystems.dll" />
+    <None Include="Docfx\Microsoft.Owin.Host.HttpListener.dll" />
+    <None Include="Docfx\Microsoft.Owin.Hosting.dll" />
+    <None Include="Docfx\Microsoft.Owin.StaticFiles.dll" />
+    <None Include="Docfx\Newtonsoft.Json.dll" />
+    <None Include="Docfx\Nustache.Core.dll" />
+    <None Include="Docfx\Owin.dll" />
+    <None Include="Docfx\System.Collections.Immutable.dll" />
+    <None Include="Docfx\System.Composition.AttributedModel.dll" />
+    <None Include="Docfx\System.Composition.Convention.dll" />
+    <None Include="Docfx\System.Composition.Hosting.dll" />
+    <None Include="Docfx\System.Composition.Runtime.dll" />
+    <None Include="Docfx\System.Composition.TypedParts.dll" />
+    <None Include="Docfx\System.Reflection.Metadata.dll" />
+    <None Include="Docfx\Tamir.SharpSSH.dll" />
+    <None Include="Docfx\Winterdom.IO.FileMap.dll" />
+    <None Include="Docfx\YamlDotNet.dll" />
     <Content Include="History.txt" />
     <Content Include="NuGet\NuGet.exe" />
     <Content Include="Readme.txt" />
@@ -62,6 +114,8 @@
     <Compile Include="SolutionAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Documentation\apidoc\" />
+    <Folder Include="Documentation\images\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

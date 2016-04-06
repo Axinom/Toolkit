@@ -5,6 +5,10 @@
 	using System.Linq;
 	using System.Runtime.InteropServices;
 
+	/// <summary>
+	/// Code container for helper methods available only on .NET Framework.
+	/// Do not use this directly - always access helper methods via the <see cref="Helpers"/> container type.
+	/// </summary>
 	public static partial class DotNetHelpers
 	{
 		public static void TryReleaseArray<T>(this HelpersContainerClasses.Com container, ref T[] array)

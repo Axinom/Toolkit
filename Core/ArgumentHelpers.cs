@@ -5,6 +5,10 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
+	/// <summary>
+	/// Code container for helper methods available on all platforms.
+	/// Do not use this directly - always access helper methods via the <see cref="Helpers"/> container type.
+	/// </summary>
 	public static partial class CoreHelpers
 	{
 		public static void ValidateIsNotNull<T>(this HelpersContainerClasses.Argument container, T value, string name)
