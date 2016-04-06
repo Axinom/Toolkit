@@ -8,21 +8,15 @@
 	using System.Threading.Tasks;
 	using Axinom.Toolkit;
 	using Xunit;
-	using Xunit.Abstractions;
 
 	public sealed class ExtensionsForTaskTests : TestClass
 	{
-		private readonly ITestOutputHelper _output;
-
-		public ExtensionsForTaskTests(ITestOutputHelper output)
-		{
-			_output = output;
-		}
-
 		[Fact]
 		public async Task WithAbandonment_AbandonsWhenCancelled()
 		{
-			var sleepTime = TimeSpan.FromSeconds(10);
+			// This needs to be 60 because in VSTS hosted agents, tests can run EXTEEEMELY slowly and irregularly.
+			// At low values, you'll get a bunch of timeouts, so just keep it high to let VSTS do its thing.
+			var sleepTime = TimeSpan.FromSeconds(60);
 			var cancelTime = TimeSpan.FromMilliseconds(500);
 
 			// We cancel very fast but the thread continues to sleep for quite a while longer.
@@ -35,7 +29,7 @@
 
 			stopwatch.Stop();
 
-			_output.WriteLine($"Elapsed {stopwatch.Elapsed.TotalSeconds:F1}s; sleep time was {sleepTime.TotalSeconds:F1}s.");
+			Log.Default.Debug($"Elapsed {stopwatch.Elapsed.TotalSeconds:F1}s; sleep time was {sleepTime.TotalSeconds:F1}s.");
 
 			Assert.True(stopwatch.Elapsed < sleepTime);
 		}
