@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8">
-		<id>Axinom.Toolkit.NLog-pre05</id>
-		<version>7.0.0</version>
+		<id>Axinom.Toolkit.NLog</id>
+		<version>7.0.0-pre05</version>
 		<authors>Axinom</authors>
 		<description>Provides NLog related helper functionaltiy and enables Axinom Toolkit logging output to be sent to NLog loggers.</description>
 		<dependencies>
