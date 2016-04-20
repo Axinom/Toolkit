@@ -3,6 +3,8 @@
 	* ErrorReport contents rewritten to include less irrelevant spam. Some edge cases may no longer be supported. Scream if some important info is missing and it will likely be added to the next version.
 	* Added Task.WithAbandonment() extension method, to abandon tasks.
 	* Added timeout-enabled overload for HttpResponseMessage.EnsureSuccessStatusCodeAndReportFailureDetailsAsync().
+	* UWP target platform upgraded to 10586 (minimum remains at 10240).
+	* Updated UWP and NLog NuGet package dependencies.
 
 6.9.0
 	* ExternalTool now reports part of any error output in its exception message when an external tool failure is detected, for ease of diagnostics.
