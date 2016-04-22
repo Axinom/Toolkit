@@ -75,5 +75,25 @@
 		{
 			Assert.Throws<ArgumentException>(() => Helpers.Convert.HexStringToByteArray("a"));
 		}
-	}
+
+        [Fact]
+        public void ByteArrayToBase64Url_RoundTrip_ReturnsSameBytes()
+        {
+            var encoded = Helpers.Convert.ByteArrayToBase64Url(TestBytes);
+            var decoded = Helpers.Convert.Base64UrlToByteArray(encoded);
+
+            Assert.Equal(TestBytes, decoded);
+        }
+
+        [Fact]
+        public void ByteArrayToBase64Url_ReturnsNoPadding()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var data = new byte[i];
+
+                Assert.DoesNotContain("=", Helpers.Convert.ByteArrayToBase64Url(data));
+            }
+        }
+    }
 }

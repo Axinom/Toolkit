@@ -71,14 +71,34 @@
 
 			return encoding.GetString(bytes, 0, bytes.Length);
 		}
-		#endregion
+        #endregion
 
-		#region Base32
-		/// <summary>
-		/// This is not real base32. Rather, it usea a custom algorithm that does not have easily confusable characters.
-		/// From http://www.atrevido.net/blog/PermaLink.aspx?guid=debdd47c-9d15-4a2f-a796-99b0449aa8af
-		/// </summary>
-		private const string Base32Alphabet = "QAZ2WSX3" + "EDC4RFV5" + "TGB6YHN7" + "UJM8K9LP";
+        #region Base64url
+        public static string ByteArrayToBase64Url(this HelpersContainerClasses.Convert container, byte[] bytes)
+        {
+            Helpers.Argument.ValidateIsNotNull(bytes, nameof(bytes));
+
+            // We also remove padding because most usages of base64url do not want it.
+            return Convert.ToBase64String(bytes).Replace('/', '_').Replace('+', '-').TrimEnd('=');
+        }
+
+        public static byte[] Base64UrlToByteArray(this HelpersContainerClasses.Convert container, string base64url)
+        {
+            Helpers.Argument.ValidateIsNotNull(base64url, nameof(base64url));
+
+            // .NET implementation requires padding, so let's add it back if needed.
+            var padding = new string('=', 4 - (base64url.Length % 4));
+
+            return Convert.FromBase64String(base64url.Replace('_', '/').Replace('-', '+') + padding);
+        }
+        #endregion
+
+        #region Base32
+        /// <summary>
+        /// This is not real base32. Rather, it usea a custom algorithm that does not have easily confusable characters.
+        /// From http://www.atrevido.net/blog/PermaLink.aspx?guid=debdd47c-9d15-4a2f-a796-99b0449aa8af
+        /// </summary>
+        private const string Base32Alphabet = "QAZ2WSX3" + "EDC4RFV5" + "TGB6YHN7" + "UJM8K9LP";
 
 		public static string Base32EncodeBytes(this HelpersContainerClasses.Convert container, byte[] bytes)
 		{

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyVersion("7.0.0")]
+[assembly: AssemblyVersion("7.1.0")]
 [assembly: AssemblyCompany("Axinom")]
 [assembly: AssemblyProduct("Axinom Toolkit")]
 [assembly: AssemblyCopyright("Copyright © Axinom")]
