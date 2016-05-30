@@ -153,7 +153,7 @@ namespace Axinom.Toolkit
 		private static readonly string Sha1RsaOid = "1.3.14.3.2.29";
 		private const int MinimumRsaKeySizeInBits = 2048;
 		private const string XmlDigitalSignatureNamespace = "http://www.w3.org/2000/09/xmldsig#";
-		public const string XmlEncryptionNamespace = "http://www.w3.org/2001/04/xmlenc#";
+		private const string XmlEncryptionNamespace = "http://www.w3.org/2001/04/xmlenc#";
 
 		private static void VerifyCertificateIsSaneAndUsable(X509Certificate2 certificate)
 		{
@@ -285,7 +285,7 @@ namespace Axinom.Toolkit
 		/// <summary>
 		/// INTERNAL ONLY - DO NOT USE.
 		/// </summary>
-		public sealed class CustomRSAPKCS1SignatureFormatter : AsymmetricSignatureFormatter
+		private sealed class CustomRSAPKCS1SignatureFormatter : AsymmetricSignatureFormatter
 		{
 			private RSACng _rsaKey;
 
