@@ -30,6 +30,7 @@
 		public static readonly HelpersContainerClasses.Network Network = new HelpersContainerClasses.Network();
 		public static readonly HelpersContainerClasses.NLog NLog = new HelpersContainerClasses.NLog();
 		public static readonly HelpersContainerClasses.PlayReady PlayReady = new HelpersContainerClasses.PlayReady();
+		public static readonly HelpersContainerClasses.ProtectedXml ProtectedXml = new HelpersContainerClasses.ProtectedXml();
 		public static readonly HelpersContainerClasses.Random Random = new HelpersContainerClasses.Random();
 		public static readonly HelpersContainerClasses.Struct Struct = new HelpersContainerClasses.Struct();
 		public static readonly HelpersContainerClasses.Type Type = new HelpersContainerClasses.Type();

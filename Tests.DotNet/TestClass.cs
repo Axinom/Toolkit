@@ -31,7 +31,7 @@
 			}
 		}
 
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			// Not guaranteed to be thread-safe but uhh cross your fingers?! Seems to work okay, though.
 			_logWriter.Flush();

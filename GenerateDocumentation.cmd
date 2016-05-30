@@ -1,0 +1,1 @@
+"%~dp0\Resources\Docfx\Docfx.exe" "%~dp0\Resources\Documentation\docfx.json" 

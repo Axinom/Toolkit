@@ -47,6 +47,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -72,6 +73,7 @@
     <Compile Include="FilesystemHelpers.cs" />
     <Compile Include="GuidHelpers.cs" />
     <Compile Include="IsolatedStorageXmlLogListener.cs" />
+    <Compile Include="ProtectedXmlHelpers.cs" />
     <Compile Include="StructHelpers.cs" />
     <Compile Include="TraceLogListener.cs" />
     <Compile Include="TypeHelpers.cs" />

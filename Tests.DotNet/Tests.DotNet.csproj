@@ -115,6 +115,7 @@
     <Compile Include="GuidTests.cs" />
     <Compile Include="HttpResponseMessageExtensionsTests.cs" />
     <Compile Include="InjectionContainerTests.cs" />
+    <Compile Include="ProtectedXmlTests.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="MediaTests.cs" />
     <Compile Include="MultiEndianBinaryReaderTests.cs" />
@@ -145,6 +146,16 @@
     <EmbeddedResource Include="TestData\Manifest_MultiKey.mpd" />
     <EmbeddedResource Include="TestData\MultiPeriod_Manifest.mpd" />
     <EmbeddedResource Include="TestData\Manifest_MultiPeriod_MultiKey.mpd" />
+    <EmbeddedResource Include="TestData\Certificates\A.cer" />
+    <EmbeddedResource Include="TestData\Certificates\A.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\B.cer" />
+    <EmbeddedResource Include="TestData\Certificates\B.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\C.cer" />
+    <EmbeddedResource Include="TestData\Certificates\C.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-Sha1.cer" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-Sha1.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-SmallKey.cer" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-SmallKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

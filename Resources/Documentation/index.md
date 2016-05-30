@@ -7,7 +7,7 @@ This is a pile of fairly arbitrary helper functionality that has proven useful o
 
 Axinom Toolkit is supported on:
 
-* .NET Framework 4.6.1
+* .NET Framework 4.6
 * Universal Windows Platform (minimum SDK 10586; minimum runtime 10240)
 
 The set of functionality available on each may be slightly different, as determined by platform capabilities.

@@ -73,6 +73,10 @@
 		{
 		}
 
+		public sealed class ProtectedXml
+		{
+		}
+
 		public sealed class Random
 		{
 		}
