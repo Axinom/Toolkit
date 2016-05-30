@@ -111,7 +111,7 @@
 		/// also has a specified aspect defined on it (base class or interface).
 		/// </summary>
 		/// <param name="typeName">
-		/// The name of the type in a format acceptable to <see cref="GetTypeFromAnyAssembly(string)"/>. 
+		/// The name of the type in a format acceptable to <see cref="GetTypeFromAnyAssembly(HelpersContainerClasses.Type, string)"/>. 
 		/// 
 		/// Can be null or empty (in which case, the method always returns false).
 		/// </param>
