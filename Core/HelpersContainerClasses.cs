@@ -57,6 +57,10 @@
 		{
 		}
 
+		public sealed class Jose
+		{
+		}
+
 		public sealed class Media
 		{
 		}

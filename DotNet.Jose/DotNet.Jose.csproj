@@ -4,21 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{48CA686B-F2E8-4E7E-A001-217A9C787EC9}</ProjectGuid>
+    <ProjectGuid>{A53AD808-5E49-4B02-8921-3F02760FC759}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Axinom.Toolkit</RootNamespace>
-    <AssemblyName>Axinom.Toolkit.DotNet</AssemblyName>
+    <AssemblyName>Axinom.Toolkit.DotNet.Jose</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,15 +33,15 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <NoWarn>1591;1573</NoWarn>
-    <DocumentationFile>bin\Release\Axinom.Toolkit.DotNet.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Axinom.Toolkit.DotNet.Jose.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jose-jwt, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.1.9.2\lib\4.0\jose-jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,32 +50,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Resources\SolutionAssemblyInfo.cs">
-      <Link>Properties\SolutionAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="ColoredConsole.cs" />
-    <Compile Include="ComHelpers.cs" />
-    <Compile Include="ConsoleLogListener.cs" />
-    <Compile Include="DataContractHelpers.cs" />
-    <Compile Include="DynamicConfigurationSection.cs" />
-    <Compile Include="EnvironmentHelpers.cs" />
-    <Compile Include="ErrorReport.cs" />
-    <Compile Include="ExternalTool.cs" />
-    <Compile Include="ExternalToolResult.cs" />
-    <Compile Include="ExternalToolResultHeuristics.cs" />
-    <Compile Include="FilesystemHelpers.cs" />
-    <Compile Include="GuidHelpers.cs" />
-    <Compile Include="IsolatedStorageXmlLogListener.cs" />
-    <Compile Include="ProtectedXmlHelpers.cs" />
-    <Compile Include="StructHelpers.cs" />
-    <Compile Include="TraceLogListener.cs" />
-    <Compile Include="TypeHelpers.cs" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{ec81547e-07e0-457a-9b32-13fa511e62b6}</Project>
       <Name>Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JoseHelpers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

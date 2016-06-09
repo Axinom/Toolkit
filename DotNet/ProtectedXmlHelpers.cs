@@ -84,24 +84,24 @@ namespace Axinom.Toolkit
 		/// <param name="container"></param>
 		/// <param name="document">The encrypted and signed document. It will be modified in-place by this method.</param>
 		/// <param name="signedBy">The certificate of the document's signer will be output into this variable.</param>
-		/// <param name="decryptionCertificates">The set of certificates whose key pairs may be used for decryption. The correct certificate and key pair will be selected automatically (if it is among the set).</param>
+		/// <param name="recipientCertificates">The set of certificates whose key pairs may be used for decryption. The correct certificate and key pair will be selected automatically (if it is among the set).</param>
 		/// <exception cref="CryptographicException">
 		/// Thrown if a cryptographic operation fails (e.g. because you do not have the correct decryption key).
 		/// </exception>
 		/// <remarks>
 		/// The XML document may be left in a corrupted state if an exception is thrown.
 		/// </remarks>
-		public static void VerifyAndDecrypt(this HelpersContainerClasses.ProtectedXml container, XmlDocument document, out X509Certificate2 signedBy, params X509Certificate2[] decryptionCertificates)
+		public static void VerifyAndDecrypt(this HelpersContainerClasses.ProtectedXml container, XmlDocument document, out X509Certificate2 signedBy, params X509Certificate2[] recipientCertificates)
 		{
 			Helpers.Argument.ValidateIsNotNull(document, nameof(document));
-			Helpers.Argument.ValidateIsNotNull(decryptionCertificates, nameof(decryptionCertificates));
+			Helpers.Argument.ValidateIsNotNull(recipientCertificates, nameof(recipientCertificates));
 
-			foreach (var decryptionCertificate in decryptionCertificates)
+			foreach (var certificate in recipientCertificates)
 			{
-				if (decryptionCertificate == null)
-					throw new ArgumentException("Decryption certificate list cannot contain null values.", nameof(decryptionCertificates));
+				if (certificate == null)
+					throw new ArgumentException("Recipient certificate list cannot contain null values.", nameof(recipientCertificates));
 
-				VerifyCertificateAndPrivateKeyIsSaneAndUsable(decryptionCertificate);
+				VerifyCertificateAndPrivateKeyIsSaneAndUsable(certificate);
 			}
 
 			RSAPKCS1SHA512SignatureDescription.Register();
@@ -140,17 +140,20 @@ namespace Axinom.Toolkit
 
 			signedBy = new X509Certificate2(Convert.FromBase64String(certificateElement.InnerText));
 
+			// We do not accept signatures from weak certificates.
+			VerifyCertificateIsSaneAndUsable(signedBy);
+
 			// Decrypt.
 			var decryptor = new EncryptedXmlWithCustomDecryptionCertificates(document)
 			{
-				DecryptionCertificates = decryptionCertificates
+				DecryptionCertificates = recipientCertificates
 			};
 
 			decryptor.DecryptDocument();
 		}
 
 		private const string Sha512Algorithm = "http://www.w3.org/2001/04/xmlenc#sha512";
-		private static readonly string Sha1RsaOid = "1.3.14.3.2.29";
+		private const string Sha1RsaOid = "1.3.14.3.2.29";
 		private const int MinimumRsaKeySizeInBits = 2048;
 		private const string XmlDigitalSignatureNamespace = "http://www.w3.org/2000/09/xmldsig#";
 		private const string XmlEncryptionNamespace = "http://www.w3.org/2001/04/xmlenc#";

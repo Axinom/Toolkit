@@ -8,6 +8,7 @@
             "Core/Core.csproj",
 			"DotNet/DotNet.csproj",
 			"DotNet.NLog/DotNet.NLog.csproj",
+			"DotNet.Jose/DotNet.Jose.csproj",
 			"Uwp/Uwp.csproj"
           ]
         }

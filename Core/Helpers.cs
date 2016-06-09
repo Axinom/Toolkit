@@ -26,6 +26,7 @@
 		public static readonly HelpersContainerClasses.Environment Environment = new HelpersContainerClasses.Environment();
 		public static readonly HelpersContainerClasses.Filesystem Filesystem = new HelpersContainerClasses.Filesystem();
 		public static readonly HelpersContainerClasses.Guid Guid = new HelpersContainerClasses.Guid();
+		public static readonly HelpersContainerClasses.Jose Jose = new HelpersContainerClasses.Jose();
 		public static readonly HelpersContainerClasses.Media Media = new HelpersContainerClasses.Media();
 		public static readonly HelpersContainerClasses.Network Network = new HelpersContainerClasses.Network();
 		public static readonly HelpersContainerClasses.NLog NLog = new HelpersContainerClasses.NLog();

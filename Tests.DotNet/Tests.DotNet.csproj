@@ -41,6 +41,10 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jose-jwt, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.1.9.2\lib\4.0\jose-jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.3.0\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -90,6 +94,10 @@
       <Project>{ec81547e-07e0-457a-9b32-13fa511e62b6}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DotNet.Jose\DotNet.Jose.csproj">
+      <Project>{a53ad808-5e49-4b02-8921-3f02760fc759}</Project>
+      <Name>DotNet.Jose</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DotNet.NLog\DotNet.NLog.csproj">
       <Project>{418ebb6c-6115-4e3b-8f29-0d60344e9da0}</Project>
       <Name>DotNet.NLog</Name>
@@ -115,6 +123,7 @@
     <Compile Include="GuidTests.cs" />
     <Compile Include="HttpResponseMessageExtensionsTests.cs" />
     <Compile Include="InjectionContainerTests.cs" />
+    <Compile Include="JoseTests.cs" />
     <Compile Include="ProtectedXmlTests.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="MediaTests.cs" />
