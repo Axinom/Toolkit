@@ -4,11 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Axinom.Toolkit
 {
@@ -32,9 +29,6 @@ namespace Axinom.Toolkit
 
 			Helpers.Jose.EnsureModernCryptographyIsEnabled();
 
-			// TEMPORARY HACK: jose-jwt does not yet support byte[]; replace when it does
-			var payload = Convert.ToBase64String(data);
-
 			// Part 1: encrypt.
 			var encryptionHeaders = new Dictionary<string, object>
 			{
@@ -43,7 +37,7 @@ namespace Axinom.Toolkit
 				{ "typ", JoseEncryptedType }
 			};
 
-			var encrypted = JWT.Encode(payload, encryptFor.GetRSAPublicKey(), JweAlgorithm.RSA_OAEP, JweEncryption.A256CBC_HS512, extraHeaders: encryptionHeaders);
+			var encrypted = JWT.EncodeBytes(data, encryptFor.GetRSAPublicKey(), JweAlgorithm.RSA_OAEP, JweEncryption.A256CBC_HS512, extraHeaders: encryptionHeaders);
 
 			// Part 2: sign.
 			var signingHeaders = new Dictionary<string, object>
@@ -106,10 +100,7 @@ namespace Axinom.Toolkit
 			if (decryptWith == null)
 				throw new CryptographicException("None of the available decryption keys matched the one used to encrypt the JOSE object.");
 
-			var decrypted = JWT.Decode(encrypted, decryptWith.GetRSAPrivateKey(), JweAlgorithm.RSA_OAEP, JweEncryption.A256CBC_HS512);
-
-			// TEMPORARY HACK: jose-jwt does not yet support byte[]; replace when it does
-			return Convert.FromBase64String(decrypted);
+			return JWT.DecodeBytes(encrypted, decryptWith.GetRSAPrivateKey(), JweAlgorithm.RSA_OAEP, JweEncryption.A256CBC_HS512);
 		}
 
 		private static X509Certificate2 GetCertificateFromJoseHeader(IDictionary<string, object> header)

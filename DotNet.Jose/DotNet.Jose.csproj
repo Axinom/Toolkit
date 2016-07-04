@@ -36,8 +36,8 @@
     <DocumentationFile>bin\Release\Axinom.Toolkit.DotNet.Jose.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jose-jwt, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jose-jwt.1.9.2\lib\4.0\jose-jwt.dll</HintPath>
+    <Reference Include="jose-jwt, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.1.9.3\lib\4.0\jose-jwt.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
