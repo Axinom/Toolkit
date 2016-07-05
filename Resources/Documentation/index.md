@@ -14,7 +14,7 @@ The set of functionality available on each may be slightly different, as determi
 
 # Installation
 
-Install the **Axinom.Toolkit** NuGet package from the Axinom cloud NuGet repository. This contains all the core functionality.
+Install the **Axinom.Toolkit** NuGet package from the Axinom cloud NuGet repository. This contains all the core functionality. Your UWP applications must target at least the minimum SDK version listed in the compatibility section, though the minimum runtime version may be lower.
 
 There also exists a separate **Axinom.Toolkit.NLog** NuGet package that contains the functionaltiy to integrate NLog with the Axinom Toolkit logging channels.
 
