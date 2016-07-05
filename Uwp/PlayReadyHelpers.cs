@@ -128,6 +128,8 @@
 				{
 					try
 					{
+						PlayReadyLog.Debug(Helpers.Debug.ToDebugString(serviceRequest));
+
 						if (serviceRequest is PlayReadyLicenseAcquisitionServiceRequest)
 						{
 							var request = (PlayReadyLicenseAcquisitionServiceRequest)serviceRequest;
@@ -158,8 +160,14 @@
 								throw new EnvironmentException("No license server URL was associated with the PlayReady license request. This generally indicates that the URL is not present in the content header and must be specified manually.");
 							}
 						}
+						else if (serviceRequest is PlayReadyIndividualizationServiceRequest)
+						{
+							// Manual enabling challenge is not supported for this. Just do it automatically.
+							await serviceRequest.BeginServiceRequest().IgnoreContext();
 
-						PlayReadyLog.Debug(Helpers.Debug.ToDebugString(serviceRequest));
+							PlayReadyLog.Debug("PlayReady activation request has been fulfilled.");
+							break;
+						}
 
 						var message = serviceRequest.GenerateManualEnablingChallenge();
 						var requestContent = GetPlayReadyRequestContent(serviceRequest, message, configuration);

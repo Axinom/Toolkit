@@ -1,4 +1,7 @@
-﻿7.1.0
+﻿7.1.1
+	* Fixed defect in PlayReadyLicenseAcquirer that caused reactive PlayReady activation to fail.
+
+7.1.0
 	* Added base64url to/from conversion helpers.
 	* Added ProtectedXml helpers. You can now encrypt&sign and verify&decrypt XmlDocuments with a one-liner helper method. DotNet only, for now.
 	* Added Jose helpers. You can now encrypt&sign and verify&decrypt arbitrary data packaged into JOSE objects with a one-liner helper method. DotNet only, for now. Uses jose-jwt underneath.
