@@ -1,4 +1,7 @@
-﻿7.1.1
+﻿7.1.2
+	* Removed misleading commentary about SDK versions. We target 10240, that's it.
+
+7.1.1
 	* Fixed defect in PlayReadyLicenseAcquirer that caused reactive PlayReady activation to fail.
 
 7.1.0

@@ -8,13 +8,13 @@ This is a pile of fairly arbitrary helper functionality that has proven useful o
 Axinom Toolkit is supported on:
 
 * .NET Framework 4.6
-* Universal Windows Platform (minimum SDK 10586; minimum runtime 10240)
+* Universal Windows Platform (minimum build 10240)
 
 The set of functionality available on each may be slightly different, as determined by platform capabilities.
 
 # Installation
 
-Install the **Axinom.Toolkit** NuGet package from the Axinom cloud NuGet repository. This contains all the core functionality. Your UWP applications must target at least the minimum SDK version listed in the compatibility section, though the minimum runtime version may be lower.
+Install the **Axinom.Toolkit** NuGet package from the Axinom cloud NuGet repository. This contains all the core functionality.
 
 There also exists a separate **Axinom.Toolkit.NLog** NuGet package that contains the functionaltiy to integrate NLog with the Axinom Toolkit logging channels.
 
@@ -182,9 +182,3 @@ The envelope format is custom, as no widely usable general purpose message forma
 # API reference
 
 Refer to the [.NET API reference](api/index.md).
-
-# Common issues
-
-**Detected package downgrade: Microsoft.NETCore.UniversalWindowsPlatform from 5.1.0 to 5.0.0**
-
-Your referenced Windows SDK version is too old. Update project settings to target version 10586.
