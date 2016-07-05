@@ -54,6 +54,7 @@
     <None Include="Documentation\docfx.json" />
     <None Include="Documentation\index.md" />
     <None Include="Documentation\toc.yml" />
+    <None Include="NuGet\Jose.nuspec" />
     <None Include="NuGet\Main.nuspec" />
     <None Include="NuGet\NLog.nuspec" />
     <None Include="NuGet\Package.ps1" />

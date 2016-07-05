@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8">
 		<id>Axinom.Toolkit.NLog</id>
-		<version>7.0.0</version>
+		<version>7.1.0</version>
 		<authors>Axinom</authors>
 		<description>Provides NLog related helper functionaltiy and enables Axinom Toolkit logging output to be sent to NLog loggers.</description>
 		<dependencies>
-			<dependency id="Axinom.Toolkit" version="7.0.0" />
+			<dependency id="Axinom.Toolkit" version="7.1.0" />
 			<dependency id="NLog" version="4.3.0" />
 		</dependencies>
 	</metadata>
