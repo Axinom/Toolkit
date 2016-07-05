@@ -15,11 +15,6 @@
 	/// <summary>
 	/// Converts a string to a specific <see cref="TextCase"/>.
 	/// </summary>
-	/// <example>
-	/// See the converter showcase in the SilverlightSamples project for a full sample. Here is an example of the primary usage.
-	/// <code source="..\SilverlightSamples\ConverterSamples.xaml" lang="xaml" region="Resource definitions" />
-	/// <code source="..\SilverlightSamples\ConverterSamples.xaml" lang="xaml" region="TextCaseConverter" />
-	/// </example>
 	public sealed class TextCaseConverter : IValueConverter
 	{
 		/// <summary>
