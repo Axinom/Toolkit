@@ -51,39 +51,39 @@ namespace Axinom.Toolkit
 		}
 
 		// Types that are just .ToString().
-		private static readonly Type[] TrivialTypes = new[]
+		private static readonly TypeInfo[] TrivialTypes = new[]
 		{
-			typeof(string),
-			typeof(bool),
-			typeof(long),
-			typeof(ulong),
-			typeof(int),
-			typeof(uint),
-			typeof(short),
-			typeof(ushort),
-			typeof(byte),
-			typeof(sbyte),
-			typeof(double),
-			typeof(float),
-			typeof(decimal),
-			typeof(Uri),
-			typeof(TimeSpan),
-			typeof(StringBuilder),
-			typeof(Guid)
+			typeof(string).GetTypeInfo(),
+			typeof(bool).GetTypeInfo(),
+			typeof(long).GetTypeInfo(),
+			typeof(ulong).GetTypeInfo(),
+			typeof(int).GetTypeInfo(),
+			typeof(uint).GetTypeInfo(),
+			typeof(short).GetTypeInfo(),
+			typeof(ushort).GetTypeInfo(),
+			typeof(byte).GetTypeInfo(),
+			typeof(sbyte).GetTypeInfo(),
+			typeof(double).GetTypeInfo(),
+			typeof(float).GetTypeInfo(),
+			typeof(decimal).GetTypeInfo(),
+			typeof(Uri).GetTypeInfo(),
+			typeof(TimeSpan).GetTypeInfo(),
+			typeof(StringBuilder).GetTypeInfo(),
+			typeof(Guid).GetTypeInfo()
 		};
 
 		// Types that have a special ToString() style formatter and do not need to be expanded.
-		private static readonly Type[] SemiTrivialTypes = new[]
+		private static readonly TypeInfo[] SemiTrivialTypes = new[]
 		{
-			typeof(DateTime),
-			typeof(DateTimeOffset),
+			typeof(DateTime).GetTypeInfo(),
+			typeof(DateTimeOffset).GetTypeInfo(),
 		};
 
 		// Trivial types whose derived types are also treated as trivial types.
-		private static readonly Type[] DerivableTrivialTypes = new[]
+		private static readonly TypeInfo[] DerivableTrivialTypes = new[]
 		{
-			typeof(Type),
-			typeof(Enum)
+			typeof(Type).GetTypeInfo(),
+			typeof(Enum).GetTypeInfo()
 		};
 
 		private static void CreateDebugString(object o, StringBuilder s, int depth, IList<object> visitedObjects, int? firstLineDepth = null)
@@ -103,7 +103,7 @@ namespace Axinom.Toolkit
 			Type t = o.GetType();
 			var ti = t.GetTypeInfo();
 
-			if (TrivialTypes.Contains(t) || DerivableTrivialTypes.Any(dtt => dtt.IsAssignableFrom(t)))
+			if (TrivialTypes.Contains(ti) || DerivableTrivialTypes.Any(dtt => dtt.IsAssignableFrom(ti)))
 			{
 				s.AppendFormatWithIndent(IndentString, firstLineDepth.Value, "{0}", o);
 				s.AppendLine();
@@ -156,14 +156,14 @@ namespace Axinom.Toolkit
 			}
 
 			// If Hashtable, do special handling.
-			if (_hashtableType.Value != null && _hashtableType.Value.IsAssignableFrom(t))
+			if (_hashtableTypeInfo.Value != null && _hashtableTypeInfo.Value.IsAssignableFrom(ti))
 			{
 				var collection = (ICollection)o;
 				var entriesToDisplay = collection.Cast<DictionaryEntry>().OrderBy(e => e.Key as string).Take(MaxCollectionItemsToList);
 
 				foreach (var entry in entriesToDisplay)
 				{
-					if (entry.Value == null || TrivialTypes.Contains(entry.Value.GetType()))
+					if (entry.Value == null || TrivialTypes.Contains(entry.Value.GetType().GetTypeInfo()))
 					{
 						s.AppendFormatWithIndent(IndentString, depth, "{0} = {1}", entry.Key, entry.Value);
 						s.AppendLine();
@@ -188,9 +188,27 @@ namespace Axinom.Toolkit
 			}
 
 			// If NameValueCollection, do special handling.
-			if (_nameValueCollectionType.Value != null && _nameValueCollectionType.Value.IsAssignableFrom(t))
+			if (_nameValueCollectionTypeInfo.Value != null && _nameValueCollectionTypeInfo.Value.IsAssignableFrom(ti))
 			{
-				var nvcIndexer = _nameValueCollectionType.Value.GetProperty("Item", typeof(string), new[] { typeof(string) });
+				var nvcIndexer = _nameValueCollectionTypeInfo.Value.DeclaredProperties
+					.Where(pi =>
+					{
+						if (pi.Name != "Item")
+							return false;
+
+						if (pi.PropertyType != typeof(string))
+							return false;
+
+						var parameters = pi.GetIndexParameters();
+						if (parameters.Length != 1)
+							return false;
+
+						if (parameters[0].ParameterType != typeof(string))
+							return false;
+
+						return true;
+					})
+					.Single();
 
 				var collection = (ICollection)o;
 				var entriesToDisplay = collection.Cast<string>().OrderBy(item => item).Take(MaxCollectionItemsToList);
@@ -217,14 +235,14 @@ namespace Axinom.Toolkit
 
 			// If enumerable, do special handling. Strings (IEnumerable<char>) are already taken care of above.
 			// We will just assume they are all of the same type (or at least same kind of type - value/class/etc).
-			if (typeof(IEnumerable).IsAssignableFrom(t))
+			if (typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(ti))
 			{
 				int i = 0;
 				bool needsNewline = false;
 
 				foreach (object item in (IEnumerable)o)
 				{
-					var itemType = item == null ? typeof(object) : item.GetType();
+					var itemTypeInfo = item == null ? typeof(object).GetTypeInfo() : item.GetType().GetTypeInfo();
 
 					if (item is string || item is Uri)
 					{
@@ -232,7 +250,7 @@ namespace Axinom.Toolkit
 						s.AppendFormatWithIndent(IndentString, depth, "{0}", item);
 						s.AppendLine();
 					}
-					else if (TrivialTypes.Contains(itemType))
+					else if (TrivialTypes.Contains(itemTypeInfo))
 					{
 						// These are short so they all go on the same line.
 						needsNewline = true;
@@ -276,15 +294,15 @@ namespace Axinom.Toolkit
 			}
 
 			// All properties. Static before instance. Public only.
-			foreach (var property in t.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
-				.Where(pp => pp.GetGetMethod(true) != null)
-				.Where(pp => pp.GetGetMethod(true).GetParameters().Length == 0)
-				.OrderBy(pp => pp.GetGetMethod(true).IsStatic ? 0 : 1)
+			foreach (var property in t.GetRuntimeProperties()
+				.Where(pp => pp.GetMethod != null && pp.GetMethod.IsPublic)
+				.Where(pp => pp.GetMethod.GetParameters().Length == 0)
+				.OrderBy(pp => pp.GetMethod.IsStatic ? 0 : 1)
 				.ThenBy(pp => pp.Name)
 				.Select(pp => new
 				{
 					property = pp,
-					getter = pp.GetGetMethod(true)
+					getter = pp.GetMethod
 				}))
 			{
 				object val = null;
@@ -300,7 +318,7 @@ namespace Axinom.Toolkit
 					valAsString = ex.GetType().Name + ": " + ex.Message;
 				}
 
-				var expand = val != null && ShouldExpand(val.GetType());
+				var expand = val != null && ShouldExpand(val.GetType().GetTypeInfo());
 
 				// We also do not expand if we are dealing with a struct that has a static member to another
 				// instance of the same struct (e.g. IntPtr.Zero), since that will recurse forever and not be very useful.
@@ -339,7 +357,8 @@ namespace Axinom.Toolkit
 			}
 
 			// All fields. Static before instance. Public only.
-			foreach (var field in t.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
+			foreach (var field in t.GetRuntimeFields()
+				.Where(ff => ff.IsPublic)
 				.OrderBy(ff => ff.IsStatic ? 0 : 1)
 				.ThenBy(ff => ff.Name))
 			{
@@ -356,7 +375,7 @@ namespace Axinom.Toolkit
 					valAsString = ex.GetType().Name + ": " + ex.Message;
 				}
 
-				var expand = val != null && ShouldExpand(val.GetType());
+				var expand = val != null && ShouldExpand(val.GetType().GetTypeInfo());
 
 				// We also do not expand if we are dealing with a struct that has a static member to another
 				// instance of the same struct (e.g. IntPtr.Zero), since that will recurse forever and not be very useful.
@@ -398,11 +417,11 @@ namespace Axinom.Toolkit
 		/// <summary>
 		/// Gets whether a type should be expanded in a debug string.
 		/// </summary>
-		private static bool ShouldExpand(Type type)
+		private static bool ShouldExpand(TypeInfo typeInfo)
 		{
-			return !TrivialTypes.Contains(type)
-			       && !SemiTrivialTypes.Contains(type)
-			       && !DerivableTrivialTypes.Any(dtt => dtt.IsAssignableFrom(type));
+			return !TrivialTypes.Contains(typeInfo)
+				   && !SemiTrivialTypes.Contains(typeInfo)
+				   && !DerivableTrivialTypes.Any(dtt => dtt.IsAssignableFrom(typeInfo));
 		}
 
 		private static StringBuilder AppendFormatWithIndent(this StringBuilder sb, string indentString, int indentLevel, string format, params object[] args)
@@ -414,17 +433,17 @@ namespace Axinom.Toolkit
 		}
 
 		// This is only present on .NET.
-		private static readonly Lazy<Type> _hashtableType = new Lazy<Type>(() => TryLoadTypeAndIgnoreExceptions("System.Collections.Hashtable"));
+		private static readonly Lazy<TypeInfo> _hashtableTypeInfo = new Lazy<TypeInfo>(() => TryLoadTypeInfoAndIgnoreExceptions("System.Collections.Hashtable"));
 		// This is only present on .NET.
-		private static readonly Lazy<Type> _nameValueCollectionType = new Lazy<Type>(() => TryLoadTypeAndIgnoreExceptions("System.Collections.Specialized.NameValueCollection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
+		private static readonly Lazy<TypeInfo> _nameValueCollectionTypeInfo = new Lazy<TypeInfo>(() => TryLoadTypeInfoAndIgnoreExceptions("System.Collections.Specialized.NameValueCollection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
 
-		private static Type TryLoadTypeAndIgnoreExceptions(string name)
+		private static TypeInfo TryLoadTypeInfoAndIgnoreExceptions(string name)
 		{
 			try
 			{
 				// Even if you leave it as the default (null on failure) it can occasionally still throw
 				// exceptions like "Could not load file or assembly 'System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference." which are no fun and ruin the day.
-				return Type.GetType(name);
+				return Type.GetType(name)?.GetTypeInfo();
 			}
 			catch
 			{

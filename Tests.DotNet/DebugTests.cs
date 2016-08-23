@@ -27,9 +27,6 @@
 			public TestClassObject AnotherClassObject { get; set; }
 			public TestStructObject SomeStructObject { get; set; }
 
-			public Hashtable HashtableProperty { get; set; }
-			public NameValueCollection NameValueCollectionProperty { get; set; }
-
 			public string StringField;
 			public int? NullableIntField1;
 			public int? NullableIntField2;
@@ -45,15 +42,6 @@
 				IntArrayProperty = Enumerable.Range(1, 10).ToArray();
 				ByteArrayProperty = Enumerable.Range(1, 10).Select(i => (byte)i).ToArray();
 				StringArrayProperty = Enumerable.Range(1, 10).Select(i => i.ToString()).ToArray();
-
-				HashtableProperty = new Hashtable();
-				HashtableProperty["a"] = "b";
-				HashtableProperty[IntValue] = StringValue;
-
-				NameValueCollectionProperty = new NameValueCollection();
-				NameValueCollectionProperty["a"] = "b";
-				NameValueCollectionProperty[StringValue] = IntValue.ToString();
-
 				StringField = StringValue;
 				NullableIntField1 = IntValue;
 				NullableIntField2 = null;
@@ -63,7 +51,17 @@
 		private struct TestStructObject
 		{
 			public string StringProperty { get; set; }
-			public Hashtable HashtableField;
+			public List<string> StringListProperty { get; set; }
+		}
+
+		private class TestBaseClass
+		{
+			public string BaseString { get; set; }
+		}
+
+		private class TestDerivedClass : TestBaseClass
+		{
+			public string DerivedString { get; set; }
 		}
 
 		[Fact]
@@ -118,12 +116,13 @@
 
 			var s = new TestStructObject()
 			{
-				HashtableField = new Hashtable(),
-				StringProperty = canary1
+				StringProperty = canary1,
+				StringListProperty = new List<string>
+				{
+					"qq",
+					canary2
+				}
 			};
-
-			s.HashtableField["a"] = canary2;
-			s.HashtableField[2] = 3;
 
 			o.SomeStructObject = s;
 
@@ -209,6 +208,25 @@
 			// IntPtr.Zero leads to a new instance.
 			// As long as we have "Zero" only once, we know a second instance was not printed.
 			Assert.Equal(output.IndexOf("Zero"), output.LastIndexOf("Zero"));
+		}
+
+		[Fact]
+		public void ToDebugString_WithDerivedClass_AlsoOutputsBaseClassMembers()
+		{
+			const string baseCanary = "esd4v689skrvtrgir rwor hg reakjh hljfd";
+			const string derivedCanary = "pfnc9tj78fpm8 7l5rosdaaaaaaaa";
+
+			var o = new TestDerivedClass
+			{
+				BaseString = baseCanary,
+				DerivedString = derivedCanary
+			};
+
+			var output = Helpers.Debug.ToDebugString(o);
+			_log.Debug(output);
+
+			Assert.Contains(baseCanary, output);
+			Assert.Contains(derivedCanary, output);
 		}
 
 		private static readonly LogSource _log = Log.Default.CreateChildSource(nameof(DebugTests));

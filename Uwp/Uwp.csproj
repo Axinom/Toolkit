@@ -83,9 +83,9 @@
     <Compile Include="VisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
+    <ProjectReference Include="..\NetStandard\NetStandard.csproj">
       <Project>{ec81547e-07e0-457a-9b32-13fa511e62b6}</Project>
-      <Name>Core</Name>
+      <Name>NetStandard</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

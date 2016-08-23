@@ -93,7 +93,7 @@
 				throw new ArgumentException("Cannot resolve unregistered interface.");
 
 			// Not found in singleton or factory list. Create it.
-			return ResolveDefault(type);
+			return ResolveDefault(typeInfo);
 		}
 
 		/// <summary>
@@ -122,9 +122,9 @@
 		#region Implementation details
 		private readonly InjectionContainer _parent;
 
-		private static ConstructorInfo GetLongestConstructor(Type type)
+		private static ConstructorInfo GetLongestConstructor(TypeInfo typeInfo)
 		{
-			return type.GetConstructors().OrderByDescending(c => c.GetParameters().Length).FirstOrDefault();
+			return typeInfo.DeclaredConstructors.OrderByDescending(c => c.GetParameters().Length).FirstOrDefault();
 		}
 
 		private readonly Dictionary<Type, Func<InjectionContainer, object>> _factories = new Dictionary<Type, Func<InjectionContainer, object>>();
@@ -146,12 +146,12 @@
 			return instance;
 		}
 
-		private object ResolveDefault(Type type)
+		private object ResolveDefault(TypeInfo typeInfo)
 		{
-			var constructor = GetLongestConstructor(type);
+			var constructor = GetLongestConstructor(typeInfo);
 
 			if (constructor == null)
-				throw new ArgumentException(string.Format("Cannot resolve {0}: no public constructor found.", type.FullName), "type");
+				throw new ArgumentException(string.Format("Cannot resolve {0}: no public constructor found.", typeInfo.FullName), nameof(typeInfo));
 
 			var parameterInfo = constructor.GetParameters();
 
@@ -164,7 +164,7 @@
 				var pTypeInfo = pType.GetTypeInfo();
 
 				if (!pTypeInfo.IsClass && !pTypeInfo.IsInterface)
-					throw new ArgumentException(string.Format("Cannot resolve constructor parameter for {0}: {1} is not a class or interface.", type.FullName, pType.FullName));
+					throw new ArgumentException(string.Format("Cannot resolve constructor parameter for {0}: {1} is not a class or interface.", typeInfo.FullName, pType.FullName));
 
 				try
 				{
@@ -172,7 +172,7 @@
 				}
 				catch (Exception ex)
 				{
-					throw new ArgumentException(string.Format("Cannot resolve constructor parameter for {0}: {1}.", type.FullName, pType.FullName), ex);
+					throw new ArgumentException(string.Format("Cannot resolve constructor parameter for {0}: {1}.", typeInfo.FullName, pType.FullName), ex);
 				}
 			}
 

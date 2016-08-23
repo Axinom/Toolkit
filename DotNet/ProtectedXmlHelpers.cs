@@ -31,8 +31,6 @@ namespace Axinom.Toolkit
 			VerifyCertificateIsSaneAndUsable(encryptFor);
 			VerifyCertificateAndPrivateKeyIsSaneAndUsable(signWith);
 
-			RSAPKCS1SHA512SignatureDescription.Register();
-
 			// Part 1: encrypt. Default settings are secure and nice, surprisingly.
 			var encryptor = new EncryptedXml();
 			var encryptedData = encryptor.Encrypt(document.DocumentElement, encryptFor);
@@ -61,7 +59,7 @@ namespace Axinom.Toolkit
 				signedXml.AddReference(whatToSign);
 
 				// A nice strong algorithm without known weaknesses that are easily exploitable.
-				signedXml.SignedInfo.SignatureMethod = RSAPKCS1SHA512SignatureDescription.Name;
+				signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA512Url;
 
 				// Canonical XML 1.0 (omit comments); I suppose it works fine, no deep thoughts about this.
 				signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;
@@ -103,8 +101,6 @@ namespace Axinom.Toolkit
 
 				VerifyCertificateAndPrivateKeyIsSaneAndUsable(certificate);
 			}
-
-			RSAPKCS1SHA512SignatureDescription.Register();
 
 			var namespaces = new XmlNamespaceManager(document.NameTable);
 			namespaces.AddNamespace("ds", XmlDigitalSignatureNamespace);
@@ -237,86 +233,6 @@ namespace Axinom.Toolkit
 				}
 
 				return null;
-			}
-		}
-
-		// EVERYTHING BELOW IS A HORRIBLE HACK FOR .NET 4.6 COMPATIBILITY! Delete it all when upgrading to 4.6.2 or newer!
-
-		/// <summary>
-		/// INTERNAL ONLY - DO NOT USE.
-		/// </summary>
-		public sealed class RSAPKCS1SHA512SignatureDescription : SignatureDescription
-		{
-			public const string Name = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha512";
-
-			/// <summary>
-			/// Registers the http://www.w3.org/2001/04/xmldsig-more#rsa-sha512 algorithm
-			/// with the .NET CrytoConfig registry. This needs to be called once per
-			/// appdomain before attempting to validate SHA512 signatures.
-			/// </summary>
-			public static void Register()
-			{
-				if (CryptoConfig.CreateFromName(Name) == null)
-					CryptoConfig.AddAlgorithm(typeof(RSAPKCS1SHA512SignatureDescription), Name);
-			}
-
-			public RSAPKCS1SHA512SignatureDescription()
-			{
-				KeyAlgorithm = typeof(RSA).FullName;
-				DigestAlgorithm = typeof(SHA512Managed).FullName;
-				FormatterAlgorithm = typeof(CustomRSAPKCS1SignatureFormatter).FullName;
-				DeformatterAlgorithm = typeof(RSAPKCS1SignatureDeformatter).FullName;
-			}
-
-			public override AsymmetricSignatureDeformatter CreateDeformatter(AsymmetricAlgorithm key)
-			{
-				var asymmetricSignatureDeformatter = new RSAPKCS1SignatureDeformatter();
-				asymmetricSignatureDeformatter.SetKey(key);
-				asymmetricSignatureDeformatter.SetHashAlgorithm("SHA512");
-				return asymmetricSignatureDeformatter;
-			}
-
-			public override AsymmetricSignatureFormatter CreateFormatter(AsymmetricAlgorithm key)
-			{
-				var asymmetricSignatureFormatter = new CustomRSAPKCS1SignatureFormatter();
-				asymmetricSignatureFormatter.SetKey(key);
-				asymmetricSignatureFormatter.SetHashAlgorithm("SHA512");
-				return asymmetricSignatureFormatter;
-			}
-		}
-
-		/// <summary>
-		/// INTERNAL ONLY - DO NOT USE.
-		/// </summary>
-		private sealed class CustomRSAPKCS1SignatureFormatter : AsymmetricSignatureFormatter
-		{
-			private RSACng _rsaKey;
-
-			public CustomRSAPKCS1SignatureFormatter() { }
-
-			public CustomRSAPKCS1SignatureFormatter(AsymmetricAlgorithm key)
-			{
-				if (key == null)
-					throw new ArgumentNullException("key");
-
-				_rsaKey = (RSACng)key;
-			}
-
-			public override void SetKey(AsymmetricAlgorithm key)
-			{
-				if (key == null)
-					throw new ArgumentNullException("key");
-
-				_rsaKey = (RSACng)key;
-			}
-
-			public override void SetHashAlgorithm(String strName)
-			{
-			}
-
-			public override byte[] CreateSignature(byte[] rgbHash)
-			{
-				return ((RSACng)_rsaKey).SignHash(rgbHash, HashAlgorithmName.SHA512, RSASignaturePadding.Pkcs1);
 			}
 		}
 	}

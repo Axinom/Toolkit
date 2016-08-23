@@ -106,6 +106,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
+    <None Include="app.config" />
     <None Include="project.json" />
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
@@ -210,9 +211,9 @@
     <EmbeddedResource Include="TestData\Gangster.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
+    <ProjectReference Include="..\NetStandard\NetStandard.csproj">
       <Project>{ec81547e-07e0-457a-9b32-13fa511e62b6}</Project>
-      <Name>Core</Name>
+      <Name>NetStandard</Name>
     </ProjectReference>
     <ProjectReference Include="..\Uwp\Uwp.csproj">
       <Project>{eb002883-d9a4-4791-b69e-4a65a5c6cc0b}</Project>

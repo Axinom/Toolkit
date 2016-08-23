@@ -1,4 +1,9 @@
-﻿7.1.2
+﻿8.0.0
+	* Now targeting .NET Standard 1.4 + .NET Framework 4.6.2 + UWP 10240.
+	* Updated dependencies.
+	* Renamed Core -> NetStandard.
+
+7.1.2
 	* Removed misleading commentary about SDK versions. We target 10240, that's it.
 
 7.1.1

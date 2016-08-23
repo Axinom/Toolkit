@@ -2,10 +2,10 @@
 using System.Runtime.CompilerServices;
 
 // Only use major version here, with others zero, to avoid breaking references.
-[assembly: AssemblyVersion("7.0.0")]
+[assembly: AssemblyVersion("8.0.0")]
 
 // This is the real version, displayed in UI and not used for reference purposes.
-[assembly: AssemblyFileVersion("7.1.2")]
+[assembly: AssemblyFileVersion("8.0.0")]
 
 [assembly: AssemblyCompany("Axinom")]
 [assembly: AssemblyProduct("Axinom Toolkit")]

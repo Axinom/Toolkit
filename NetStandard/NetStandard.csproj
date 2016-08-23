@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Axinom.Toolkit</RootNamespace>
-    <AssemblyName>Axinom.Toolkit.Core</AssemblyName>
+    <AssemblyName>Axinom.Toolkit.NetStandard</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,7 +45,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>bin\Release\Axinom.Toolkit.Core.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Axinom.Toolkit.NetStandard.xml</DocumentationFile>
     <NoWarn>1591;1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
