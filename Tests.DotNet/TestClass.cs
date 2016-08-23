@@ -25,7 +25,19 @@
 
 				// This creates it in the same directory as the tests assembly, atleast using ReSharper and VSTS runners.
 				// The stream is closed when the runner shuts down - we just flush more contents out to disk periodically.
-				var logStream = File.Create("Tests.log");
+				// Note that UWP tests have limited write permissions, so we need to output it to %TEMP%, unfortunately.
+
+				Stream logStream;
+
+				try
+				{
+					logStream = File.Create("Tests.log");
+				}
+				catch (UnauthorizedAccessException)
+				{
+					logStream = File.Create(Path.Combine(Path.GetTempPath(), "Tests.log"));
+				}
+
 				_logWriter = new StreamWriter(logStream);
 				Log.Default.RegisterListener(new StreamWriterLogListener(_logWriter));
 			}

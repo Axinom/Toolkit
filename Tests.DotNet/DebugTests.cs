@@ -200,14 +200,14 @@
 		[Fact]
 		public void ToDebugString_WithStaticStructInstance_DoesNotRecurse()
 		{
-			var o = IntPtr.Zero;
+			var o = Guid.Empty;
 
 			var output = Helpers.Debug.ToDebugString(o);
 			_log.Debug(output);
 
-			// IntPtr.Zero leads to a new instance.
-			// As long as we have "Zero" only once, we know a second instance was not printed.
-			Assert.Equal(output.IndexOf("Zero"), output.LastIndexOf("Zero"));
+			// Guid.Empty leads to a new instance.
+			// As long as we have "Empty" only once, we know a second instance was not printed.
+			Assert.Equal(output.IndexOf("Empty"), output.LastIndexOf("Empty"));
 		}
 
 		[Fact]

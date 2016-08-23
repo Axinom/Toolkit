@@ -1,2 +1,0 @@
-"%~dp0\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe" "%~dp0\Tests.DotNet\bin\Debug\Tests.DotNet.dll"
-"%~dp0\packages\xunit.runner.console.2.1.0\tools\xunit.console.x86.exe" "%~dp0\Tests.Uwp\bin\x86\Debug\Tests.Uwp.exe"
