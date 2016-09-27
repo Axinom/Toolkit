@@ -1,4 +1,7 @@
-﻿8.0.0
+﻿9.0.0
+	* .NET Standard DOES NOT WORK. Exterminated!
+
+8.0.0
 	* Now targeting .NET Standard 1.4 + .NET Framework 4.6.2 + UWP 10240.
 	* Updated dependencies.
 	* Renamed Core -> NetStandard.

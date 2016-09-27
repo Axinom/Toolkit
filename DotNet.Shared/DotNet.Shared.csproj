@@ -2,28 +2,15 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC81547E-07E0-457A-9B32-13FA511E62B6}</ProjectGuid>
+    <ProjectGuid>{E145D8DD-16D7-4C95-9092-14EE282580F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Axinom.Toolkit</RootNamespace>
-    <AssemblyName>Axinom.Toolkit.NetStandard</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <AssemblyName>Axinom.Toolkit.DotNet.Shared</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,39 +32,35 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <DocumentationFile>bin\Release\Axinom.Toolkit.NetStandard.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Axinom.Toolkit.DotNet.Shared.XML</DocumentationFile>
     <NoWarn>1591;1573</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Resources\SolutionAssemblyInfo.cs">
       <Link>Properties\SolutionAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ArgumentHelpers.cs" />
-    <Compile Include="CertificateHelpers.cs" />
-    <Compile Include="CropResult.cs" />
-    <Compile Include="ExtensionsForArray.cs" />
     <Compile Include="AsfHelpers.cs" />
     <Compile Include="AsyncHelpers.cs" />
-    <Compile Include="ExtensionsForGuid.cs" />
-    <Compile Include="ExtensionsForObservableCollection.cs" />
-    <Compile Include="ExtensionsForString.cs" />
-    <Compile Include="ExtensionsForTask.cs" />
-    <Compile Include="Helpers.cs" />
     <Compile Include="ByteOrder.cs" />
+    <Compile Include="CertificateHelpers.cs" />
     <Compile Include="ChildLogSource.cs" />
     <Compile Include="CompletedEventArgs.cs" />
     <Compile Include="CompositedStreamInfo.cs" />
     <Compile Include="CompositingStream.cs" />
     <Compile Include="ContractException.cs" />
     <Compile Include="ConvertHelpers.cs" />
-    <Compile Include="HelpersContainerClasses.cs" />
-    <Compile Include="PlayReadyConstants.cs" />
-    <Compile Include="PlayReadyHelpers.cs" />
-    <Compile Include="StreamWriterLogListener.cs" />
+    <Compile Include="CropResult.cs" />
     <Compile Include="DebugHelpers.cs" />
     <Compile Include="DebugLogListener.cs" />
     <Compile Include="DelegateCommand.cs" />
@@ -86,18 +69,25 @@
     <Compile Include="EnvironmentException.cs" />
     <Compile Include="ErrorEventArgs.cs" />
     <Compile Include="ExceptionPeekingStream.cs" />
+    <Compile Include="ExtensionsForArray.cs" />
     <Compile Include="ExtensionsForBinaryReader.cs" />
     <Compile Include="ExtensionsForDateTimeOffset.cs" />
+    <Compile Include="ExtensionsForGuid.cs" />
+    <Compile Include="ExtensionsForHttpResponseMessage.cs" />
     <Compile Include="ExtensionsForICollection.cs" />
     <Compile Include="ExtensionsForICommand.cs" />
     <Compile Include="ExtensionsForIEnumerable.cs" />
     <Compile Include="ExtensionsForIValidatable.cs" />
+    <Compile Include="ExtensionsForObservableCollection.cs" />
     <Compile Include="ExtensionsForStream.cs" />
+    <Compile Include="ExtensionsForString.cs" />
+    <Compile Include="ExtensionsForTask.cs" />
     <Compile Include="ExtensionsForUri.cs" />
     <Compile Include="FilesystemHelpers.cs" />
     <Compile Include="FilteringLogListener.cs" />
     <Compile Include="GuidHelpers.cs" />
-    <Compile Include="ExtensionsForHttpResponseMessage.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="HelpersContainerClasses.cs" />
     <Compile Include="ILogListener.cs" />
     <Compile Include="InjectionContainer.cs" />
     <Compile Include="IValidatable.cs" />
@@ -109,10 +99,13 @@
     <Compile Include="MultiEndianBinaryReader.cs" />
     <Compile Include="MultiEndianBinaryWriter.cs" />
     <Compile Include="ObservableReadOnlyObservableCollection.cs" />
+    <Compile Include="PlayReadyConstants.cs" />
+    <Compile Include="PlayReadyHelpers.cs" />
     <Compile Include="PositionReportingStream.cs" />
     <Compile Include="QueryString.cs" />
     <Compile Include="RandomHelpers.cs" />
     <Compile Include="SemaphoreLock.cs" />
+    <Compile Include="StreamWriterLogListener.cs" />
     <Compile Include="TemporaryDirectory.cs" />
     <Compile Include="UnreachableCodeException.cs" />
     <Compile Include="ValidationException.cs" />
@@ -124,7 +117,7 @@
     <Compile Include="WmDrmHelpers.cs" />
     <Compile Include="XmlSerializationHelpers.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

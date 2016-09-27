@@ -210,9 +210,9 @@
     <EmbeddedResource Include="TestData\Gangster.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetStandard\NetStandard.csproj">
-      <Project>{ec81547e-07e0-457a-9b32-13fa511e62b6}</Project>
-      <Name>NetStandard</Name>
+    <ProjectReference Include="..\Uwp.Shared\Uwp.Shared.csproj">
+      <Project>{c0303dce-a7e3-4acc-b11c-b05f149e37e7}</Project>
+      <Name>Uwp.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\Uwp\Uwp.csproj">
       <Project>{eb002883-d9a4-4791-b69e-4a65a5c6cc0b}</Project>

@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8">
 		<id>Axinom.Toolkit.Jose</id>
-		<version>8.0.0</version>
+		<version>9.0.0</version>
 		<authors>Axinom</authors>
 		<description>Provides helper functionaltiy for working with encrypted and signed data formatted as JOSE objects.</description>
 		<dependencies>
-			<dependency id="Axinom.Toolkit" version="8.0.0" />
+			<dependency id="Axinom.Toolkit" version="9.0.0" />
 			<dependency id="jose-jwt" version="2.0.1" />
 		</dependencies>
 	</metadata>

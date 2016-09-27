@@ -2,27 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8">
 		<id>Axinom.Toolkit</id>
-		<version>8.0.0</version>
+		<version>9.0.0</version>
 		<authors>Axinom</authors>
 		<description>Universally useful helper classes and controls for .NET development.</description>
 		<dependencies>
-			<group>
-				<dependency id="NETStandard.Library" version="1.6.0" />
-				<dependency id="System.Xml.XmlSerializer" version="4.0.11" />
-			</group>
-			
 			<group targetFramework="uap10.0">
 				<dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2" />
 			</group>
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="..\..\NetStandard\bin\release\Axinom.Toolkit.NetStandard.*" target="lib\netstandard14" />
-		
-		<file src="..\..\NetStandard\bin\release\Axinom.Toolkit.NetStandard.*" target="lib\net462" />
+		<!-- .Shared is already included by wildcard. -->
 		<file src="..\..\DotNet\bin\release\Axinom.Toolkit.DotNet.*" target="lib\net462" />
 
-		<file src="..\..\NetStandard\bin\release\Axinom.Toolkit.NetStandard.*" target="lib\uap10.0" />
+		<!-- .Shared is already included by wildcard. -->
 		<file src="..\..\Uwp\bin\release\Axinom.Toolkit.Uwp.*" target="lib\uap10.0" />
 		<file src="..\..\Uwp\bin\release\Axinom.Toolkit.Uwp\**" target="lib\uap10.0\Axinom.Toolkit.Uwp" />
 	</files>

@@ -7,7 +7,6 @@ This is a pile of fairly arbitrary helper functionality that has proven useful o
 
 Axinom Toolkit is supported on:
 
-* .NET Standard 1.4
 * .NET Framework 4.6.2
 * Universal Windows Platform (minimum build 10240)
 

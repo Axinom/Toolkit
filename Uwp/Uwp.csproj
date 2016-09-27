@@ -83,16 +83,16 @@
     <Compile Include="VisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetStandard\NetStandard.csproj">
-      <Project>{ec81547e-07e0-457a-9b32-13fa511e62b6}</Project>
-      <Name>NetStandard</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Uwp.Shared\Uwp.Shared.csproj">
+      <Project>{c0303dce-a7e3-4acc-b11c-b05f149e37e7}</Project>
+      <Name>Uwp.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C0303DCE-A7E3-4ACC-B11C-B05F149E37E7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Axinom.Toolkit</RootNamespace>
+    <AssemblyName>Axinom.Toolkit.Uwp.Shared</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <DocumentationFile>bin\Release\Axinom.Toolkit.Uwp.Shared.XML</DocumentationFile>
+    <NoWarn>1591;1573</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Uwp.Shared.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\DotNet.Shared\ArgumentHelpers.cs">
+      <Link>ArgumentHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\AsfHelpers.cs">
+      <Link>AsfHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\AsyncHelpers.cs">
+      <Link>AsyncHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ByteOrder.cs">
+      <Link>ByteOrder.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\CertificateHelpers.cs">
+      <Link>CertificateHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ChildLogSource.cs">
+      <Link>ChildLogSource.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\CompletedEventArgs.cs">
+      <Link>CompletedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\CompositedStreamInfo.cs">
+      <Link>CompositedStreamInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\CompositingStream.cs">
+      <Link>CompositingStream.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ContractException.cs">
+      <Link>ContractException.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ConvertHelpers.cs">
+      <Link>ConvertHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\CropResult.cs">
+      <Link>CropResult.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\DebugHelpers.cs">
+      <Link>DebugHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\DebugLogListener.cs">
+      <Link>DebugLogListener.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\DelegateCommand.cs">
+      <Link>DelegateCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\DurationLogger.cs">
+      <Link>DurationLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\EmbeddedPackage.cs">
+      <Link>EmbeddedPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\EnvironmentException.cs">
+      <Link>EnvironmentException.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ErrorEventArgs.cs">
+      <Link>ErrorEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExceptionPeekingStream.cs">
+      <Link>ExceptionPeekingStream.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForArray.cs">
+      <Link>ExtensionsForArray.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForBinaryReader.cs">
+      <Link>ExtensionsForBinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForDateTimeOffset.cs">
+      <Link>ExtensionsForDateTimeOffset.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForGuid.cs">
+      <Link>ExtensionsForGuid.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForHttpResponseMessage.cs">
+      <Link>ExtensionsForHttpResponseMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForICollection.cs">
+      <Link>ExtensionsForICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForICommand.cs">
+      <Link>ExtensionsForICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForIEnumerable.cs">
+      <Link>ExtensionsForIEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForIValidatable.cs">
+      <Link>ExtensionsForIValidatable.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForObservableCollection.cs">
+      <Link>ExtensionsForObservableCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForStream.cs">
+      <Link>ExtensionsForStream.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForString.cs">
+      <Link>ExtensionsForString.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForTask.cs">
+      <Link>ExtensionsForTask.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ExtensionsForUri.cs">
+      <Link>ExtensionsForUri.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\FilesystemHelpers.cs">
+      <Link>FilesystemHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\FilteringLogListener.cs">
+      <Link>FilteringLogListener.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\GuidHelpers.cs">
+      <Link>GuidHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\Helpers.cs">
+      <Link>Helpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\HelpersContainerClasses.cs">
+      <Link>HelpersContainerClasses.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ILogListener.cs">
+      <Link>ILogListener.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\InjectionContainer.cs">
+      <Link>InjectionContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\IValidatable.cs">
+      <Link>IValidatable.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\Log.cs">
+      <Link>Log.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\LogEntry.cs">
+      <Link>LogEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\LogEntrySeverity.cs">
+      <Link>LogEntrySeverity.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\LogSource.cs">
+      <Link>LogSource.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\MediaHelpers.cs">
+      <Link>MediaHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\MultiEndianBinaryReader.cs">
+      <Link>MultiEndianBinaryReader.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\MultiEndianBinaryWriter.cs">
+      <Link>MultiEndianBinaryWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ObservableReadOnlyObservableCollection.cs">
+      <Link>ObservableReadOnlyObservableCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\PlayReadyConstants.cs">
+      <Link>PlayReadyConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\PlayReadyHelpers.cs">
+      <Link>PlayReadyHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\PositionReportingStream.cs">
+      <Link>PositionReportingStream.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\QueryString.cs">
+      <Link>QueryString.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\RandomHelpers.cs">
+      <Link>RandomHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\SemaphoreLock.cs">
+      <Link>SemaphoreLock.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\StreamWriterLogListener.cs">
+      <Link>StreamWriterLogListener.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\TemporaryDirectory.cs">
+      <Link>TemporaryDirectory.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\UnreachableCodeException.cs">
+      <Link>UnreachableCodeException.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\ValidationException.cs">
+      <Link>ValidationException.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\WeakContainer.cs">
+      <Link>WeakContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\WeakEventListener.cs">
+      <Link>WeakEventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\WebPathHelpers.cs">
+      <Link>WebPathHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\WidevineHelpers.cs">
+      <Link>WidevineHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\Wildcard.cs">
+      <Link>Wildcard.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\WmDrmHelpers.cs">
+      <Link>WmDrmHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\DotNet.Shared\XmlSerializationHelpers.cs">
+      <Link>XmlSerializationHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\Resources\SolutionAssemblyInfo.cs">
+      <Link>Properties\SolutionAssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
