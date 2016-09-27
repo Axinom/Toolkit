@@ -4,13 +4,13 @@
       "src": [
         {
 		  "cwd": "../..",
-          "files": [
-            "Core/Core.csproj",
-			"DotNet/DotNet.csproj",
-			"DotNet.NLog/DotNet.NLog.csproj",
-			"DotNet.Jose/DotNet.Jose.csproj",
-			"Uwp/Uwp.csproj"
-          ]
+			"files": [
+				"DotNet/DotNet.csproj",
+				"DotNet.Shared/DotNet.Shared.csproj",
+				"DotNet.NLog/DotNet.NLog.csproj",
+				"DotNet.Jose/DotNet.Jose.csproj",
+				"Uwp/Uwp.csproj"
+			]
         }
       ],
       "dest": "api"
