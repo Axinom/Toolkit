@@ -109,5 +109,10 @@
 				}
 			}
 		}
+
+		internal override void Write(LogEntrySeverity severity, string originalSource, FormattableString message)
+		{
+			Write(severity, originalSource, message.ToString());
+		}
 	}
 }

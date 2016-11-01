@@ -20,13 +20,12 @@
 			_parent = parent;
 		}
 
-		internal override void Write(LogEntrySeverity severity, string originalSource, string message, params object[] args)
-		{
-			// This event might be coming from a child log or this one. If this one, it does not yet have the source name in there.
-			// Prefix original source with current source name or just take current source name if there is no original.
-			var source = originalSource == null ? _name : _name + "/" + originalSource;
+		internal override void Write(LogEntrySeverity severity, string originalSource, string message, params object[] args) => _parent.Write(severity, FormatSourceString(originalSource), message, args);
 
-			_parent.Write(severity, source, message, args);
-		}
+		internal override void Write(LogEntrySeverity severity, string originalSource, FormattableString message) => _parent.Write(severity, FormatSourceString(originalSource), message);
+
+		// This event might be coming from a child log or this one. If this one, it does not yet have the source name in there.
+		// Prefix original source with current source name or just take current source name if there is no original.
+		private string FormatSourceString(string originalSource) => originalSource == null ? _name : _name + "/" + originalSource;
 	}
 }

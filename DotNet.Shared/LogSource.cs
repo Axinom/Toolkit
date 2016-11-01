@@ -50,9 +50,39 @@
 			Write(LogEntrySeverity.Wtf, null, message, args);
 		}
 
+		public void Debug(FormattableString message)
+		{
+			Write(LogEntrySeverity.Debug, null, message);
+		}
+
+		public void Info(FormattableString message)
+		{
+			Write(LogEntrySeverity.Info, null, message);
+		}
+
+		public void Warning(FormattableString message)
+		{
+			Write(LogEntrySeverity.Warning, null, message);
+		}
+
+		public void Error(FormattableString message)
+		{
+			Write(LogEntrySeverity.Error, null, message);
+		}
+
+		public void Wtf(FormattableString message)
+		{
+			Write(LogEntrySeverity.Wtf, null, message);
+		}
+
 		/// <summary>
 		/// Called when this log source or a child log source has a log entry to write out into the log.
 		/// </summary>
 		internal abstract void Write(LogEntrySeverity severity, string originalSource, string message, params object[] args);
+
+		/// <summary>
+		/// Called when this log source or a child log source has a log entry to write out into the log.
+		/// </summary>
+		internal abstract void Write(LogEntrySeverity severity, string originalSource, FormattableString message);
 	}
 }
