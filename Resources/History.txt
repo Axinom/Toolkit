@@ -1,4 +1,6 @@
-﻿9.0.0
+﻿	* SemaphoreLock now has overloads with CancellationToken.
+
+9.0.0
 	* .NET Standard DOES NOT WORK. Exterminated!
 
 8.0.0

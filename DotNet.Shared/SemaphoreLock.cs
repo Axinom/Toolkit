@@ -14,7 +14,7 @@
 	{
 		public static SemaphoreLock Take(SemaphoreSlim semaphore)
 		{
-			Helpers.Argument.ValidateIsNotNull(semaphore, "semaphore");
+			Helpers.Argument.ValidateIsNotNull(semaphore, nameof(semaphore));
 
 			semaphore.Wait();
 
@@ -23,16 +23,34 @@
 
 		public static async Task<SemaphoreLock> TakeAsync(SemaphoreSlim semaphore)
 		{
-			Helpers.Argument.ValidateIsNotNull(semaphore, "semaphore");
+			Helpers.Argument.ValidateIsNotNull(semaphore, nameof(semaphore));
 
 			await semaphore.WaitAsync().IgnoreContext();
 
 			return new SemaphoreLock(semaphore);
 		}
 
+		public static SemaphoreLock Take(SemaphoreSlim semaphore, CancellationToken cancel)
+		{
+			Helpers.Argument.ValidateIsNotNull(semaphore, nameof(semaphore));
+
+			semaphore.Wait(cancel);
+
+			return new SemaphoreLock(semaphore);
+		}
+
+		public static async Task<SemaphoreLock> TakeAsync(SemaphoreSlim semaphore, CancellationToken cancel)
+		{
+			Helpers.Argument.ValidateIsNotNull(semaphore, nameof(semaphore));
+
+			await semaphore.WaitAsync(cancel).IgnoreContext();
+
+			return new SemaphoreLock(semaphore);
+		}
+
 		public static SemaphoreLock TryTake(SemaphoreSlim semaphore, TimeSpan timeout)
 		{
-			Helpers.Argument.ValidateIsNotNull(semaphore, "semaphore");
+			Helpers.Argument.ValidateIsNotNull(semaphore, nameof(semaphore));
 
 			if (semaphore.Wait(timeout))
 				return new SemaphoreLock(semaphore);
@@ -42,7 +60,7 @@
 
 		public static async Task<SemaphoreLock> TryTakeAsync(SemaphoreSlim semaphore, TimeSpan timeout)
 		{
-			Helpers.Argument.ValidateIsNotNull(semaphore, "semaphore");
+			Helpers.Argument.ValidateIsNotNull(semaphore, nameof(semaphore));
 
 			if (await semaphore.WaitAsync(timeout).IgnoreContext())
 				return new SemaphoreLock(semaphore);
