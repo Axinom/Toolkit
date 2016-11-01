@@ -108,6 +108,7 @@
     <Compile Include="SemaphoreLock.cs" />
     <Compile Include="StreamWriterLogListener.cs" />
     <Compile Include="TemporaryDirectory.cs" />
+    <Compile Include="TimeoutHelpers.cs" />
     <Compile Include="UnreachableCodeException.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="WeakContainer.cs" />

@@ -295,6 +295,9 @@
     <Compile Include="..\DotNet.Shared\TemporaryDirectory.cs">
       <Link>TemporaryDirectory.cs</Link>
     </Compile>
+    <Compile Include="..\DotNet.Shared\TimeoutHelpers.cs">
+      <Link>TimeoutHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\DotNet.Shared\UnreachableCodeException.cs">
       <Link>UnreachableCodeException.cs</Link>
     </Compile>

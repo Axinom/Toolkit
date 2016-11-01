@@ -167,6 +167,9 @@
     <Compile Include="..\Tests.DotNet\TestClass.cs">
       <Link>TestClass.cs</Link>
     </Compile>
+    <Compile Include="..\Tests.DotNet\TimeoutHelperTests.cs">
+      <Link>TimeoutHelperTests.cs</Link>
+    </Compile>
     <Compile Include="..\Tests.DotNet\WeakContainerTests.cs">
       <Link>WeakContainerTests.cs</Link>
     </Compile>

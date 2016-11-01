@@ -89,6 +89,10 @@
 		{
 		}
 
+		public sealed class Timeout
+		{
+		}
+
 		public sealed class Type
 		{
 		}

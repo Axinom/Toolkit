@@ -34,6 +34,7 @@
 		public static readonly HelpersContainerClasses.ProtectedXml ProtectedXml = new HelpersContainerClasses.ProtectedXml();
 		public static readonly HelpersContainerClasses.Random Random = new HelpersContainerClasses.Random();
 		public static readonly HelpersContainerClasses.Struct Struct = new HelpersContainerClasses.Struct();
+		public static readonly HelpersContainerClasses.Timeout Timeout = new HelpersContainerClasses.Timeout();
 		public static readonly HelpersContainerClasses.Type Type = new HelpersContainerClasses.Type();
 		public static readonly HelpersContainerClasses.WebPath WebPath = new HelpersContainerClasses.WebPath();
 		public static readonly HelpersContainerClasses.Widevine Widevine = new HelpersContainerClasses.Widevine();

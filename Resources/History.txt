@@ -1,5 +1,6 @@
 ﻿	* SemaphoreLock now has overloads with CancellationToken.
 	* Added DelegatingLogListener.
+	* Added Helpers.Timeout.GetCancellationToken() for easy creation of finite cancellation tokens.
 
 9.0.0
 	* .NET Standard DOES NOT WORK. Exterminated!

@@ -125,6 +125,7 @@
     <Compile Include="NLogListenerTests.cs" />
     <Compile Include="QueryStringTests.cs" />
     <Compile Include="SemaphoreLockTests.cs" />
+    <Compile Include="TimeoutHelperTests.cs" />
     <Compile Include="XmlSerializationTests.cs" />
     <Compile Include="StructTests.cs" />
     <Compile Include="TemporaryDirectoryTests.cs" />
