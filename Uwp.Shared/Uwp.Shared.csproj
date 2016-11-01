@@ -163,6 +163,9 @@
     <Compile Include="..\DotNet.Shared\DelegateCommand.cs">
       <Link>DelegateCommand.cs</Link>
     </Compile>
+    <Compile Include="..\DotNet.Shared\DelegatingLogListener.cs">
+      <Link>DelegatingLogListener.cs</Link>
+    </Compile>
     <Compile Include="..\DotNet.Shared\DurationLogger.cs">
       <Link>DurationLogger.cs</Link>
     </Compile>

@@ -64,6 +64,7 @@
     <Compile Include="DebugHelpers.cs" />
     <Compile Include="DebugLogListener.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="DelegatingLogListener.cs" />
     <Compile Include="DurationLogger.cs" />
     <Compile Include="EmbeddedPackage.cs" />
     <Compile Include="EnvironmentException.cs" />

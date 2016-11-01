@@ -1,4 +1,5 @@
 ﻿	* SemaphoreLock now has overloads with CancellationToken.
+	* Added DelegatingLogListener.
 
 9.0.0
 	* .NET Standard DOES NOT WORK. Exterminated!
