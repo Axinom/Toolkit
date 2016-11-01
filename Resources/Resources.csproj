@@ -48,32 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Documentation\.gitignore" />
-    <None Include="Documentation\api\.gitignore" />
-    <None Include="Documentation\api\index.md" />
-    <None Include="Documentation\docfx.json" />
-    <None Include="Documentation\index.md" />
-    <None Include="Documentation\toc.yml" />
-    <None Include="NuGet\Jose.nuspec" />
-    <None Include="NuGet\Main.nuspec" />
-    <None Include="NuGet\NLog.nuspec" />
-    <None Include="NuGet\Package.ps1" />
-    <None Include="NuGet\Publish.ps1" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Docfx\CommandLine.dll" />
     <None Include="Docfx\docfx.exe" />
+    <None Include="Docfx\docfx.exe.config" />
     <None Include="Docfx\DotLiquid.dll" />
     <None Include="Docfx\GitSharp.Core.dll" />
     <None Include="Docfx\GitSharp.dll" />
     <None Include="Docfx\HtmlAgilityPack.dll" />
     <None Include="Docfx\ICSharpCode.SharpZipLib.dll" />
     <None Include="Docfx\Jint.dll" />
-    <None Include="Docfx\Microsoft.Build.dll" />
-    <None Include="Docfx\Microsoft.Build.Engine.dll" />
-    <None Include="Docfx\Microsoft.Build.Framework.dll" />
-    <None Include="Docfx\Microsoft.Build.Tasks.Core.dll" />
-    <None Include="Docfx\Microsoft.Build.Utilities.Core.dll" />
     <None Include="Docfx\Microsoft.CodeAnalysis.CSharp.dll" />
     <None Include="Docfx\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" />
     <None Include="Docfx\Microsoft.CodeAnalysis.dll" />
@@ -83,7 +66,6 @@
     <None Include="Docfx\Microsoft.CodeAnalysis.Workspaces.dll" />
     <None Include="Docfx\Microsoft.DocAsCode.Common.dll" />
     <None Include="Docfx\Microsoft.DocAsCode.Dfm.dll" />
-    <None Include="Docfx\Microsoft.DocAsCode.EntityModel.dll" />
     <None Include="Docfx\Microsoft.DocAsCode.Glob.dll" />
     <None Include="Docfx\Microsoft.DocAsCode.MarkdownLite.dll" />
     <None Include="Docfx\Microsoft.DocAsCode.Plugins.dll" />
@@ -107,6 +89,52 @@
     <None Include="Docfx\Tamir.SharpSSH.dll" />
     <None Include="Docfx\Winterdom.IO.FileMap.dll" />
     <None Include="Docfx\YamlDotNet.dll" />
+    <None Include="Documentation\.gitignore" />
+    <None Include="Documentation\api\.gitignore" />
+    <None Include="Documentation\api\index.md" />
+    <None Include="Documentation\docfx.json" />
+    <None Include="Documentation\index.md" />
+    <None Include="Documentation\toc.yml" />
+    <None Include="NuGet\Jose.nuspec" />
+    <None Include="NuGet\Main.nuspec" />
+    <None Include="NuGet\NLog.nuspec" />
+    <None Include="NuGet\Package.ps1" />
+    <None Include="NuGet\Publish.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Docfx\Microsoft.DocAsCode.Build.Common.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.Build.ConceptualDocuments.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.Build.Engine.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.Build.ManagedReference.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.Build.ResourceFiles.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.Build.RestApi.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.Build.TableOfContents.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.DataContracts.Common.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.DataContracts.ManagedReference.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.DataContracts.RestApi.dll" />
+    <Content Include="Docfx\Microsoft.DocAsCode.Metadata.ManagedReference.dll" />
+    <Content Include="Docfx\Microsoft.DotNet.Cli.Utils.dll" />
+    <Content Include="Docfx\Microsoft.DotNet.Compiler.Common.dll" />
+    <Content Include="Docfx\Microsoft.DotNet.Files.dll" />
+    <Content Include="Docfx\Microsoft.DotNet.InternalAbstractions.dll" />
+    <Content Include="Docfx\Microsoft.DotNet.ProjectModel.dll" />
+    <Content Include="Docfx\Microsoft.DotNet.ProjectModel.Workspaces.dll" />
+    <Content Include="Docfx\Microsoft.Extensions.DependencyModel.dll" />
+    <Content Include="Docfx\Microsoft.Owin.Diagnostics.dll" />
+    <Content Include="Docfx\NuGet.Common.dll" />
+    <Content Include="Docfx\NuGet.Configuration.dll" />
+    <Content Include="Docfx\NuGet.DependencyResolver.Core.dll" />
+    <Content Include="Docfx\NuGet.Frameworks.dll" />
+    <Content Include="Docfx\NuGet.LibraryModel.dll" />
+    <Content Include="Docfx\NuGet.Packaging.Core.dll" />
+    <Content Include="Docfx\NuGet.Packaging.Core.Types.dll" />
+    <Content Include="Docfx\NuGet.Packaging.dll" />
+    <Content Include="Docfx\NuGet.ProjectModel.dll" />
+    <Content Include="Docfx\NuGet.Protocol.Core.Types.dll" />
+    <Content Include="Docfx\NuGet.Protocol.Core.v3.dll" />
+    <Content Include="Docfx\NuGet.Repositories.dll" />
+    <Content Include="Docfx\NuGet.RuntimeModel.dll" />
+    <Content Include="Docfx\NuGet.Versioning.dll" />
     <Content Include="History.txt" />
     <Content Include="NuGet\NuGet.exe" />
     <Content Include="Readme.txt" />
