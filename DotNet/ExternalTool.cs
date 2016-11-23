@@ -76,6 +76,12 @@
 		public Action<Stream> StandardInputProvider { get; set; }
 
 		/// <summary>
+		/// If set, any strings in this collection are censored in log output (though not stdout/stderr).
+		/// Useful if you pass credentials on the command line.
+		/// </summary>
+		public IReadOnlyCollection<string> CensoredStrings { get; set; }
+
+		/// <summary>
 		/// Starts a new instance of the external tool. Use this if you want more detailed control over the process
 		/// e.g. the ability to terminate it or to inspect the running process. Otherwise, just use the synchronous Execute().
 		/// </summary>
@@ -158,6 +164,8 @@
 				return _result;
 			}
 
+			private IReadOnlyCollection<string> _censoredStrings;
+
 			private Action<Stream> _standardOutputConsumer;
 			private Action<Stream> _standardInputProvider;
 			private Action<Stream> _standardErrorConsumer;
@@ -207,6 +215,8 @@
 				_standardInputProvider = template.StandardInputProvider;
 				_standardOutputConsumer = template.StandardOutputConsumer;
 				_standardErrorConsumer = template.StandardErrorConsumer;
+
+				_censoredStrings = template.CensoredStrings;
 			}
 
 			/// <summary>
@@ -279,7 +289,16 @@
 				if (Process != null)
 					throw new InvalidOperationException("The instance has already been started.");
 
-				_log.Debug("Executing: \"{0}\" {1}", ExecutablePath, Arguments);
+				// We may need to censor the log line!
+				var censoredArgs = Arguments;
+
+				if (_censoredStrings?.Count > 0)
+				{
+					foreach (var censoredString in _censoredStrings)
+						censoredArgs = censoredArgs.Replace(censoredString, "*********");
+				}
+
+				_log.Debug("Executing: \"{0}\" {1}", ExecutablePath, censoredArgs);
 
 				StreamWriter outputFileWriter = null;
 

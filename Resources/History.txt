@@ -1,4 +1,6 @@
-﻿9.1.0
+﻿	* ExternalTool now supports censoring sensitive command line arguments.
+
+9.1.0
 	* SemaphoreLock now has overloads with CancellationToken.
 	* Added DelegatingLogListener.
 	* Added Helpers.Timeout.GetCancellationToken() for easy creation of finite cancellation tokens.
