@@ -136,6 +136,7 @@
 
 			public string ExecutablePath { get; private set; }
 			public string Arguments { get; private set; }
+			public string CensoredArguments { get; private set; }
 			public IReadOnlyDictionary<string, string> EnvironmentVariables { get; private set; }
 			public string WorkingDirectory { get; private set; }
 			public string OutputFilePath { get; private set; }
@@ -163,8 +164,6 @@
 
 				return _result;
 			}
-
-			private IReadOnlyCollection<string> _censoredStrings;
 
 			private Action<Stream> _standardOutputConsumer;
 			private Action<Stream> _standardInputProvider;
@@ -216,7 +215,14 @@
 				_standardOutputConsumer = template.StandardOutputConsumer;
 				_standardErrorConsumer = template.StandardErrorConsumer;
 
-				_censoredStrings = template.CensoredStrings;
+				// We may need to censor the log line!
+				CensoredArguments = Arguments;
+
+				if (template.CensoredStrings?.Count > 0)
+				{
+					foreach (var censoredString in template.CensoredStrings)
+						CensoredArguments = CensoredArguments.Replace(censoredString, "*********");
+				}
 			}
 
 			/// <summary>
@@ -289,16 +295,7 @@
 				if (Process != null)
 					throw new InvalidOperationException("The instance has already been started.");
 
-				// We may need to censor the log line!
-				var censoredArgs = Arguments;
-
-				if (_censoredStrings?.Count > 0)
-				{
-					foreach (var censoredString in _censoredStrings)
-						censoredArgs = censoredArgs.Replace(censoredString, "*********");
-				}
-
-				_log.Debug("Executing: \"{0}\" {1}", ExecutablePath, censoredArgs);
+				_log.Debug("Executing: \"{0}\" {1}", ExecutablePath, CensoredArguments);
 
 				StreamWriter outputFileWriter = null;
 

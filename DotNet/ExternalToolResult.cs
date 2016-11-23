@@ -69,7 +69,7 @@
 				var detailsSource = (!string.IsNullOrWhiteSpace(StandardError) ? StandardError : StandardOutput) ?? "";
 				var details = detailsSource.Substring(0, Math.Min(detailsSource.Length, 1024));
 
-				throw new EnvironmentException($"External tool failure detected! Command: \"{Instance.ExecutablePath}\" {Instance.Arguments}; Exit code: {ExitCode}; Runtime: {Duration.TotalSeconds:F2}s. Head of output: {details}");
+				throw new EnvironmentException($"External tool failure detected! Command: \"{Instance.ExecutablePath}\" {Instance.CensoredArguments}; Exit code: {ExitCode}; Runtime: {Duration.TotalSeconds:F2}s. Head of output: {details}");
 			}
 		}
 
