@@ -38,7 +38,6 @@
 
 				if (Succeeded)
 				{
-					_log.Debug("Treating stderr as stdout since result heuristics did not consider the result a failure.");
 					_log.Debug(StandardError);
 				}
 				else
@@ -53,8 +52,6 @@
 		/// </summary>
 		public void Consume()
 		{
-			_log.Debug("Processing output of \"{0}\" {1}", Instance.ExecutablePath, Instance.Arguments);
-
 			ForwardOutputs();
 			VerifySuccess();
 
