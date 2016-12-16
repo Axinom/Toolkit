@@ -1,4 +1,7 @@
-﻿9.2.0
+﻿9.2.2
+	* Censored strings for ExternalTool that are empty are now ignored.
+
+9.2.0
 	* ExternalTool now supports censoring sensitive command line arguments.
 
 9.1.0

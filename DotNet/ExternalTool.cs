@@ -221,7 +221,12 @@
 				if (template.CensoredStrings?.Count > 0)
 				{
 					foreach (var censoredString in template.CensoredStrings)
+					{
+						if (string.IsNullOrWhiteSpace(censoredString))
+							continue;
+
 						CensoredArguments = CensoredArguments.Replace(censoredString, "*********");
+					}
 				}
 			}
 
