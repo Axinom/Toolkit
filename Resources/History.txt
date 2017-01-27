@@ -1,4 +1,7 @@
-﻿9.3.0
+﻿9.3.1
+	* Removed extraneous newlines from GetAllExceptionMessages.
+
+9.3.0
 	* Added Helpers.Debug.GetAllExceptionMessages to dump all messages of exceptions, including inner exceptions.
 
 9.2.2

@@ -11,6 +11,7 @@
 
 	public sealed class DebugTests : TestClass
 	{
+		[Fact]
 		public void GetAllExceptionMessages_DoesWhatItSays()
 		{
 			const string canary1 = "dvgrb4si";
@@ -26,6 +27,14 @@
 			Assert.Contains(canary1, messages);
 			Assert.Contains(canary2, messages);
 			Assert.Contains(canary3, messages);
+		}
+
+		[Fact]
+		public void GetAllExceptionMessages_WithOneMessage_HasNoNewlines()
+		{
+			var message = Helpers.Debug.GetAllExceptionMessages(new Exception("asdf"));
+
+			Assert.DoesNotContain(Environment.NewLine, message);
 		}
 
 		private const string StringValue = "et6ujhaeõ'54a";

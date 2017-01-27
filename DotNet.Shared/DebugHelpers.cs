@@ -17,15 +17,15 @@ namespace Axinom.Toolkit
 		/// </summary>
 		public static string GetAllExceptionMessages(this HelpersContainerClasses.Debug container, Exception ex)
 		{
-			var sb = new StringBuilder();
+			var messages = new List<string>();
 
 			while (ex != null)
 			{
-				sb.AppendLine(ex.Message);
+				messages.Add(ex.Message);
 				ex = ex.InnerException;
 			}
 
-			return sb.ToString();
+			return string.Join(Environment.NewLine, messages);
 		}
 
 		/// <summary>
