@@ -1,4 +1,7 @@
-﻿9.2.2
+﻿9.3.0
+	* Added Helpers.Debug.GetAllExceptionMessages to dump all messages of exceptions, including inner exceptions.
+
+9.2.2
 	* Censored strings for ExternalTool that are empty are now ignored.
 
 9.2.0

@@ -10,6 +10,25 @@ namespace Axinom.Toolkit
 	public static partial class CoreHelpers
 	{
 		/// <summary>
+		/// Gets the Message properties of an exception and all its inner exceptions.
+		/// 
+		/// Useful if you have top-level exceptions with pointless generic messages but also want to see deeper
+		/// without spamming out the entire call stack information for every exception.
+		/// </summary>
+		public static string GetAllExceptionMessages(this HelpersContainerClasses.Debug container, Exception ex)
+		{
+			var sb = new StringBuilder();
+
+			while (ex != null)
+			{
+				sb.AppendLine(ex.Message);
+				ex = ex.InnerException;
+			}
+
+			return sb.ToString();
+		}
+
+		/// <summary>
 		/// How deep to go in the object hierarchy when creating a debug string for an object.
 		/// </summary>
 		private const int MaxDebugStringDepth = 4;

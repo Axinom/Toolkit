@@ -11,6 +11,23 @@
 
 	public sealed class DebugTests : TestClass
 	{
+		public void GetAllExceptionMessages_DoesWhatItSays()
+		{
+			const string canary1 = "dvgrb4si";
+			const string canary2 = "sw3345gg";
+			const string canary3 = "dnjr68dr6";
+
+			var ex1 = new Exception(canary1);
+			var ex2 = new Exception(canary2, ex1);
+			var ex3 = new Exception(canary3, ex2);
+
+			var messages = Helpers.Debug.GetAllExceptionMessages(ex3);
+
+			Assert.Contains(canary1, messages);
+			Assert.Contains(canary2, messages);
+			Assert.Contains(canary3, messages);
+		}
+
 		private const string StringValue = "et6ujhaeõ'54a";
 		private const int IntValue = 2367;
 		private static readonly Guid GuidValue = new Guid("8EE7DB16-E768-4E06-B8A6-05E4A14BC814");
