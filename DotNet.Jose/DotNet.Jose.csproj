@@ -37,9 +37,8 @@
     <DocumentationFile>bin\Release\Axinom.Toolkit.DotNet.Jose.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jose-jwt, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\jose-jwt.2.0.1\lib\net40\jose-jwt.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="jose-jwt, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.2.4.0\lib\net461\jose-jwt.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -60,13 +59,13 @@
     <Compile Include="JoseHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DotNet.Shared\DotNet.Shared.csproj">
       <Project>{e145d8dd-16d7-4c95-9092-14ee282580f4}</Project>
       <Name>DotNet.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
