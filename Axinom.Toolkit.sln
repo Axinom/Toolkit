@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.NetFramework", "Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit.NLog", "Toolkit.NLog\Toolkit.NLog.csproj", "{86459DC9-5293-47F2-BDAE-6B4727E9E8E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit.Jose", "Toolkit.Jose\Toolkit.Jose.csproj", "{7C039AFC-071D-427F-91F3-3D7FAC96E98B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{86459DC9-5293-47F2-BDAE-6B4727E9E8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86459DC9-5293-47F2-BDAE-6B4727E9E8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86459DC9-5293-47F2-BDAE-6B4727E9E8E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C039AFC-071D-427F-91F3-3D7FAC96E98B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C039AFC-071D-427F-91F3-3D7FAC96E98B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C039AFC-071D-427F-91F3-3D7FAC96E98B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C039AFC-071D-427F-91F3-3D7FAC96E98B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

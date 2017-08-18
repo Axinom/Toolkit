@@ -23,6 +23,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestData\Certificates\A.cer" />
+    <None Remove="TestData\Certificates\A.pfx" />
+    <None Remove="TestData\Certificates\B.cer" />
+    <None Remove="TestData\Certificates\B.pfx" />
+    <None Remove="TestData\Certificates\C.cer" />
+    <None Remove="TestData\Certificates\C.pfx" />
+    <None Remove="TestData\Certificates\Weak-Sha1.cer" />
+    <None Remove="TestData\Certificates\Weak-Sha1.pfx" />
+    <None Remove="TestData\Certificates\Weak-SmallKey.cer" />
+    <None Remove="TestData\Certificates\Weak-SmallKey.pfx" />
     <None Remove="TestData\CrashingTool\crypt.xml" />
     <None Remove="TestData\CrashingTool\js.dll" />
     <None Remove="TestData\CrashingTool\libgpac.dll" />
@@ -41,6 +51,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="TestData\Certificates\A.cer" />
+    <EmbeddedResource Include="TestData\Certificates\A.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\B.cer" />
+    <EmbeddedResource Include="TestData\Certificates\B.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\C.cer" />
+    <EmbeddedResource Include="TestData\Certificates\C.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-Sha1.cer" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-Sha1.pfx" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-SmallKey.cer" />
+    <EmbeddedResource Include="TestData\Certificates\Weak-SmallKey.pfx" />
     <EmbeddedResource Include="TestData\CrashingTool\crypt.xml" />
     <EmbeddedResource Include="TestData\CrashingTool\js.dll" />
     <EmbeddedResource Include="TestData\CrashingTool\libgpac.dll" />
@@ -59,6 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="jose-jwt" Version="2.4.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
@@ -66,6 +87,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Toolkit.Jose\Toolkit.Jose.csproj" />
     <ProjectReference Include="..\Toolkit.NLog\Toolkit.NLog.csproj" />
     <ProjectReference Include="..\Toolkit\Toolkit.csproj" />
   </ItemGroup>
