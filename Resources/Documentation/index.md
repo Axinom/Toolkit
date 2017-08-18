@@ -180,3 +180,7 @@ The envelope format is custom, as no widely usable general purpose message forma
 # API reference
 
 Refer to the [.NET API reference](api/index.md).
+
+# Changelog
+
+[!include[](../History.txt)]
