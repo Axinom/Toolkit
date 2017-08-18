@@ -1,5 +1,6 @@
 ﻿10.0.0
 	* Targeting .NET Standard 2.0 with primary library.
+	* Axinom.Toolkit.DotNet assembly renamed to Axinom.Toolkit.NetFramework to better reflect its platform.
 	* Removed some super obsolete stuff not used in 5 years. Most things survived the porting (NS 2.0 is pretty good).
 
 9.3.2

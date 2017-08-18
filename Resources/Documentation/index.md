@@ -7,10 +7,8 @@ This is a pile of fairly arbitrary helper functionality that has proven useful o
 
 Axinom Toolkit is supported on:
 
-* .NET Framework 4.6.2
-* Universal Windows Platform (minimum build 10240)
-
-The set of functionality available on each may be slightly different, as determined by platform capabilities.
+* Any .NET Standard 2.0 platform.
+* .NET Framework 4.7 (some platform-specific features).
 
 # Installation
 
@@ -130,7 +128,7 @@ Then write the equivalent in the web.config file:
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
 	<configSections>
-		<section name="CheckDashboard" type="Axinom.Toolkit.DynamicConfigurationSection, Axinom.Toolkit.DotNet" />
+		<section name="CheckDashboard" type="Axinom.Toolkit.DynamicConfigurationSection, Axinom.Toolkit.NetFramework" />
 	</configSections>
 
 	<CheckDashboard type="Axinom.Monitoring.CheckDashboard.CheckDashboardConfiguration, Axinom.Monitoring.CheckDashboard">
@@ -150,7 +148,7 @@ To transform any object to a human-readable string representation, use `Helpers.
 
 Axinom Toolkit provides helper methods for wrapping data in encrypted and signed envelopes, either in XML or JOSE format. The envelope is encrypted for a specific recipient (identified by X.509 certificate) and signed by a specific author (also identified by X.509 certificate). You can use this for general-purpose secure data exchange.
 
-Secure messaging is provided for .NET Framework only. The JOSE messaging support is in the Axinom.Toolkit.Jose NuGet package, as it depends on an external library for the JOSE serialization support.
+XML secure messaging is provided for .NET Framework only. JOSE secure messaging is universal. The JOSE messaging support is in the Axinom.Toolkit.Jose NuGet package, as it depends on an external library for the JOSE serialization support.
 
 XML messaging example code:
 

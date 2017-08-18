@@ -3,14 +3,13 @@
     {
       "src": [
         {
-		  "cwd": "../..",
-			"files": [
-				"DotNet/DotNet.csproj",
-				"DotNet.Shared/DotNet.Shared.csproj",
-				"DotNet.NLog/DotNet.NLog.csproj",
-				"DotNet.Jose/DotNet.Jose.csproj",
-				"Uwp/Uwp.csproj"
-			]
+          "cwd": "../..",
+          "files": [
+            "Toolkit/Toolkit.csproj",
+            "Toolkit.NetFramework/Toolkit.NetFramework.csproj",
+            "Toolkit.NLog/Toolkit.NLog.csproj",
+            "Toolkit.Jose/Toolkit.Jose.csproj"
+          ]
         }
       ],
       "dest": "api"

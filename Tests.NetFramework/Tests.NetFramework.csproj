@@ -61,11 +61,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.IO.Compression">
-      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
@@ -148,6 +145,7 @@
       <Link>XmlSerializationTests.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtectedXmlTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Tests.NetCore\TestData\Manifest_MultiDRM.mpd">
@@ -198,6 +196,10 @@
     <ProjectReference Include="..\Toolkit.Jose\Toolkit.Jose.csproj">
       <Project>{7c039afc-071d-427f-91f3-3d7fac96e98b}</Project>
       <Name>Toolkit.Jose</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Toolkit.NetFramework\Toolkit.NetFramework.csproj">
+      <Project>{e898d83c-78ad-4998-98be-d1781874ac6b}</Project>
+      <Name>Toolkit.NetFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\Toolkit.NLog\Toolkit.NLog.csproj">
       <Project>{86459dc9-5293-47f2-bdae-6b4727e9e8e7}</Project>
