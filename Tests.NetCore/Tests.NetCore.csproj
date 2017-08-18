@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <RootNamespace>Tests</RootNamespace>
+
+    <AssemblyName>Tests.NetCore</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="TestData\CrashingTool\crypt.xml" />
+    <None Remove="TestData\CrashingTool\js.dll" />
+    <None Remove="TestData\CrashingTool\libgpac.dll" />
+    <None Remove="TestData\CrashingTool\mp4box.exe" />
+    <None Remove="TestData\CrashingTool\ssleay32.dll" />
+    <None Remove="TestData\CrashingTool\z.mp4" />
+    <None Remove="TestData\Gangster.xml" />
+    <None Remove="TestData\Manifest_MultiDRM.mpd" />
+    <None Remove="TestData\Manifest_MultiKey.mpd" />
+    <None Remove="TestData\Manifest_MultiPeriod_MultiKey.mpd" />
+    <None Remove="TestData\MediaInfo.dll" />
+    <None Remove="TestData\MultiPeriod_Manifest.mpd" />
+    <None Remove="TestData\SingleKeySmoothManifest.xml" />
+    <None Remove="TestData\Tests.Echo.exe" />
+    <None Remove="TestData\Tests.Echo.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TestData\CrashingTool\crypt.xml" />
+    <EmbeddedResource Include="TestData\CrashingTool\js.dll" />
+    <EmbeddedResource Include="TestData\CrashingTool\libgpac.dll" />
+    <EmbeddedResource Include="TestData\CrashingTool\mp4box.exe" />
+    <EmbeddedResource Include="TestData\CrashingTool\ssleay32.dll" />
+    <EmbeddedResource Include="TestData\CrashingTool\z.mp4" />
+    <EmbeddedResource Include="TestData\Gangster.xml" />
+    <EmbeddedResource Include="TestData\Manifest_MultiDRM.mpd" />
+    <EmbeddedResource Include="TestData\Manifest_MultiKey.mpd" />
+    <EmbeddedResource Include="TestData\Manifest_MultiPeriod_MultiKey.mpd" />
+    <EmbeddedResource Include="TestData\MediaInfo.dll" />
+    <EmbeddedResource Include="TestData\MultiPeriod_Manifest.mpd" />
+    <EmbeddedResource Include="TestData\SingleKeySmoothManifest.xml" />
+    <EmbeddedResource Include="TestData\Tests.Echo.exe" />
+    <EmbeddedResource Include="TestData\Tests.Echo.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toolkit\Toolkit.csproj" />
+  </ItemGroup>
+
+</Project>

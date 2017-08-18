@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5909399A-E8CB-4DE0-B694-D6C5C45EAF54}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests.NetFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <!-- https://github.com/dotnet/corefx/issues/23331 -->
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.1.18\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.1.18\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Tests.NetCore\CompositingStreamTests.cs">
+      <Link>CompositingStreamTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\ConvertTests.cs">
+      <Link>ConvertTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\DataContractTests.cs">
+      <Link>DataContractTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\DebugTests.cs">
+      <Link>DebugTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\DelegateCommandTests.cs">
+      <Link>DelegateCommandTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\EmbeddedPackageTests.cs">
+      <Link>EmbeddedPackageTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\EnvironmentTests.cs">
+      <Link>EnvironmentTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\ExtensionsForArrayTests.cs">
+      <Link>ExtensionsForArrayTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\ExtensionsForTaskTests.cs">
+      <Link>ExtensionsForTaskTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\ExternalToolTests.cs">
+      <Link>ExternalToolTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\FilesystemTests.cs">
+      <Link>FilesystemTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\GuidTests.cs">
+      <Link>GuidTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\HttpResponseMessageExtensionsTests.cs">
+      <Link>HttpResponseMessageExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\MediaTests.cs">
+      <Link>MediaTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\MultiEndianBinaryReaderTests.cs">
+      <Link>MultiEndianBinaryReaderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\MultiEndianBinaryWriterTests.cs">
+      <Link>MultiEndianBinaryWriterTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\QueryStringTests.cs">
+      <Link>QueryStringTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\SemaphoreLockTests.cs">
+      <Link>SemaphoreLockTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\StructTests.cs">
+      <Link>StructTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\TemporaryDirectoryTests.cs">
+      <Link>TemporaryDirectoryTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\TimeoutHelperTests.cs">
+      <Link>TimeoutHelperTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\WeakContainerTests.cs">
+      <Link>WeakContainerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Tests.NetCore\XmlSerializationTests.cs">
+      <Link>XmlSerializationTests.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\Manifest_MultiDRM.mpd">
+      <Link>TestData\Manifest_MultiDRM.mpd</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\Manifest_MultiKey.mpd">
+      <Link>TestData\Manifest_MultiKey.mpd</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\Manifest_MultiPeriod_MultiKey.mpd">
+      <Link>TestData\Manifest_MultiPeriod_MultiKey.mpd</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\MultiPeriod_Manifest.mpd">
+      <Link>TestData\MultiPeriod_Manifest.mpd</Link>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Toolkit\Toolkit.csproj">
+      <Project>{84f476af-8b73-4432-bfc6-32fdf8278d12}</Project>
+      <Name>Toolkit</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\CrashingTool\crypt.xml">
+      <Link>TestData\CrashingTool\crypt.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\CrashingTool\js.dll">
+      <Link>TestData\CrashingTool\js.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\CrashingTool\libgpac.dll">
+      <Link>TestData\CrashingTool\libgpac.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\CrashingTool\mp4box.exe">
+      <Link>TestData\CrashingTool\mp4box.exe</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\CrashingTool\ssleay32.dll">
+      <Link>TestData\CrashingTool\ssleay32.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\CrashingTool\z.mp4">
+      <Link>TestData\CrashingTool\z.mp4</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\Gangster.xml">
+      <Link>TestData\Gangster.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\MediaInfo.dll">
+      <Link>TestData\MediaInfo.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\SingleKeySmoothManifest.xml">
+      <Link>TestData\SingleKeySmoothManifest.xml</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\Tests.Echo.exe">
+      <Link>TestData\Tests.Echo.exe</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Tests.NetCore\TestData\Tests.Echo.pdb">
+      <Link>TestData\Tests.Echo.pdb</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets'))" />
+  </Target>
+  <Import Project="..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets')" />
+</Project>
