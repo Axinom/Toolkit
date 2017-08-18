@@ -137,7 +137,6 @@
     <Content Include="Docfx\NuGet.Versioning.dll" />
     <Content Include="History.txt" />
     <Content Include="NuGet\NuGet.exe" />
-    <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SolutionAssemblyInfo.cs" />
