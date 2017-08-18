@@ -10,3 +10,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCompany("Axinom")]
 [assembly: AssemblyProduct("Axinom Toolkit")]
 [assembly: AssemblyCopyright("Copyright © Axinom")]
+
+[assembly: InternalsVisibleTo("Tests.NetFramework")]
+[assembly: InternalsVisibleTo("Tests.NetCore")]

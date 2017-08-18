@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Axinom.Toolkit</AssemblyName>
+    <AssemblyName>Axinom.Toolkit.NLog</AssemblyName>
     <RootNamespace>Axinom.Toolkit</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
@@ -21,6 +21,14 @@
 
   <ItemGroup>
     <Compile Include="..\Resources\SolutionAssemblyInfo.cs" Link="SolutionAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="5.0.0-beta09" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toolkit\Toolkit.csproj" />
   </ItemGroup>
 
 </Project>
