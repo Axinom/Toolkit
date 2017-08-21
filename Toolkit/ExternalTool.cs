@@ -410,8 +410,11 @@
 						Process.WaitForExit();
 						runtime.Stop();
 
-						standardErrorReader?.Join();
-						standardOutputReader?.Join();
+                        // NB! Streams may stay open and blocked after process exits.
+                        // This happens e.g. if you go cmd.exe -> start.exe.
+                        // Even if you kill cmd.exe, start.exe remains and keeps the pipes open.
+                        standardErrorReader?.Join();
+                        standardOutputReader?.Join();
 
 						if (outputFileWriter != null)
 						{

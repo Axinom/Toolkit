@@ -136,7 +136,7 @@
             {
                 ExecutablePath = TestData.CommandHandler,
                 // The command is supposed to execute for a long time, to ensure that we time out below.
-                Arguments = TestData.MakeCommandString(string.Format("echo {0} & {1} & {2} 30", canary1, canary2, TestData.SleepCommandName)),
+                Arguments = TestData.MakeCommandString(string.Format("echo {0} & {1} & {2}", canary1, canary2, TestData.GetSleepCommand(10))),
                 OutputFilePath = outputFile
             }.Start();
 
@@ -327,20 +327,15 @@
             /// <summary>
             /// Gets the name of the sleep command. It accepts one argument, which is the number of seconds to sleep for.
             /// </summary>
-            public static string SleepCommandName
+            public static string GetSleepCommand(int seconds)
             {
-                get
+                if (Helpers.Environment.IsNonMicrosoftOperatingSystem())
                 {
-                    if (Helpers.Environment.IsNonMicrosoftOperatingSystem())
-                    {
-                        return "sleep";
-                    }
-                    else
-                    {
-                        // The "timeout" command does not work in a background process (stdin not connected) so
-                        // we use "start" to kick it out of the background process to... somewhere else. Whatever, it works.
-                        return "start /wait timeout";
-                    }
+                    return $"sleep {seconds}";
+                }
+                else
+                {
+                    return $"PowerShell.exe -Command \"Start-Sleep -Seconds {seconds}\"";
                 }
             }
         }
