@@ -5,6 +5,7 @@
     <version>10.0.0</version>
     <authors>Axinom</authors>
     <description>Universally useful helper classes and controls for .NET development.</description>
+    <projectUrl>https://axinom-toolkit-docs.azurewebsites.net/</projectUrl>
     <dependencies>
       <dependency id="NETStandard.Library" version="2.0.0" />
     </dependencies>

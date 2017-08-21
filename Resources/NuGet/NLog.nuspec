@@ -5,6 +5,7 @@
     <version>10.0.0-beta01</version>
     <authors>Axinom</authors>
     <description>Provides NLog related helper functionaltiy and enables Axinom Toolkit logging output to be sent to NLog loggers.</description>
+    <projectUrl>https://axinom-toolkit-docs.azurewebsites.net/</projectUrl>
     <dependencies>
       <dependency id="Axinom.Toolkit" version="10.0.0" />
       <dependency id="NLog" version="5.0.0-beta09" />
