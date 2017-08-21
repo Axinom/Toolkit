@@ -2,16 +2,25 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8">
 		<id>Axinom.Toolkit.Jose</id>
-		<version>10.0.0</version>
+    
+    <!-- Version is automatically set, do not touch this. -->
+    <version>0.0.0</version>
+    
 		<authors>Axinom</authors>
 		<description>Provides helper functionaltiy for working with encrypted and signed data formatted as JOSE objects.</description>
     <projectUrl>https://axinom-toolkit-docs.azurewebsites.net/</projectUrl>
+
     <dependencies>
+      <!--
+        You need to manually update these. Note that in cases where no stable version exists (e.g. for testing)
+        you will need to manually install dependencies and force-install the dependent package.
+      -->
 			<dependency id="Axinom.Toolkit" version="10.0.0" />
 			<dependency id="jose-jwt" version="2.4.0" />
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="..\..\Toolkit.Jose\bin\release\netstandard2.0\Axinom.Toolkit.Jose.*" target="lib\netstandard2.0" />
+    <!-- The input directory structure is as it exists on the release agent, not as in the solution. -->
+		<file src="..\NuGetContent\Toolkit.Jose\Axinom.Toolkit.Jose.*" target="lib\netstandard2.0" />
 	</files>
 </package>

@@ -48,6 +48,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DeliveryProcess.Tooling\Add-TagsToDockerImage.ps1" />
+    <None Include="DeliveryProcess.Tooling\Deploy-Component.ps1" />
+    <None Include="DeliveryProcess.Tooling\Execute-AllChecks.ps1" />
+    <None Include="DeliveryProcess.Tooling\Export-ProcessVariables.ps1" />
+    <None Include="DeliveryProcess.Tooling\Get-Components.ps1" />
+    <None Include="DeliveryProcess.Tooling\Get-ToolingVersion.ps1" />
+    <None Include="DeliveryProcess.Tooling\Import-ProcessVariables.ps1" />
+    <None Include="DeliveryProcess.Tooling\Internal-Await-Task.ps1" />
+    <None Include="DeliveryProcess.Tooling\Publish-Blob.ps1" />
+    <None Include="DeliveryProcess.Tooling\Publish-DockerImage.ps1" />
+    <None Include="DeliveryProcess.Tooling\Remove-Component.ps1" />
+    <None Include="DeliveryProcess.Tooling\Remove-ExpiredBlobs.ps1" />
+    <None Include="DeliveryProcess.Tooling\Replace-Tokens.ps1" />
+    <None Include="DeliveryProcess.Tooling\Set-BuildAndVersionStrings.ps1" />
+    <None Include="DeliveryProcess.Tooling\Set-NpmVersionString.ps1" />
+    <None Include="DeliveryProcess.Tooling\Set-NuGetVersionString.ps1" />
+    <None Include="DeliveryProcess.Tooling\Set-VersionStringBranchPrefix.ps1" />
     <None Include="Documentation\.gitignore" />
     <None Include="Documentation\api\.gitignore" />
     <None Include="Documentation\api\index.md" />
@@ -59,6 +76,7 @@
     <None Include="NuGet\NLog.nuspec" />
     <None Include="NuGet\Package.ps1" />
     <None Include="NuGet\Publish.ps1" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="History.txt" />

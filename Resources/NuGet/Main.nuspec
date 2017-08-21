@@ -2,18 +2,23 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.8">
     <id>Axinom.Toolkit</id>
-    <version>10.0.0</version>
+
+    <!-- Version is automatically set, do not touch this. -->
+    <version>0.0.0</version>
+
     <authors>Axinom</authors>
     <description>Universally useful helper classes and controls for .NET development.</description>
     <projectUrl>https://axinom-toolkit-docs.azurewebsites.net/</projectUrl>
+    
     <dependencies>
       <dependency id="NETStandard.Library" version="2.0.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Toolkit\bin\release\netstandard2.0\Axinom.Toolkit.*" target="lib\netstandard2.0" />
+    <!-- The input directory structure is as it exists on the release agent, not as in the solution. -->
+    <file src="..\NuGetContent\Toolkit\Axinom.Toolkit.*" target="lib\netstandard2.0" />
 
-    <file src="..\..\Toolkit\bin\release\netstandard2.0\Axinom.Toolkit.*" target="lib\net47" />
-    <file src="..\..\Toolkit.NetFramework\bin\release\Axinom.Toolkit.NetFramework.*" target="lib\net47" />
+    <file src="..\NuGetContent\Toolkit\Axinom.Toolkit.*" target="lib\net47" />
+    <file src="..\NuGetContent\Toolkit.NetFramework\Axinom.Toolkit.NetFramework.*" target="lib\net47" />
   </files>
 </package>
