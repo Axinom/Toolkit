@@ -1,11 +1,10 @@
-
 # Axinom Toolkit
 
 This is a pile of fairly arbitrary helper functionality that has proven useful on many different projects and was thus made reusable. The most important and useful features are described here separately, with the rest being in the API documentation.
 
 # Compatibility
 
-Axinom Toolkit is supported on:
+Axinom Toolkit targets:
 
 * Any .NET Standard 2.0 platform.
 * .NET Framework 4.7 (some platform-specific features).
@@ -15,6 +14,9 @@ Axinom Toolkit is supported on:
 Install the **Axinom.Toolkit** NuGet package from the Axinom cloud NuGet repository. This contains all the core functionality.
 
 There also exists a separate **Axinom.Toolkit.NLog** NuGet package that contains the functionaltiy to integrate NLog with the Axinom Toolkit logging channels.
+
+> [!WARNING]
+> The NLog package is only available as a preview release due to NLog dependency issues that have not yet been resolved by NLog maintainers. You may also need to manually install System.IO.Compression before installing Axinom.Toolkit.NLog and do other manual dependency management to get it to install.
 
 There also exists a separate **Axinom.Toolkit.Jose** NuGet package that contains JOSE protected messaging functionality. It is a separate package due to a dependency on a 3rd party library.
 
@@ -179,7 +181,7 @@ The envelope format is custom, as no widely usable general purpose message forma
 
 # API reference
 
-Refer to the [.NET API reference](api/index.md).
+There are many different helper methods included. Refer to the [.NET API reference](api/index.md) to leran about them all.
 
 # Changelog
 
