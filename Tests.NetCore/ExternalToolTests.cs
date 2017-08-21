@@ -143,7 +143,10 @@
             try
             {
                 // Should be long enough that the echo succeeds but short enough that the timeout does not.
-                instance.GetResult(TimeSpan.FromSeconds(2));
+                var result = instance.GetResult(TimeSpan.FromSeconds(2));
+
+                // Forward outputs to show what happened if we do not time out.
+                result.ForwardOutputs();
 
                 throw new Exception("Should have timed out before reaching this point!");
             }
