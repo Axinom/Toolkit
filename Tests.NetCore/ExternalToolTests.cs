@@ -332,9 +332,15 @@
                 get
                 {
                     if (Helpers.Environment.IsNonMicrosoftOperatingSystem())
+                    {
                         return "sleep";
+                    }
                     else
-                        return "timeout";
+                    {
+                        // The "timeout" command does not work in a background process (stdin not connected) so
+                        // we use "start" to kick it out of the background process to... somewhere else. Whatever, it works.
+                        return "start /wait timeout";
+                    }
                 }
             }
         }
