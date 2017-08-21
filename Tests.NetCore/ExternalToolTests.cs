@@ -135,7 +135,8 @@
             var instance = new ExternalTool
             {
                 ExecutablePath = TestData.CommandHandler,
-                Arguments = TestData.MakeCommandString(string.Format("echo {0} & {1} & {2} 10", canary1, canary2, TestData.SleepCommandName)),
+                // The command is supposed to execute for a long time, to ensure that we time out below.
+                Arguments = TestData.MakeCommandString(string.Format("echo {0} & {1} & {2} 30", canary1, canary2, TestData.SleepCommandName)),
                 OutputFilePath = outputFile
             }.Start();
 
