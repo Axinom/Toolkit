@@ -74,13 +74,10 @@
     <None Include="NuGet\Jose.nuspec" />
     <None Include="NuGet\Main.nuspec" />
     <None Include="NuGet\NLog.nuspec" />
-    <None Include="NuGet\Package.ps1" />
-    <None Include="NuGet\Publish.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="History.txt" />
-    <Content Include="NuGet\NuGet.exe" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SolutionAssemblyInfo.cs" />
