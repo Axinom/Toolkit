@@ -1,0 +1,60 @@
+.affix > ul.level1 {
+    /* This used to be -20px for some reason. It broke the affix bar rendering. */
+    margin-right: 0;
+}
+
+td~td > code {
+    /* We want to break lines in the code blocks in the 2nd column of tables,
+    however not the 1st column as that would break names often found in 1st column. */
+    word-break: break-all;
+}
+
+.content img {
+    /* Otherwise white background on screenshots blends in with page. */
+    box-shadow: 4px 4px 2px grey;
+    border: 1px solid grey;
+}
+
+/* The DocFX style sets these to display: block for no obvious reason. This conflicts with the counters below. */
+h1:before, h2:before, h3:before, h4:before {
+    display: inline;
+}
+
+/* http://philarcher.org/diary/2013/headingnumbers/ */
+body {counter-reset: h1}
+h1 {counter-reset: h2}
+h2 {counter-reset: h3}
+
+h1:before {counter-increment: h1; content: counter(h1) ". "}
+h2:before {counter-increment: h2; content: counter(h1) "." counter(h2) ". "}
+h3:before {counter-increment: h3; content: counter(h1) "." counter(h2) "." counter(h3) ". "}
+
+/* The defaults (from Bootstrap?) are a bit excessive. */
+.h1,h1{font-size:24px}
+.h2,h2{font-size:22px}
+.h3,h3{font-size:20px}
+
+/* Filter box is unnecessary for conceptual documentation. Shift things up, also, to compensate. */
+.sidefilter {
+    display: none;
+}
+
+.article {
+    margin-top: 100px;
+}
+
+.sidetoc {
+    top: 90px;
+    padding-top: 10px;
+}
+
+.sideaffix {
+    margin-top: 30px;
+}
+
+/* By default, anchor links scroll the anchor under the fixed header. This is no good. Here, we do some ugly CSS hacks to fix the position. It feels dirty but it is what it is. https://stackoverflow.com/questions/10732690/offsetting-an-html-anchor-to-adjust-for-fixed-header */
+
+article h1, article h2, article h3 {
+    padding-top: 100px;
+    margin-top: -100px;
+}
