@@ -349,9 +349,16 @@
 					using (new CrashDialogSuppressionBlock())
 						Process = Process.Start(startInfo);
 
-					// We default all external tools to below normal because they are, as a rule, less
-					// important than fast responsive UX, so the system should not be bogged down by them.
-					Process.PriorityClass = ProcessPriorityClass.BelowNormal;
+                    // We default all external tools to below normal because they are, as a rule, less
+                    // important than fast responsive UX, so the system should not be bogged down by them.
+                    try
+                    {
+                        Process.PriorityClass = ProcessPriorityClass.BelowNormal;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // If the process has already exited, this will throw IOE. That is fine.
+                    }
 
 					// These are only set if they are created by ExternalTool - we don't care about user threads.
 					Thread standardErrorReader = null;
