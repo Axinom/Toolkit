@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyVersion("9.0.0")]
 
 // This is the real version, displayed in UI and not used for reference purposes.
-[assembly: AssemblyFileVersion("9.3.1")]
+[assembly: AssemblyFileVersion("9.3.2")]
 
 [assembly: AssemblyCompany("Axinom")]
 [assembly: AssemblyProduct("Axinom Toolkit")]

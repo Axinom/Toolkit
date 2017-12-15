@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="2.8">
 		<id>Axinom.Toolkit</id>
-		<version>9.3.1</version>
+		<version>9.3.2</version>
 		<authors>Axinom</authors>
 		<description>Universally useful helper classes and controls for .NET development.</description>
 		<dependencies>
