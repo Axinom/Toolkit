@@ -33,7 +33,11 @@ param(
 
 	# Docker host that will execute the actual Docker logic. Optional (defaults to local server over pipe).
 	[Parameter(Mandatory = $False)]
-	[string]$dockerHost
+	[string]$dockerHost,
+
+	# Docker build arguments issued via the --build-arg command line option.
+	[Parameter(Mandatory = $False)]
+	[string]$buildArguments
 )
 
 $ErrorActionPreference = "Stop"
@@ -153,6 +157,14 @@ $args += "--force-rm"
 # If using an agent server that does not have an ASDP-compatible Docker installation, this will cause a failure.
 $args += "--network"
 $args += "axinom"
+
+if ($buildArguments -ne "")
+{
+	Write-Host "Setting the following build arguments (--build-arg): $buildArguments"
+
+	$args += "--build-arg"
+	$args += $buildArguments
+}
 
 $args += $buildContext
 & docker $args

@@ -80,10 +80,10 @@ $buildIdString = $buildId.ToString("000000")
 $version = "$version-$buildIdString-$commitId"
 Write-Host "Version string is $version"
 
-Write-Host "##vso[build.updatebuildnumber]$version"
-
 # VSTS does not immediately update it, so update it manually.
 $env:BUILD_BUILDNUMBER = $version
-& (Join-Path $myDirectoryPath "Set-VersionStringBranchPrefix.ps1") -primaryBranchName $primaryBranchName
+$version = & (Join-Path $myDirectoryPath "Set-VersionStringBranchPrefix.ps1") -primaryBranchName $primaryBranchName -skipBuildNumberUpdate
+
+Write-Host "##vso[build.updatebuildnumber]$version"
 
 Write-Host "Version string set!"

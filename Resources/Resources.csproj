@@ -52,6 +52,8 @@
     <None Include="DeliveryProcess.Tooling\Deploy-Component.ps1" />
     <None Include="DeliveryProcess.Tooling\Execute-AllChecks.ps1" />
     <None Include="DeliveryProcess.Tooling\Export-ProcessVariables.ps1" />
+    <None Include="DeliveryProcess.Tooling\FileUtilities.ps1" />
+    <None Include="DeliveryProcess.Tooling\Generate-Configuration.ps1" />
     <None Include="DeliveryProcess.Tooling\Get-Components.ps1" />
     <None Include="DeliveryProcess.Tooling\Get-ToolingVersion.ps1" />
     <None Include="DeliveryProcess.Tooling\Import-ProcessVariables.ps1" />
