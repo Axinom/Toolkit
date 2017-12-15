@@ -5,6 +5,7 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
 
@@ -267,7 +268,7 @@
                     },
                     StandardOutputConsumer = s =>
                     {
-                        var readBuffer = new byte[1024];
+                        var readBuffer = new byte[64 * 1024];
 
                         using (var buffer = new MemoryStream(data.Length))
                         {
@@ -291,6 +292,9 @@
                         }
                     }
                 }.Execute(TimeSpan.FromSeconds(15));
+
+                Log.Default.Debug($"First 64 written bytes: {Helpers.Convert.ByteArrayToHexString(data.Take(64).ToArray())}");
+                Log.Default.Debug($"First 64 read bytes: {Helpers.Convert.ByteArrayToHexString(readData.Take(64).ToArray())}");
 
                 CollectionAssert.AreEqual(data, readData);
             }
