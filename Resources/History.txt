@@ -1,4 +1,7 @@
-﻿9.3.1
+﻿9.3.2
+	* Fixed race-condition in fast-exiting ExternalTool.
+
+9.3.1
 	* Removed extraneous newlines from GetAllExceptionMessages.
 
 9.3.0
