@@ -260,7 +260,7 @@
                 new ExternalTool
                 {
                     ExecutablePath = Path.Combine(package.Path, "Tests.Echo.exe"),
-                    Arguments = $"--echo {data.Length}",
+                    Arguments = $"--echo {data.Length} --blocksize {64 * 1024}",
                     StandardInputProvider = s =>
                     {
                         s.Write(data, 0, data.Length);
@@ -291,10 +291,11 @@
                             }
                         }
                     }
-                }.Execute(TimeSpan.FromSeconds(15));
+                }.Execute(TimeSpan.FromSeconds(30));
 
+                Log.Default.Debug($"Read {readData?.Length} bytes out of expected {data.Length}.");
                 Log.Default.Debug($"First 64 written bytes: {Helpers.Convert.ByteArrayToHexString(data.Take(64).ToArray())}");
-                Log.Default.Debug($"First 64 read bytes: {Helpers.Convert.ByteArrayToHexString(readData.Take(64).ToArray())}");
+                Log.Default.Debug($"First 64 read bytes: {Helpers.Convert.ByteArrayToHexString(readData?.Take(64).ToArray())}");
 
                 CollectionAssert.AreEqual(data, readData);
             }
