@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AutomatedBuild\nuget.config" />
     <None Include="DeliveryProcess.Tooling\Add-TagsToDockerImage.ps1" />
     <None Include="DeliveryProcess.Tooling\Deploy-Component.ps1" />
     <None Include="DeliveryProcess.Tooling\Execute-AllChecks.ps1" />
