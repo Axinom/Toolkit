@@ -6,7 +6,7 @@
     using System.Text;
     using System.Xml;
 
-    public static partial class DotNetHelpers
+    public static partial class NetStandardHelpers
     {
         /// <summary>
         /// Uses <see cref="DataContractSerializer"/> to serialize an object.

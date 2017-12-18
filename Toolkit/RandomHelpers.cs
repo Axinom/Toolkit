@@ -4,7 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Implementation class to hold varibles for the helpers dealing with random data.

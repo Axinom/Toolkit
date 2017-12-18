@@ -5,7 +5,7 @@
 	using System.IO;
 	using System.Linq;
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Resolves a relative path, using all the paths in the PATH environment variable as potential roots.

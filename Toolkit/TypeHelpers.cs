@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using System.Linq;
 
-    public static partial class DotNetHelpers
+    public static partial class NetStandardHelpers
     {
         /// <summary>
         /// Gets a type from any loaded .NET assembly by its full namespace-qualified name.

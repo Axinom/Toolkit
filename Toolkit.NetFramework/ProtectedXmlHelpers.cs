@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace Axinom.Toolkit
 {
-    public static partial class DotNetHelpers
+    public static partial class NetFrameworkHelpers
     {
         /// <summary>
         /// Encrypts the entire XML document and digitally signs it.

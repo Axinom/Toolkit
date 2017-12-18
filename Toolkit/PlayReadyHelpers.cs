@@ -7,7 +7,7 @@
 	using System.Text;
 	using System.Xml.Linq;
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Generates a PlayReady Header for the provided key ID.

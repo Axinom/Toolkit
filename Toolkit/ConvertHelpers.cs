@@ -5,7 +5,7 @@
 	using System.Linq;
 	using System.Text;
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		#region Base64 and base32 string helpers
 		/// <summary>

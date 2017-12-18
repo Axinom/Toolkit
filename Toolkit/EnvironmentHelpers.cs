@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    public static partial class DotNetHelpers
+    public static partial class NetStandardHelpers
     {
         /// <summary>
         /// Gets whether the code is running on a Microsoft operating system that can be assumed to resemble Windows.

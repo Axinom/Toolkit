@@ -5,7 +5,7 @@
 	using System.IO;
 	using System.Linq;
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Generates a Widevine CENC header for the provided key ID.

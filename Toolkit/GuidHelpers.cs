@@ -5,7 +5,7 @@
 	using System.Linq;
     using System.Security.Cryptography;
 
-    public static partial class CoreHelpers
+    public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Generates a GUID that is in timestamp-sotrable order in SQL server.

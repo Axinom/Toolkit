@@ -15,14 +15,11 @@ Install the **Axinom.Toolkit** NuGet package from the Axinom cloud NuGet reposit
 
 There also exists a separate **Axinom.Toolkit.NLog** NuGet package that contains the functionaltiy to integrate NLog with the Axinom Toolkit logging channels.
 
-> [!WARNING]
-> The NLog package is only available as a preview release due to NLog dependency issues that have not yet been resolved by NLog maintainers. You may also need to manually install System.IO.Compression before installing Axinom.Toolkit.NLog and do other manual dependency management to get it to install.
-
 There also exists a separate **Axinom.Toolkit.Jose** NuGet package that contains JOSE protected messaging functionality. It is a separate package due to a dependency on a 3rd party library.
 
 # Helper method usage
 
-For boring technical reasons, you must access helper methods using the structure `Helpers.Argument.ValidateIsNotNull()`, always starting from the `Helpers` object. In code and documentation, these helpers are actually structured differently, for example as `CoreHelpers.ValidateIsNotNull()`.
+For boring technical reasons, you must access helper methods using the structure `Helpers.Argument.ValidateIsNotNull()`, always starting from the `Helpers` object. In code and documentation, these helpers are actually structured differently, for example as `NetStandardHelpers.ValidateIsNotNull()`.
 
 This does not apply to stand-alone classes that are not merely helper methods.
 

@@ -3,7 +3,7 @@
     using System.IO;
     using System.Runtime.InteropServices;
 
-    public static partial class DotNetHelpers
+    public static partial class NetStandardHelpers
     {
         /// <summary>
         /// Writes the marshalled form of the structure to a buffer.

@@ -6,7 +6,7 @@
 	using System.Linq;
 	using System.Xml.Linq;
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Calculates the required crop data in order to crop a picture into the desired aspect ratio.

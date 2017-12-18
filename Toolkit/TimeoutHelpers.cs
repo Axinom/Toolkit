@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Axinom.Toolkit
 {
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		private static readonly CancellationToken CancelledAlready = new CancellationToken(true);
 

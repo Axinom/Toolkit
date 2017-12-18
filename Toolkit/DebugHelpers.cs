@@ -7,7 +7,7 @@ namespace Axinom.Toolkit
 	using System.Reflection;
 	using System.Text;
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Gets the Message properties of an exception and all its inner exceptions.

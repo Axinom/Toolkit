@@ -4,7 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public static partial class CoreHelpers
+    public static partial class NetStandardHelpers
     {
         /// <summary>
         /// Asynchronously invokes a long-running action on a new background thread.

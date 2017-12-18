@@ -23,7 +23,7 @@
 		None
 	}
 
-	public static partial class CoreHelpers
+	public static partial class NetStandardHelpers
 	{
 		/// <summary>
 		/// Uses XML serialization to serialize an object.
