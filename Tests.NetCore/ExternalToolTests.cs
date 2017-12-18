@@ -164,7 +164,14 @@
             }
             finally
             {
-                File.Delete(outputFile);
+                try
+                {
+                    File.Delete(outputFile);
+                }
+                catch
+                {
+                    // Don't care if this fails (weird slow test runners and all that - file deletion is wonky).
+                }
             }
         }
 
