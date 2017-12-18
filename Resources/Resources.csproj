@@ -81,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="History.txt" />
-    <None Include="NuGet\NuGet.exe" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SolutionAssemblyInfo.cs" />
