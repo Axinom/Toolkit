@@ -306,7 +306,26 @@ namespace Axinom.Toolkit
 				if (needsNewline)
 					s.AppendLine();
 
-				s.AppendFormatWithIndent(IndentString, depth, "{0} total items: {1}", t.Name, i);
+                if (o is ICollection)
+                {
+                    // If it is also ICollection, we can know real length instead of just how many we saw (maybe we gave up).
+                    s.AppendFormatWithIndent(IndentString, depth, "{0} total items: {1}", t.Name, ((ICollection)o).Count);
+                }
+                else
+                {
+                    // We only know how many we enumerated, which might not be all of them.
+                    if (i > MaxCollectionItemsToList)
+                    {
+                        // We stopped because we hit the limiter, not because there were no more.
+                        s.AppendFormatWithIndent(IndentString, depth, "{0} total item count is unknown - we did not enumerate them all.", t.Name);
+                    }
+                    else
+                    {
+                        // We enumerated all the items.
+                        s.AppendFormatWithIndent(IndentString, depth, "{0} total items: {1}", t.Name,i);
+                    }
+                }
+
 				s.AppendLine();
 
 				return;

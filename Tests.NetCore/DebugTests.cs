@@ -235,6 +235,17 @@
         }
 
         [TestMethod]
+        public void ToDebugString_WithLongArray_ReportsCorrectItemCount()
+        {
+            var o = new byte[1234];
+
+            var output = Helpers.Debug.ToDebugString(o);
+            _log.Debug(output);
+
+            StringAssert.Contains(output, "1234");
+        }
+
+        [TestMethod]
         public void ToDebugString_WithDerivedClass_AlsoOutputsBaseClassMembers()
         {
             const string baseCanary = "esd4v689skrvtrgir rwor hg reakjh hljfd";
