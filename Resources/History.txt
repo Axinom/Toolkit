@@ -4,6 +4,7 @@
 	* Removed some super obsolete stuff not used in 5 years. Most things survived the porting (NS 2.0 is pretty good).
 	* Added changelog to documentation website.
 	* Helpers.Async.BackgroundThreadInvoke() now returns a Task for the created operation.
+	* Helpers.Argument.ValidateIsNotNullOrEmpty() supports more types of collections.
 
 9.3.2
 	* Fixed race-condition in fast-exiting ExternalTool.

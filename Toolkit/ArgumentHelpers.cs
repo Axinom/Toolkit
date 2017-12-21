@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
 
     public static partial class NetStandardHelpers
     {
@@ -17,6 +18,22 @@
 
             if (value.Length == 0)
                 throw new ArgumentException("Array must not be empty", name);
+        }
+
+        public static void ValidateIsNotNullOrEmpty<T>(this HelpersContainerClasses.Argument container, ICollection<T> value, string name)
+        {
+            Helpers.Argument.ValidateIsNotNull(value, name);
+
+            if (value.Count == 0)
+                throw new ArgumentException("Collection must not be empty", name);
+        }
+
+        public static void ValidateIsNotNullOrEmpty<T>(this HelpersContainerClasses.Argument container, IReadOnlyCollection<T> value, string name)
+        {
+            Helpers.Argument.ValidateIsNotNull(value, name);
+
+            if (value.Count == 0)
+                throw new ArgumentException("Collection must not be empty", name);
         }
 
         public static void ValidateIsNotNullOrWhitespace(this HelpersContainerClasses.Argument container, string value, string name)
