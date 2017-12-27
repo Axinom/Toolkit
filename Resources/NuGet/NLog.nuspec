@@ -11,11 +11,13 @@
     <projectUrl>https://axinom-toolkit-docs.azurewebsites.net/</projectUrl>
     
     <dependencies>
+      <!-- Automatically set. -->
+      <dependency id="Axinom.Toolkit" version="__NUGETPACKAGEVERSION__" />
+      
       <!--
         You need to manually update these. Note that in cases where no stable version exists (e.g. for testing)
         you will need to manually install dependencies and force-install the dependent package.
       -->
-      <dependency id="Axinom.Toolkit" version="10.0.0" />
       <dependency id="NLog" version="4.5.0-rc03" />
     </dependencies>
   </metadata>
