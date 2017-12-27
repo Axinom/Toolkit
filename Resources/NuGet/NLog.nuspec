@@ -16,7 +16,7 @@
         you will need to manually install dependencies and force-install the dependent package.
       -->
       <dependency id="Axinom.Toolkit" version="10.0.0" />
-      <dependency id="NLog" version="4.5.0" />
+      <dependency id="NLog" version="4.5.0-rc03" />
     </dependencies>
   </metadata>
   <files>
