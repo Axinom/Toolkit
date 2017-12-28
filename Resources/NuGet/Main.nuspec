@@ -3,8 +3,8 @@
   <metadata minClientVersion="2.8">
     <id>Axinom.Toolkit</id>
 
-    <!-- Version is automatically set, do not touch this. -->
-    <version>0.0.0</version>
+    <!-- Automatically set by release process. -->
+    <version>__NUGETPACKAGEVERSION__</version>
 
     <authors>Axinom</authors>
     <description>Universally useful helper classes and controls for .NET development.</description>
