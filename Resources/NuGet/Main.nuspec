@@ -9,10 +9,6 @@
     <authors>Axinom</authors>
     <description>Universally useful helper classes and controls for .NET development.</description>
     <projectUrl>https://axinom-toolkit-docs.azurewebsites.net/</projectUrl>
-    
-    <dependencies>
-      <dependency id="NETStandard.Library" version="2.0.0" />
-    </dependencies>
   </metadata>
   <files>
     <!-- The input directory structure is as it exists on the release agent, not as in the solution. -->
