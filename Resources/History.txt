@@ -6,6 +6,7 @@
 	* Helpers.Async.BackgroundThreadInvoke() now returns a Task for the created operation.
 	* Helpers.Argument.ValidateIsNotNullOrEmpty() supports more types of collections.
 	* Helpers.Debug.ToDebugString() now reports correct length for collections that contain more than 64 items.
+	* Added Helpers.Filesystem.GetBinDirectory().
 
 9.3.2
 	* Fixed race-condition in fast-exiting ExternalTool.
