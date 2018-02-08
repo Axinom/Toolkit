@@ -22,6 +22,9 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DocumentationFile>bin\Debug\Axinom.Toolkit.NetFramework.xml</DocumentationFile>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>;1591;1573;1574</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DocumentationFile>bin\Release\Axinom.Toolkit.NetFramework.xml</DocumentationFile>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>;1591;1573;1574</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
