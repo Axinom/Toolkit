@@ -15,7 +15,8 @@
       <dependency id="Axinom.Toolkit" version="__NUGETPACKAGEVERSION__" />
 
       <!-- You need to manually update these to match the relevant packages.config. -->
-      <dependency id="NLog" version="4.5.0" />
+      <!--<dependency id="NLog" version="4.5.0" />-->
+      <!-- Temporarily disabled until NLog stable version is published. -->
     </dependencies>
   </metadata>
   <files>
