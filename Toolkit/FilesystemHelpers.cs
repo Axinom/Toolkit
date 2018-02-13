@@ -169,7 +169,7 @@
         /// </summary>
         public static string GetBinDirectory(this HelpersContainerClasses.Filesystem container)
         {
-            return Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
     }
 }

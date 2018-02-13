@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 // This is the real version, displayed in UI and not used for reference purposes.
-[assembly: AssemblyFileVersion("10.0.1")]
+[assembly: AssemblyFileVersion("10.0.2")]
 
 // Only use major version here, with others zero, to avoid breaking references.
 [assembly: AssemblyVersion("10.0.0")]
