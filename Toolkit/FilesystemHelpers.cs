@@ -169,7 +169,16 @@
         /// </summary>
         public static string GetBinDirectory(this HelpersContainerClasses.Filesystem container)
         {
-            return Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+            // If we have one, we want the entry point assembly as this one will be in the right location.
+            var assembly = Assembly.GetEntryAssembly();
+
+            // However, web projects do not have an entry assembly, so pick whatever is left.
+            if (assembly == null)
+                assembly = Assembly.GetExecutingAssembly();
+
+            // Maybe some types of projects still get it wrong here but we'll see when we get to it.
+
+            return Path.GetDirectoryName(new Uri(assembly.CodeBase).LocalPath);
         }
     }
 }

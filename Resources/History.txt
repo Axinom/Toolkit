@@ -1,4 +1,7 @@
-﻿10.0.2
+﻿10.0.3
+	* Helpers.Filesystem.GetBinDirectory() now also works for development environment .NET Core apps.
+
+10.0.2
 	* Helpers.Filesystem.GetBinDirectory() now also works for web apps.
 
 10.0.0
