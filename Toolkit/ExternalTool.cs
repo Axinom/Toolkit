@@ -402,7 +402,12 @@
 					if (_standardInputProvider != null)
 					{
 						// We don't care about monitoring this later, since ExternalTool does not need to touch stdin.
-						Helpers.Async.BackgroundThreadInvoke(delegate { _standardInputProvider(Process.StandardInput.BaseStream); });
+						Helpers.Async.BackgroundThreadInvoke(delegate
+                        {
+                            // Closing stdin after providing input is critical or the app may just hang forever.
+                            using (var stdin = Process.StandardInput.BaseStream)
+                                _standardInputProvider(stdin);
+                        });
 					}
 
 					var resultThread = new Thread((ThreadStart)delegate

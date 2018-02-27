@@ -1,4 +1,7 @@
-﻿10.0.3
+﻿10.0.4
+	* ExternalTool now closes standard input after use, to signal apps that all input has been provided.
+
+10.0.3
 	* Helpers.Filesystem.GetBinDirectory() now also works for development environment .NET Core apps.
 
 10.0.2
