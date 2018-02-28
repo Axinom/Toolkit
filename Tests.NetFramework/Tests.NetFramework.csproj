@@ -137,9 +137,6 @@
     <Compile Include="..\Tests.NetCore\TemporaryDirectoryTests.cs">
       <Link>TemporaryDirectoryTests.cs</Link>
     </Compile>
-    <Compile Include="..\Tests.NetCore\TimeoutHelperTests.cs">
-      <Link>TimeoutHelperTests.cs</Link>
-    </Compile>
     <Compile Include="..\Tests.NetCore\WeakContainerTests.cs">
       <Link>WeakContainerTests.cs</Link>
     </Compile>

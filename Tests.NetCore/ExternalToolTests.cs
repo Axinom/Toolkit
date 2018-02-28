@@ -9,6 +9,7 @@
     using System.Reflection;
     using System.Text;
     using System.Threading;
+    using System.Threading.Tasks;
 
     [TestClass]
     public sealed class ExternalToolTests : TestClass
@@ -26,12 +27,38 @@
         }
 
         [TestMethod]
+        public async Task ExternalTool_WhenAsync_StandardOutputIsCaptured()
+        {
+            const string canary = "146adgha4";
+
+            using (var cancel = new CancellationTokenSource(ExecuteTimeout))
+            {
+                var result = await ExternalTool.ExecuteAsync(TestData.CommandHandler, TestData.MakeCommandString(string.Format("echo {0}", canary)), cancel.Token);
+
+                Assert.AreEqual(0, result.ExitCode);
+                Assert.IsTrue(result.StandardOutput.Contains(canary));
+            }
+        }
+
+        [TestMethod]
         public void ExternalTool_ConsumingResultWithStandardErrorOutput_ThrowsException()
         {
             const string canary = "6h4sb6455t";
 
             // Just echo something to stderr.
             Assert.ThrowsException<EnvironmentException>(() => ExternalTool.Execute(TestData.CommandHandler, TestData.MakeCommandString(string.Format("echo {0} 1>&2", canary)), ExecuteTimeout));
+        }
+
+        [TestMethod]
+        public async Task ExternalTool_WhenAsync_ConsumingResultWithStandardErrorOutput_ThrowsException()
+        {
+            const string canary = "6h4sb6455t";
+
+            using (var cancel = new CancellationTokenSource(ExecuteTimeout))
+            {
+                // Just echo something to stderr.
+                await Assert.ThrowsExceptionAsync<EnvironmentException>(async () => await ExternalTool.ExecuteAsync(TestData.CommandHandler, TestData.MakeCommandString(string.Format("echo {0} 1>&2", canary)), cancel.Token));
+            }
         }
 
         [TestMethod]
@@ -156,6 +183,80 @@
                 throw new Exception("Should have timed out before reaching this point!");
             }
             catch (TimeoutException)
+            {
+                Debug.WriteLine("Expected timeout occurred.");
+
+                // The file only becomes accessible when the process exits (even if we time out earlier).
+                // So wait for the file to become accessible here.
+                var timeout = new CancellationTokenSource(30000).Token;
+
+                while (!timeout.IsCancellationRequested)
+                {
+                    try
+                    {
+                        File.Open(outputFile, FileMode.Open, FileAccess.Read, FileShare.Read).Dispose();
+                        break;
+                    }
+                    catch
+                    {
+                        timeout.WaitHandle.WaitOne(100);
+                    }
+                }
+            }
+
+            try
+            {
+                var outputFileContents = File.ReadAllText(outputFile);
+                Assert.IsTrue(outputFileContents.Contains(canary1));
+                Assert.IsTrue(outputFileContents.Contains(canary2));
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(outputFile);
+                }
+                catch
+                {
+                    // Don't care if this fails (weird slow test runners and all that - file deletion is wonky).
+                }
+            }
+        }
+
+        [TestMethod]
+        public async Task ExternalTool_WhenAsync_WithTimeout_EventuallyWritesBothOutputStreamsToFile()
+        {
+            // This does not really work... in the current implementation the stuff gets written, true, but only
+            // once the timedout process actually finishes (if it ever does!). So is that really "working"? Eeeh...
+
+            const string canary1 = "eb6b46bu6";
+            const string canary2 = "dsrt7n46n8";
+
+            var outputFile = Path.GetTempFileName();
+
+            // Need to do this the long way around to avoid consuming the result.
+            var instance = new ExternalTool
+            {
+                ExecutablePath = TestData.CommandHandler,
+                // The command is supposed to execute for a long time, to ensure that we time out below.
+                Arguments = TestData.MakeCommandString(string.Format("echo {0} & {1} & {2}", canary1, canary2, TestData.GetSleepCommand(10))),
+                OutputFilePath = outputFile
+            }.Start();
+
+            try
+            {
+                using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(2)))
+                {
+                    // Should be long enough that the echo succeeds but short enough that the timeout does not.
+                    var result = await instance.GetResultAsync(cancel.Token);
+
+                    // Forward outputs to show what happened if we do not time out.
+                    result.ForwardOutputs();
+                }
+
+                throw new Exception("Should have timed out before reaching this point!");
+            }
+            catch (TaskCanceledException)
             {
                 Debug.WriteLine("Expected timeout occurred.");
 

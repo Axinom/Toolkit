@@ -108,10 +108,25 @@
 			return result;
 		}
 
-		/// <summary>
-		/// Helper method to quickly execute a command with arguments and consume the result.
-		/// </summary>
-		public static ExternalToolResult Execute(string executablePath, string arguments, TimeSpan timeout)
+        /// <summary>
+        /// Asynchronously executes an instance of the external tool and consumes the result.
+        /// </summary>
+        public async Task<ExternalToolResult> ExecuteAsync(CancellationToken cancel = default)
+        {
+            cancel.ThrowIfCancellationRequested();
+
+            var instance = Start();
+            var result = await instance.GetResultAsync(cancel);
+
+            result.Consume();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Helper method to quickly execute a command with arguments and consume the result.
+        /// </summary>
+        public static ExternalToolResult Execute(string executablePath, string arguments, TimeSpan timeout)
 		{
 			Helpers.Argument.ValidateIsNotNullOrWhitespace(executablePath, "executablePath");
 
@@ -122,7 +137,21 @@
 			}.Execute(timeout);
 		}
 
-		public ExternalTool()
+        /// <summary>
+        /// Helper method to quickly execute a command with arguments and consume the result.
+        /// </summary>
+        public static Task<ExternalToolResult> ExecuteAsync(string executablePath, string arguments, CancellationToken cancel = default)
+        {
+            Helpers.Argument.ValidateIsNotNullOrWhitespace(executablePath, "executablePath");
+
+            return new ExternalTool
+            {
+                ExecutablePath = executablePath,
+                Arguments = arguments
+            }.ExecuteAsync(cancel);
+        }
+
+        public ExternalTool()
 		{
 			EnvironmentVariables = new Dictionary<string, string>();
 		}
@@ -145,33 +174,50 @@
 			public bool StandardErrorIsNotError { get; private set; }
 
 			/// <summary>
-			/// Waits for the tool to exit and retrieves the result. If a timeout occurs,
-			/// the running external tool process is killed.
+			/// Waits for the tool to exit and retrieves the result.
+            /// If a timeout occurs, the running external tool process is killed.
 			/// </summary>
 			/// <exception cref="TimeoutException">Thrown if a timeout occurs.</exception>
 			public ExternalToolResult GetResult(TimeSpan timeout)
 			{
-				if (!_resultAvailable.Wait(timeout))
+				if (!_result.Task.Wait(timeout))
 				{
 					Process.Kill();
 
 					// Wait for result to be available so that all the output gets written to file.
 					// This may not work if something is very wrong, but we do what we can to help.
-					_resultAvailable.Wait(LastResortTimeout);
+					_result.Task.Wait(LastResortTimeout);
 
 					throw new TimeoutException(string.Format("Timeout waiting for external tool to finish: \"{0}\" {1}", ExecutablePath, Arguments));
 				}
 
-				return _result;
+				return _result.Task.WaitAndUnwrapExceptions();
 			}
+
+            /// <summary>
+			/// Waits for the tool to exit and retrieves the result.
+            /// If the cancellation token is cancelled, the running external tool process is killed.
+			/// </summary>
+            public Task<ExternalToolResult> GetResultAsync(CancellationToken cancel = default)
+            {
+                try
+                {
+                    return _result.Task.WithAbandonment(cancel);
+                }
+                catch (TaskCanceledException)
+                {
+                    // If a cancellation is signaled, we need to kill the process and set error to really time it out.
+                    _result.TrySetException(new TimeoutException(string.Format("Timeout waiting for external tool to finish: \"{0}\" {1}", ExecutablePath, Arguments)));
+
+                    return _result.Task;
+                }
+            }
 
 			private Action<Stream> _standardOutputConsumer;
 			private Action<Stream> _standardInputProvider;
 			private Action<Stream> _standardErrorConsumer;
 
-			private ExternalToolResult _result;
-
-			private readonly ManualResetEventSlim _resultAvailable = new ManualResetEventSlim();
+            private readonly TaskCompletionSource<ExternalToolResult> _result = new TaskCompletionSource<ExternalToolResult>();
 
 			private readonly LogSource _log;
 
@@ -343,8 +389,7 @@
 					string standardError = null;
 					string standardOutput = null;
 
-					var runtime = new Stopwatch();
-					runtime.Start();
+                    var runtime = Stopwatch.StartNew();
 
 					using (new CrashDialogSuppressionBlock())
 						Process = Process.Start(startInfo);
@@ -432,8 +477,7 @@
 							outputFileWriter.Dispose();
 						}
 
-						_result = new ExternalToolResult(this, standardOutput, standardError, Process.ExitCode, runtime.Elapsed);
-						_resultAvailable.Set();
+                        _result.TrySetResult(new ExternalToolResult(this, standardOutput, standardError, Process.ExitCode, runtime.Elapsed));
 					});
 
 					// All the rest happens in the result thread, which waits for the process to exit.
