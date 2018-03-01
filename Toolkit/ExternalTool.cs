@@ -22,7 +22,7 @@
 		/// There are various operations that should complete near-instantly but for
 		/// reasons of operating systems magic may hang. This timeout controls when we give up.
 		/// </summary>
-		private static readonly TimeSpan LastResortTimeout = TimeSpan.FromSeconds(5);
+		private static readonly TimeSpan LastResortTimeout = TimeSpan.FromSeconds(10);
 
 		/// <summary>
 		/// Absolute or relative path to the executable. Relative paths are resolved mostly
@@ -182,7 +182,7 @@
 			{
 				if (!_result.Task.Wait(timeout))
 				{
-                    _log.Debug("Terminating process due to timeout.");
+                    _log.Debug("Terminating external tool due to timeout.");
 
 					Process.Kill();
 
@@ -208,7 +208,7 @@
                 }
                 catch (TaskCanceledException)
                 {
-                    _log.Debug("Terminating process due to timeout or cancellation.");
+                    _log.Debug("Terminating external tool due to cancellation.");
 
                     // If a cancellation is signaled, we need to kill the process and set error to really time it out.
                     Process.Kill();
@@ -217,7 +217,7 @@
                     // This may not work if something is very wrong, but we do what we can to help.
                     _result.Task.Wait(LastResortTimeout);
 
-                    throw new TimeoutException(string.Format("Timeout waiting for external tool to finish: \"{0}\" {1}", ExecutablePath, Arguments));
+                    throw new TaskCanceledException(string.Format("External tool execution cancelled: \"{0}\" {1}", ExecutablePath, Arguments));
                 }
             }
 
