@@ -22,7 +22,7 @@
 		/// There are various operations that should complete near-instantly but for
 		/// reasons of operating systems magic may hang. This timeout controls when we give up.
 		/// </summary>
-		private static readonly TimeSpan LastResortTimeout = TimeSpan.FromSeconds(10);
+		private static readonly TimeSpan LastResortTimeout = TimeSpan.FromSeconds(5);
 
 		/// <summary>
 		/// Absolute or relative path to the executable. Relative paths are resolved mostly
@@ -182,6 +182,8 @@
 			{
 				if (!_result.Task.Wait(timeout))
 				{
+                    _log.Debug("Terminating process due to timeout.");
+
 					Process.Kill();
 
 					// Wait for result to be available so that all the output gets written to file.
@@ -198,14 +200,16 @@
 			/// Waits for the tool to exit and retrieves the result.
             /// If the cancellation token is cancelled, the running external tool process is killed.
 			/// </summary>
-            public Task<ExternalToolResult> GetResultAsync(CancellationToken cancel = default)
+            public async Task<ExternalToolResult> GetResultAsync(CancellationToken cancel = default)
             {
                 try
                 {
-                    return _result.Task.WithAbandonment(cancel);
+                    return await _result.Task.WithAbandonment(cancel);
                 }
                 catch (TaskCanceledException)
                 {
+                    _log.Debug("Terminating process due to timeout or cancellation.");
+
                     // If a cancellation is signaled, we need to kill the process and set error to really time it out.
                     Process.Kill();
 
@@ -213,9 +217,7 @@
                     // This may not work if something is very wrong, but we do what we can to help.
                     _result.Task.Wait(LastResortTimeout);
 
-                    _result.TrySetException(new TimeoutException(string.Format("Timeout waiting for external tool to finish: \"{0}\" {1}", ExecutablePath, Arguments)));
-
-                    return _result.Task;
+                    throw new TimeoutException(string.Format("Timeout waiting for external tool to finish: \"{0}\" {1}", ExecutablePath, Arguments));
                 }
             }
 
