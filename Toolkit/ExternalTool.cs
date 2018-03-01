@@ -207,6 +207,12 @@
                 catch (TaskCanceledException)
                 {
                     // If a cancellation is signaled, we need to kill the process and set error to really time it out.
+                    Process.Kill();
+
+                    // Wait for result to be available so that all the output gets written to file.
+                    // This may not work if something is very wrong, but we do what we can to help.
+                    _result.Task.Wait(LastResortTimeout);
+
                     _result.TrySetException(new TimeoutException(string.Format("Timeout waiting for external tool to finish: \"{0}\" {1}", ExecutablePath, Arguments)));
 
                     return _result.Task;
