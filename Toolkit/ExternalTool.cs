@@ -215,7 +215,16 @@
 
                     // Wait for result to be available so that all the output gets written to file.
                     // This may not work if something is very wrong, but we do what we can to help.
-                    _result.Task.Wait(LastResortTimeout);
+                    try
+                    {
+                        using (var lastResort = new CancellationTokenSource(LastResortTimeout))
+                            await _result.Task.WithAbandonment(lastResort.Token);
+                    }
+                    catch
+                    {
+                        // We are not awaiting to get a result, just to actually wait for the process to finish.
+                        // Accordingly, we do not care what the result is (whether error or success).
+                    }
 
                     throw new TaskCanceledException(string.Format("External tool execution cancelled: \"{0}\" {1}", ExecutablePath, Arguments));
                 }
