@@ -20,6 +20,11 @@
 		}
 
         /// <summary>
+        /// Logs any exceptions from the task to the default log source.
+        /// </summary>
+        public static Task LogExceptions(this Task task) => LogExceptions(task, Log.Default);
+
+        /// <summary>
         /// Logs any exceptions from the task to the given log source.
         /// </summary>
         public static Task LogExceptions(this Task task, LogSource toLog)
@@ -31,6 +36,11 @@
             });
         }
 
+        /// <summary>
+        /// Logs any exceptions from the task to the default log source.
+        /// </summary>
+        public static Task<T> LogExceptions<T>(this Task<T> task) => LogExceptions(task, Log.Default);
+        
         /// <summary>
         /// Logs any exceptions from the task to the given log source.
         /// </summary>
