@@ -12,16 +12,44 @@
 		/// <summary>
 		/// Just a hint to the compiler that I know I am not doing anything with the task
 		/// and it should shut up about it and not spam me with a warning.
+        /// 
+        /// NB! This silently ignores exceptions that reach this point!
 		/// </summary>
 		public static void Forget(this Task task)
 		{
 		}
 
-		/// <summary>
-		/// Signals that the continuation does not have to run using the current synchronization context.
-		/// A more human-readable name for the commonly used ConfigureAwait(false) pattern.
-		/// </summary>
-		public static ConfiguredTaskAwaitable IgnoreContext(this Task task)
+        /// <summary>
+        /// Logs any exceptions from the task to the given log source.
+        /// </summary>
+        public static Task LogExceptions(this Task task, LogSource toLog)
+        {
+            return task.ContinueWith(t =>
+            {
+                if (t.Exception != null)
+                    toLog.Error(t.Exception.ToString());
+            });
+        }
+
+        /// <summary>
+        /// Logs any exceptions from the task to the given log source.
+        /// </summary>
+        public static Task<T> LogExceptions<T>(this Task<T> task, LogSource toLog)
+        {
+            return task.ContinueWith(t =>
+            {
+                if (t.Exception != null)
+                    toLog.Error(t.Exception.ToString());
+
+                return t.Result;
+            });
+        }
+
+        /// <summary>
+        /// Signals that the continuation does not have to run using the current synchronization context.
+        /// A more human-readable name for the commonly used ConfigureAwait(false) pattern.
+        /// </summary>
+        public static ConfiguredTaskAwaitable IgnoreContext(this Task task)
 		{
 			Helpers.Argument.ValidateIsNotNull(task, nameof(task));
 

@@ -1,4 +1,7 @@
-﻿11.0.0
+﻿11.1.0
+	* Added ExtensionsForTask.LogExceptions() for easy exception logging without having to await.
+
+11.0.0
 	* Removed Helpers.Timeout.GetCancellationToken() as it used some bad practices for CTS lifetime management.
 	* ExternalTool now supports asynchronous usage.
 
