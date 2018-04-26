@@ -1,14 +1,11 @@
 ﻿namespace Axinom.Toolkit
 {
-	using System;
-	using System.Collections.Generic;
-	using System.IO;
-	using System.Linq;
+    using System.IO;
 
-	/// <summary>
-	/// Represents one child stream in a compositing stream.
-	/// </summary>
-	public sealed class CompositedStreamInfo
+    /// <summary>
+    /// Represents one child stream in a compositing stream.
+    /// </summary>
+    public struct CompositedStreamInfo
 	{
 		public Stream Stream { get; private set; }
 

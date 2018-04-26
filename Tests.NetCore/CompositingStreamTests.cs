@@ -45,9 +45,11 @@
             var first = new MemoryStream(new[] { (byte)1 });
             var second = new MemoryStream(new[] { (byte)2 });
 
-            var composite = new CompositingStream();
-            composite.Children.Add(new CompositedStreamInfo(first, first.Length));
-            composite.Children.Add(new CompositedStreamInfo(second));
+            var composite = new CompositingStream(new[]
+            {
+                new CompositedStreamInfo(first, first.Length),
+                new CompositedStreamInfo(second)
+            });
 
             composite.Dispose();
 
