@@ -140,6 +140,9 @@
     <Compile Include="..\Tests.NetCore\WeakContainerTests.cs">
       <Link>WeakContainerTests.cs</Link>
     </Compile>
+    <Compile Include="..\Tests.NetCore\WildcardTests.cs">
+      <Link>WildcardTests.cs</Link>
+    </Compile>
     <Compile Include="..\Tests.NetCore\XmlSerializationTests.cs">
       <Link>XmlSerializationTests.cs</Link>
     </Compile>
