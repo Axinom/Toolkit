@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
+    using System.ComponentModel;
+    using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Runtime.InteropServices;
@@ -419,11 +420,15 @@
                     }
                     catch (InvalidOperationException)
                     {
-                        // If the process has already exited, this will throw IOE. That is fine.
+                        // If the process has already exited, we get this on Windows. This is fine.
+                    }
+                    catch (Win32Exception ex) when (ex.NativeErrorCode == 3) // "No such process"
+                    {
+                        // If the process has already exited, we get this on Linux. This is fine.
                     }
 
-					// These are only set if they are created by ExternalTool - we don't care about user threads.
-					Thread standardErrorReader = null;
+                    // These are only set if they are created by ExternalTool - we don't care about user threads.
+                    Thread standardErrorReader = null;
 					Thread standardOutputReader = null;
 
 					if (_standardErrorConsumer != null)
