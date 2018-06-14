@@ -1,4 +1,7 @@
-﻿11.2.0
+﻿11.2.1
+	* .NET Core 2.1 compatibility for ExternalTool. They changed an exception type.
+
+11.2.0
 	* Wildcard now supports multiple patterns as alternatives.
 
 11.1.1
