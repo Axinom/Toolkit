@@ -1,4 +1,7 @@
-﻿11.2.1
+﻿11.3.0
+	* Added ExtensionsForCollections.Shuffle().
+
+11.2.1
 	* .NET Core 2.1 compatibility for ExternalTool. They changed an exception type.
 
 11.2.0
