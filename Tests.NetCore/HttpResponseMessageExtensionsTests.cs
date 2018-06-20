@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
 
     [TestClass]
-    public sealed class HttpResponseMessageExtensionsTests : TestClass
+    public sealed class HttpResponseMessageExtensionsTests : BaseTestClass
     {
         [TestMethod]
         public async Task EnsureSuccessStatusCodeAndReportFailureDetailsAsync_WithOkResponse_PassesVerification()

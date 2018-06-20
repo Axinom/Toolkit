@@ -9,7 +9,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public sealed class MediaTests : TestClass
+    public sealed class MediaTests : BaseTestClass
     {
         [TestMethod]
         public void GetKeyIds_WithSingleKeySmoothManifest_ReturnsExpectedKey()

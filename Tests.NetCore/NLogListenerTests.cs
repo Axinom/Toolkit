@@ -5,7 +5,7 @@
     using NLog;
 
     [TestClass]
-    public sealed class NLogListenerTests : TestClass
+    public sealed class NLogListenerTests : BaseTestClass
     {
         [TestMethod]
         public void NLogListener_WritesLogEntriesToNLog()

@@ -5,7 +5,7 @@
     using System;
 
     [TestClass]
-    public class XmlSerializationTests : TestClass
+    public class XmlSerializationTests : BaseTestClass
     {
         public class MyClass
         {

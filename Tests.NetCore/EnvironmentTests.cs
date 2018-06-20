@@ -4,7 +4,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public sealed class EnvironmentTests : TestClass
+    public sealed class EnvironmentTests : BaseTestClass
     {
         [TestMethod]
         public void IsMicrosoftOperatingSystem_IsOppositeOfIsNonMicrosoftOperatingSystem()

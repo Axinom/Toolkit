@@ -5,7 +5,7 @@
     using System.IO;
 
     [TestClass]
-    public sealed class TemporaryDirectoryTests : TestClass
+    public sealed class TemporaryDirectoryTests : BaseTestClass
     {
         [TestMethod]
         public void TemporaryFolderIsCreatedAndRemoved()

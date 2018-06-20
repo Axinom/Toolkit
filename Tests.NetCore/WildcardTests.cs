@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests
 {
     [TestClass]
-    public sealed class WildcardTests : TestClass
+    public sealed class WildcardTests : BaseTestClass
     {
         [TestMethod]
         public void SingleMatch_MatchesWhenExpected()

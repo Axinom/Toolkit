@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
 
     [TestClass]
-    public sealed class ExtensionsForTaskTests : TestClass
+    public sealed class ExtensionsForTaskTests : BaseTestClass
     {
         [TestMethod]
         public async Task WithAbandonment_AbandonsWhenCancelled()

@@ -6,7 +6,7 @@
     using System.Reflection;
 
     [TestClass]
-    public sealed class EmbeddedPackageTests : TestClass
+    public sealed class EmbeddedPackageTests : BaseTestClass
     {
         private static readonly Assembly _testsAssembly;
 

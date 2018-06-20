@@ -1,5 +1,6 @@
-﻿11.3.0
+﻿12.0.0
 	* Added ExtensionsForCollections.Shuffle().
+	* TestClass -> BaseTestClass to reduce naming conflicts.
 
 11.2.1
 	* .NET Core 2.1 compatibility for ExternalTool. They changed an exception type.

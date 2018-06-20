@@ -6,7 +6,7 @@
     using System.Windows.Input;
 
     [TestClass]
-    public sealed class DelegateCommandTests : TestClass
+    public sealed class DelegateCommandTests : BaseTestClass
     {
         [TestMethod]
         public void ExecuteIsCalled()

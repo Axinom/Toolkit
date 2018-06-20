@@ -6,7 +6,7 @@
     using System.Linq;
 
     [TestClass]
-    public sealed class QueryStringTests : TestClass
+    public sealed class QueryStringTests : BaseTestClass
     {
         [TestMethod]
         public void DifferentUriTypesAreFine()

@@ -4,7 +4,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public sealed class WeakContainerTests : TestClass
+    public sealed class WeakContainerTests : BaseTestClass
     {
         [TestMethod]
         public void BasicOperations()

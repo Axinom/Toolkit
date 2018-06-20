@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
 
     [TestClass]
-    public sealed class SemaphoreLockTests : TestClass
+    public sealed class SemaphoreLockTests : BaseTestClass
     {
         [TestMethod]
         public void BasicLockingLogic_SeemsToWork()

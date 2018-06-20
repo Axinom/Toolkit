@@ -5,7 +5,7 @@
     using System;
 
     [TestClass]
-    public sealed class ConvertTests : TestClass
+    public sealed class ConvertTests : BaseTestClass
     {
         private static readonly byte[] TestBytes = new byte[15001];
         private static readonly string TestString;

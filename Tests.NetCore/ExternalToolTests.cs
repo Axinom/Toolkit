@@ -12,7 +12,7 @@
     using System.Threading.Tasks;
 
     [TestClass]
-    public sealed class ExternalToolTests : TestClass
+    public sealed class ExternalToolTests : BaseTestClass
     {
         private static readonly TimeSpan ExecuteTimeout = TimeSpan.FromSeconds(5);
 

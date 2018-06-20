@@ -11,7 +11,7 @@ using System.Text;
 namespace Tests
 {
     [TestClass]
-    public sealed class JoseTests : TestClass
+    public sealed class JoseTests : BaseTestClass
     {
         #region Test data
         // Test certificates generated with the following command:

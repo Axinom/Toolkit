@@ -5,7 +5,7 @@
     using System.IO;
 
     [TestClass]
-    public sealed class MultiEndianBinaryReaderTests : TestClass
+    public sealed class MultiEndianBinaryReaderTests : BaseTestClass
     {
         private static readonly byte[] TestData = { 1, 2, 3, 4, 5, 6, 7, 8 };
         private MultiEndianBinaryReader _reader;

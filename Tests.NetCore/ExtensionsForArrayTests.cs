@@ -4,7 +4,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public sealed class ExtensionsForArrayTests : TestClass
+    public sealed class ExtensionsForArrayTests : BaseTestClass
     {
         [TestMethod]
         public void ArrayContainsArray_WithNeedleLargerThanHaystack_ReturnsFalse()

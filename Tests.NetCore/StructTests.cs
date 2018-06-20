@@ -6,7 +6,7 @@
     using System.IO;
 
     [TestClass]
-    public class StructTests : TestClass
+    public class StructTests : BaseTestClass
     {
         private struct Packet
         {

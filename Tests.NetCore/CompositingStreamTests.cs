@@ -6,7 +6,7 @@
     using System.IO;
 
     [TestClass]
-    public sealed class CompositingStreamTests : TestClass
+    public sealed class CompositingStreamTests : BaseTestClass
     {
         [TestMethod]
         public void BasicWriteTest()

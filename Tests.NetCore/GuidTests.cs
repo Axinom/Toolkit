@@ -5,7 +5,7 @@
     using System;
 
     [TestClass]
-    public sealed class GuidTests : TestClass
+    public sealed class GuidTests : BaseTestClass
     {
         [TestMethod]
         public void ToBigEndianByteArray_ResultIsNotSameAsToByteArray()

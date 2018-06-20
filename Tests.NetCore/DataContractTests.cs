@@ -5,7 +5,7 @@
     using System;
 
     [TestClass]
-    public sealed class DataContractTests : TestClass
+    public sealed class DataContractTests : BaseTestClass
     {
         public class MyClass
         {

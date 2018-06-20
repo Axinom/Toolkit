@@ -7,7 +7,7 @@
     using System.Linq;
 
     [TestClass]
-    public sealed class DebugTests : TestClass
+    public sealed class DebugTests : BaseTestClass
     {
         [TestMethod]
         public void GetAllExceptionMessages_DoesWhatItSays()

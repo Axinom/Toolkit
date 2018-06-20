@@ -6,7 +6,7 @@
     using System.IO;
 
     [TestClass]
-    public sealed class FilesystemTests : TestClass
+    public sealed class FilesystemTests : BaseTestClass
     {
         [TestMethod]
         public void RemoveRoot_RemovesRootFromPath()

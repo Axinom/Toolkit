@@ -7,12 +7,12 @@
     /// <summary>
     /// Base class to coordinate global tasks like log system initialization in automated test projects.
     /// </summary>
-    public abstract class TestClass : IDisposable
+    public abstract class BaseTestClass : IDisposable
     {
         private static readonly StreamWriter _logWriter;
         private static readonly object _coordinationLock = new object();
 
-        static TestClass()
+        static BaseTestClass()
         {
             lock (_coordinationLock)
             {

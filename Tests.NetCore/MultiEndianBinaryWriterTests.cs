@@ -6,7 +6,7 @@
     using System.Linq;
 
     [TestClass]
-    public sealed class MultiEndianBinaryWriterTests : TestClass
+    public sealed class MultiEndianBinaryWriterTests : BaseTestClass
     {
         private MultiEndianBinaryWriter _bigEndianWriter;
         private byte[] _bigEndianBuffer;

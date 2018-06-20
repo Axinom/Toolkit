@@ -11,7 +11,7 @@ using System.Xml;
 namespace Tests
 {
     [TestClass]
-    public sealed class ProtectedXmlTests : TestClass
+    public sealed class ProtectedXmlTests : BaseTestClass
     {
         #region Test data
         // Just some arbitrary XML document to play around with.
