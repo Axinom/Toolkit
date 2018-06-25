@@ -12,22 +12,23 @@
           ]
         }
       ],
-      "dest": "api"
+      "dest": "obj/api"
     }
   ],
   "build": {
     "content": [
       {
         "files": [
-          "api/**.yml",
           "api/index.md",
-          "articles/**.md",
-          "articles/**/toc.yml",
           "toc.yml",
-          "*.md"
-        ],
-        "exclude": [
-          "_site/**"
+          "index.md"
+        ]
+      },
+      {
+        "src": "obj/api",
+        "dest": "api",
+        "files": [
+          "**/*.yml"
         ]
       }
     ],
@@ -35,9 +36,6 @@
       {
         "files": [
           "images/**"
-        ],
-        "exclude": [
-          "_site/**"
         ]
       }
     ],
@@ -53,6 +51,5 @@
       "default",
       "AxinomTemplate"
     ]
-
   }
 }
