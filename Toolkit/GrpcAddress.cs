@@ -119,11 +119,14 @@ namespace Axinom.Toolkit
 
         public override int GetHashCode()
         {
-            var hashCode = 1096767131;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Host);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Authority);
-            hashCode = hashCode * -1521134295 + Port.GetHashCode();
-            return hashCode;
+            unchecked
+            {
+                var hashCode = 1096767131;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Host);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Authority);
+                hashCode = hashCode * -1521134295 + Port.GetHashCode();
+                return hashCode;
+            }
         }
 
         public static bool operator ==(GrpcAddress address1, GrpcAddress address2)

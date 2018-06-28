@@ -1,4 +1,7 @@
-﻿12.1.0
+﻿12.1.1
+	* Fixed crash due to overflow when comparing GrpcAddress.
+
+12.1.0
 	* Addewd GrpcAddress.
 
 12.0.0
