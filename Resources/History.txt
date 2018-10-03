@@ -1,4 +1,7 @@
-﻿12.1.1
+﻿12.1.2
+	* WeakEventListener is now thread-safe.
+
+12.1.1
 	* Fixed crash due to overflow when comparing GrpcAddress.
 
 12.1.0

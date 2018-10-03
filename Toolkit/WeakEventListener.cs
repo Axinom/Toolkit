@@ -11,6 +11,7 @@
 	/// <typeparam name="TInstance">Type of instance listening for the event.</typeparam>
 	/// <typeparam name="TSource">Type of source for the event.</typeparam>
 	/// <typeparam name="TEventArgs">Type of event arguments for the event.</typeparam>
+    /// <remarks>Disposal of the instance is thread-safe. Do not modify callbacks during use.</remarks>
 	public sealed class WeakEventListener<TInstance, TSource, TEventArgs> : IDisposable where TInstance : class
 	{
 		/// <summary>
@@ -18,15 +19,22 @@
 		/// </summary>
 		private readonly WeakReference _weakInstance;
 
-		/// <summary>
-		/// Gets or sets the method to call when the event fires.
-		/// </summary>
-		public Action<TInstance, TSource, TEventArgs> OnEventAction { get; set; }
+        /// <summary>
+        /// Gets or sets the method to call when the event fires.
+        /// </summary>
+        /// <remarks>
+        /// Not safe to modify after any methods on the instance have been called.
+        /// </remarks>
+        public Action<TInstance, TSource, TEventArgs> OnEventAction { get; set; }
 
-		/// <summary>
-		/// Gets or sets the method to call when detaching from the event.
-		/// </summary>
-		public Action<WeakEventListener<TInstance, TSource, TEventArgs>> OnDetachAction { get; set; }
+        /// <summary>
+        /// Gets or sets the method to call when detaching from the event.
+        /// Guaranteed to be called only once (or never, if reference stays alive forever).
+        /// </summary>
+        /// <remarks>
+        /// Not safe to modify after any methods on the instance have been called.
+        /// </remarks>
+        public Action<WeakEventListener<TInstance, TSource, TEventArgs>> OnDetachAction { get; set; }
 
 		/// <summary>
 		/// Initializes a new instances of the WeakEventListener class.
@@ -65,16 +73,21 @@
 			Detach();
 		}
 
+        private readonly object _detachLock = new object();
+
 		/// <summary>
 		/// Detaches from the subscribed event.
 		/// </summary>
 		public void Detach()
 		{
-			if (null != OnDetachAction)
-			{
-				OnDetachAction(this);
-				OnDetachAction = null;
-			}
+            lock (_detachLock)
+            {
+                if (null != OnDetachAction)
+                {
+                    OnDetachAction(this);
+                    OnDetachAction = null;
+                }
+            }
 		}
 	}
 }
