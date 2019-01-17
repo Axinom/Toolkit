@@ -14,7 +14,7 @@
     <!-- The input directory structure is as it exists on the release agent, not as in the solution. -->
     <file src="..\NuGetContent\Toolkit\Axinom.Toolkit.*" target="lib\netstandard2.0" />
 
-    <file src="..\NuGetContent\Toolkit\Axinom.Toolkit.*" target="lib\net47" />
-    <file src="..\NuGetContent\Toolkit.NetFramework\Axinom.Toolkit.NetFramework.*" target="lib\net47" />
+    <file src="..\NuGetContent\Toolkit\Axinom.Toolkit.*" target="lib\net472" />
+    <file src="..\NuGetContent\Toolkit.NetFramework\Axinom.Toolkit.NetFramework.*" target="lib\net472" />
   </files>
 </package>

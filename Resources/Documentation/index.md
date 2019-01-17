@@ -7,7 +7,7 @@ This is a pile of fairly arbitrary helper functionality that has proven useful o
 Axinom Toolkit targets:
 
 * Any .NET Standard 2.0 platform.
-* .NET Framework 4.7 (some platform-specific features).
+* .NET Framework 4.7.2 (some platform-specific features).
 
 # Installation
 
