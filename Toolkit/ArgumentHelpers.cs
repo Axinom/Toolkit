@@ -87,6 +87,52 @@
             }
         }
 
+        public static void ValidateLength<T>(this HelpersContainerClasses.Argument container, ICollection<T> collection, string name, int? exact = null, int? min = null, int? max = null)
+        {
+            Helpers.Argument.ValidateIsNotNull(collection, name);
+
+            if (exact != null)
+            {
+                if (collection.Count != exact)
+                    throw new ArgumentException($"Collection must have {exact} elements.", name);
+            }
+
+            if (min != null)
+            {
+                if (collection.Count < min)
+                    throw new ArgumentException($"Collection must have at least {min} elements.", name);
+            }
+
+            if (max != null)
+            {
+                if (collection.Count > max)
+                    throw new ArgumentException($"Collection must have no more than {max} elements.", name);
+            }
+        }
+
+        public static void ValidateLength<T>(this HelpersContainerClasses.Argument container, IReadOnlyCollection<T> collection, string name, int? exact = null, int? min = null, int? max = null)
+        {
+            Helpers.Argument.ValidateIsNotNull(collection, name);
+
+            if (exact != null)
+            {
+                if (collection.Count != exact)
+                    throw new ArgumentException($"Collection must have {exact} elements.", name);
+            }
+
+            if (min != null)
+            {
+                if (collection.Count < min)
+                    throw new ArgumentException($"Collection must have at least {min} elements.", name);
+            }
+
+            if (max != null)
+            {
+                if (collection.Count > max)
+                    throw new ArgumentException($"Collection must have no more than {max} elements.", name);
+            }
+        }
+
         public static void ValidateEnum<T>(this HelpersContainerClasses.Argument container, T value, string name)
             where T : struct
         {
