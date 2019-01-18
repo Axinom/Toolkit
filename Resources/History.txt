@@ -1,4 +1,8 @@
-﻿13.0.0
+﻿13.1.0
+	* Added Helpers.Random.GetBoolean().
+	* Added Helpers.Random.GetWords() with length limit.
+
+13.0.0
 	* .NET Framework specific features now require 4.7.2 because it is 2019.
 	* Updated NLog dependency to latest stable.
 	* Added Helpers.Argument.ValidateLength<T>() generic overload.

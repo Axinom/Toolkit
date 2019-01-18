@@ -49,14 +49,33 @@ Vivamus nunc elit, vulputate a accumsan nec, imperdiet nec urna. Cras pretium ma
 			public static readonly object RandomLock = new object();
 		}
 
-		/// <summary>
-		/// Gets a random bunch of text, size determined by number of words.
-		/// No guarantees are made about the content of the words or any punctuation between the words,
-		/// except that there will be at least a space between every word.
-		/// </summary>
-		/// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="minWords"/> is negative.</exception>
-		/// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="maxWords"/> is less than <paramref name="minWords"/>.</exception>
-		public static string GetWords(this HelpersContainerClasses.Random container, int minWords, int maxWords)
+        /// <summary>
+        /// Gets a random bunch of text, size determined by number of words, limited to a max size.
+        /// No guarantees are made about the content of the words or any punctuation between the words,
+        /// except that there will be at least a space between every word.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="minWords"/> is negative.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="maxWords"/> is less than <paramref name="minWords"/>.</exception>
+        public static string GetWords(this HelpersContainerClasses.Random container, int minWords, int maxWords, int maxLength)
+        {
+            Helpers.Argument.ValidateRange(maxLength, nameof(maxLength), min: 0);
+
+            var value = GetWords(container, minWords, maxWords);
+
+            if (value.Length > maxLength)
+                return value.Substring(0, maxLength);
+            else
+                return value;
+        }
+
+        /// <summary>
+        /// Gets a random bunch of text, size determined by number of words.
+        /// No guarantees are made about the content of the words or any punctuation between the words,
+        /// except that there will be at least a space between every word.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="minWords"/> is negative.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="maxWords"/> is less than <paramref name="minWords"/>.</exception>
+        public static string GetWords(this HelpersContainerClasses.Random container, int minWords, int maxWords)
 		{
 			if (minWords < 0)
 				throw new ArgumentOutOfRangeException(nameof(minWords), "minWords cannot be negative");
@@ -111,6 +130,12 @@ Vivamus nunc elit, vulputate a accumsan nec, imperdiet nec urna. Cras pretium ma
 
 			return buffer;
 		}
+
+        public static bool GetBoolean(this HelpersContainerClasses.Random container)
+        {
+            lock (RandomData.RandomLock)
+                return RandomData.Random.Next() % 2 == 0;
+        }
 
 		public static T GetRandomItem<T>(this HelpersContainerClasses.Random container, IReadOnlyList<T> fromList)
 		{
