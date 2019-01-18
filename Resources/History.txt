@@ -2,6 +2,7 @@
 	* Added Helpers.Random.GetBoolean().
 	* Added Helpers.Random.GetWords() with length limit.
 	* Added more words to random test data words.
+	* Added Helpers.Random.GetRandomItems().
 
 13.0.0
 	* .NET Framework specific features now require 4.7.2 because it is 2019.

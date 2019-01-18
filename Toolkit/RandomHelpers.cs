@@ -1663,7 +1663,25 @@ Vivamus nunc elit, vulputate a accumsan nec, imperdiet nec urna. Cras pretium ma
 			return fromList[index];
 		}
 
-		public static TEnum GetEnum<TEnum>(this HelpersContainerClasses.Random container)
+        public static IList<T> GetRandomItems<T>(this HelpersContainerClasses.Random container, IReadOnlyList<T> fromList, int count)
+        {
+            Helpers.Argument.ValidateIsNotNull(fromList, nameof(fromList));
+            Helpers.Argument.ValidateRange(count, nameof(count), min: 0);
+
+            if (fromList.Count < count)
+                throw new ArgumentException("Not enough items in the list.");
+
+            var result = new HashSet<T>();
+
+            // This kind of assumes that the fromList is unique.
+            // If not, you will be sorry when you enter an infinite loops here!
+            while (result.Count < count)
+                result.Add(fromList[Helpers.Random.GetInteger(fromList.Count)]);
+
+            return result.ToList();
+        }
+
+        public static TEnum GetEnum<TEnum>(this HelpersContainerClasses.Random container)
 		{
 			var values = Enum.GetValues(typeof(TEnum)).Cast<TEnum>().ToArray();
 
