@@ -53,7 +53,7 @@
             ForwardOutputs();
             VerifySuccess();
 
-            _log.Debug("Finished in {0:F2}s.", Duration.TotalSeconds);
+            _log.Debug($"Finished in {Duration.TotalSeconds:F2}s.");
         }
 
         /// <summary>

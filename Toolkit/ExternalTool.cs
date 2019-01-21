@@ -260,7 +260,7 @@
 				if (!Path.IsPathRooted(executablePath))
 				{
 					var resolvedPath = Helpers.Filesystem.ResolvePath(executablePath);
-					_log.Debug("Executable resolved to {0}", resolvedPath);
+					_log.Debug($"Executable resolved to {resolvedPath}");
 
 					executablePath = resolvedPath;
 				}
@@ -364,7 +364,7 @@
 				if (Process != null)
 					throw new InvalidOperationException("The instance has already been started.");
 
-				_log.Debug("Executing: \"{0}\" {1}", ExecutablePath, CensoredArguments);
+				_log.Debug($"Executing: {ExecutablePath} {CensoredArguments}");
 
 				StreamWriter outputFileWriter = null;
 

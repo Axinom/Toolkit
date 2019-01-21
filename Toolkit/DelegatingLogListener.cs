@@ -26,9 +26,9 @@ namespace Axinom.Toolkit
 			_writeLineMethod = writeLineMethod;
 		}
 
-		public void OnWrite(LogEntry entry)
-		{
-			_writeLineMethod($"{entry.Severity} [{entry.Source}] {entry.Message} (@{entry.Timestamp:u})");
+        public void OnWrite(DateTimeOffset timestamp, LogEntrySeverity severity, string source, Func<string> messageGenerator)
+        {
+			_writeLineMethod($"{severity} [{source}] {messageGenerator()} (@{timestamp:u})");
 		}
 
 		public void Dispose()

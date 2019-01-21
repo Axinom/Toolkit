@@ -3,26 +3,24 @@
 
 namespace Axinom.Toolkit
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Diagnostics;
-	using System.Linq;
+    using System;
+    using System.Diagnostics;
 
-	/// <summary>
-	/// Writes log entries to debugger output.
-	/// </summary>
-	public sealed class DebugLogListener : ILogListener
-	{
-		public void OnWrite(LogEntry entry)
-		{
-			var message = string.Format("{0} {1:u} [{2}]" + Environment.NewLine + "{3}",
-				entry.Severity, entry.Timestamp, entry.Source, entry.Message);
+    /// <summary>
+    /// Writes log entries to debugger output.
+    /// </summary>
+    public sealed class DebugLogListener : ILogListener
+    {
+        public void OnWrite(DateTimeOffset timestamp, LogEntrySeverity severity, string source, Func<string> messageGenerator)
+        {
+            var message = string.Format("{0} {1:u} [{2}]" + Environment.NewLine + "{3}",
+                severity, timestamp, source, messageGenerator());
 
-			Debug.WriteLine(message);
-		}
+            Debug.WriteLine(message);
+        }
 
-		public void Dispose()
-		{
-		}
-	}
+        public void Dispose()
+        {
+        }
+    }
 }

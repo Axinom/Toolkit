@@ -407,7 +407,7 @@
 
                                 var bytes = s.Read(readBuffer, 0, readBuffer.Length);
 
-                                Log.Default.Debug("Read {0} bytes.", bytes);
+                                Log.Default.Debug($"Read {bytes} bytes.");
 
                                 if (bytes == 0)
                                 {

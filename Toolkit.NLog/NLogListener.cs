@@ -19,10 +19,10 @@
             _logFactory = logFactory;
         }
 
-        public void OnWrite(LogEntry entry)
+        public void OnWrite(DateTimeOffset timestamp, LogEntrySeverity severity, string source, Func<string> messageGenerator)
         {
-            var logger = _logFactory.GetLogger(entry.Source ?? "");
-            logger.Log(TranslateLogLevel(entry.Severity), entry.Message);
+            var logger = _logFactory.GetLogger(source ?? "");
+            logger.Log(TranslateLogLevel(severity), new LogMessageGenerator(messageGenerator));
         }
 
         private LogLevel TranslateLogLevel(LogEntrySeverity level)

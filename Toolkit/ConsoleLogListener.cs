@@ -8,20 +8,18 @@
     /// </summary>
     public sealed class ConsoleLogListener : ILogListener
     {
-        public void OnWrite(LogEntry entry)
+        public void OnWrite(DateTimeOffset timestamp, LogEntrySeverity severity, string source, Func<string> messageGenerator)
         {
             // We pad the severity string so that all entries are nicely aligned.
-            var severityString = entry.Severity.ToString().PadRight(_maxSeverityStringLength);
+            var severityString = severity.ToString().PadRight(_maxSeverityStringLength);
 
             var message = string.Format("{0} {1:u} [{2}] {3}",
-                severityString, entry.Timestamp, entry.Source, entry.Message);
+                severityString, timestamp, source, messageGenerator());
 
-            switch (entry.Severity)
+            switch (severity)
             {
                 case LogEntrySeverity.Error:
                 case LogEntrySeverity.Wtf:
-                    Console.Error.WriteLine(message);
-                    break;
                 case LogEntrySeverity.Warning:
                     Console.Error.WriteLine(message);
                     break;

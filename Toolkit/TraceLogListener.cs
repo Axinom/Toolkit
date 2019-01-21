@@ -8,12 +8,12 @@
     /// </summary>
     public sealed class TraceLogListener : ILogListener
     {
-        public void OnWrite(LogEntry entry)
+        public void OnWrite(DateTimeOffset timestamp, LogEntrySeverity severity, string source, Func<string> messageGenerator)
         {
             var message = string.Format("{0} {1:u} [{2}]" + Environment.NewLine + "{3}",
-                entry.Severity, entry.Timestamp, entry.Source, entry.Message);
+                severity, timestamp, source, messageGenerator());
 
-            switch (entry.Severity)
+            switch (severity)
             {
                 case LogEntrySeverity.Error:
                 case LogEntrySeverity.Wtf:
