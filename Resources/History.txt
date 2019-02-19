@@ -1,4 +1,4 @@
-﻿14.0.0
+﻿14.0.0 PRERELEASE
 	* Added Helpers.Random.GetBoolean().
 	* Added Helpers.Random.GetWords() with length limit.
 	* Added more words to random test data words.
