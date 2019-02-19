@@ -6,6 +6,7 @@
 	* Reduced string formatting overhead in logging system.
 	* Removed oldschool string.Format() style logging methods. Use interpolation.
 	* Added DelegatingDisposable.
+	* Helpers.Debug.GetAllExceptionMessages() now returns also exception types and unrolls aggregate exceptions.
 
 13.0.0
 	* .NET Framework specific features now require 4.7.2 because it is 2019.

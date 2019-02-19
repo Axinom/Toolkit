@@ -28,6 +28,31 @@
         }
 
         [TestMethod]
+        public void GetAllExceptionMessages_WithAggregateException_GetsAllInnerMessages()
+        {
+            const string canary1 = "dvgrb4si";
+            const string canary2 = "sw3345gg";
+            const string canary3a = "dnjr68dr6";
+
+            const string canary3b = "ehub4643";
+
+            var ex1 = new Exception(canary1);
+            var ex2 = new Exception(canary2, ex1);
+            var ex3a = new Exception(canary3a, ex2);
+
+            var ex3b = new Exception(canary3b);
+
+            var aggregate = new AggregateException(ex3a, ex3b);
+
+            var messages = Helpers.Debug.GetAllExceptionMessages(aggregate);
+
+            Assert.IsTrue(messages.Contains(canary1));
+            Assert.IsTrue(messages.Contains(canary2));
+            Assert.IsTrue(messages.Contains(canary3a));
+            Assert.IsTrue(messages.Contains(canary3b));
+        }
+
+        [TestMethod]
         public void GetAllExceptionMessages_WithOneMessage_HasNoNewlines()
         {
             var message = Helpers.Debug.GetAllExceptionMessages(new Exception("asdf"));
