@@ -7,6 +7,7 @@
 	* Removed oldschool string.Format() style logging methods. Use interpolation.
 	* Added DelegatingDisposable.
 	* Helpers.Debug.GetAllExceptionMessages() now returns also exception types and unrolls aggregate exceptions.
+	* Helpers.Debug.ToDebugString() now uses a local parameterless ToString() if one exists.
 
 13.0.0
 	* .NET Framework specific features now require 4.7.2 because it is 2019.

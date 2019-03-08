@@ -361,6 +361,26 @@ namespace Axinom.Toolkit
                 return;
             }
 
+            // If there is a directly(!) declared ToString, use it.
+            var toString = t.GetMethod("ToString", BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance, Type.DefaultBinder, Type.EmptyTypes, null);
+
+            if (toString != null)
+            {
+                string value;
+
+                try
+                {
+                    value = toString.Invoke(o, null) as string ?? "null";
+                }
+                catch (Exception ex)
+                {
+                    value = "ToString() failed: " + ex.Message;
+                }
+
+                s.AppendFormatWithIndent(IndentString, depth, "{0}", value);
+                s.AppendLine();
+            }
+
             // All properties. Static before instance. Public only.
             foreach (var property in t.GetRuntimeProperties()
                 .Where(pp => pp.GetMethod != null && pp.GetMethod.IsPublic)
