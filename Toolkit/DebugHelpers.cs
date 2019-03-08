@@ -379,6 +379,7 @@ namespace Axinom.Toolkit
 
                 s.AppendFormatWithIndent(IndentString, depth, "{0}", value);
                 s.AppendLine();
+                return;
             }
 
             // All properties. Static before instance. Public only.
