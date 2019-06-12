@@ -20,7 +20,7 @@ steps:
   displayName: 'Replace NuGet tokens'
   inputs:
     filePath: '$(Tooling)/Replace-Tokens.ps1'
-    arguments: '-path "$(Build.SourcesDirectory)/Resources/AutomatedBuild/nuget.config" -secrets "AxNuget.ReadKey=$(AxNuget.ReadKey)","AxNugetCb.ReadKey=$(AxNugetCb.ReadKey)"'
+    arguments: '-path "$(Build.SourcesDirectory)/Resources/AutomatedBuild/nuget.config" -secrets "AxNuget_ReadKey=$(AxNuget.ReadKey)","AxNugetCb_ReadKey=$(AxNugetCb.ReadKey)"'
 
 - task: NuGetToolInstaller@0
   inputs:
