@@ -50,11 +50,13 @@ steps:
 
 - task: CmdLine@2
   displayName: 'Run tests with .NET Core'
+  condition: always()
   inputs:
     script: 'c:/Program Files (x86)/Microsoft Visual Studio/2017/Enterprise/Common7/IDE/Extensions/TestPlatform/vstest.console.exe "$(Build.SourcesDirectory)/Tests.NetCore/bin/Release/netcoreapp2.2/Tests.NetCore.dll" /Framework:FrameworkCore10'
 
 - task: PowerShell@2
   displayName: 'Attach test log (.NET Framework)'
+  condition: always()
   inputs:
     targetType: 'inline'
     script: '$logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetFramework", "bin", "Release", "Tests.log")
@@ -64,6 +66,7 @@ steps:
 
 - task: PowerShell@2
   displayName: 'Attach test log (.NET Core)'
+  condition: always()
   inputs:
     targetType: 'inline'
     script: '$logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetCore", "bin", "Release", "netcoreapp2.0", "Tests.log")
