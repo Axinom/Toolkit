@@ -119,7 +119,7 @@ steps:
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'NuSpec'
-    targetPath: '$(Build.SourcesDirectory)/Resources/NuSpec'
+    targetPath: '$(Build.SourcesDirectory)/Resources/NuGet'
 
 - task: PublishPipelineArtifact@0
   inputs:
