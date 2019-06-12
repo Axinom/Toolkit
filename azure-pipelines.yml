@@ -5,10 +5,15 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-  Tooling: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
+- group: 'Axinom NuGet API keys'
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'Any CPU'
+- name: 'buildConfiguration'
+  value: 'Release'
+- name: 'Tooling'
+  value: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
 
 steps:
 - task: PowerShell@2
