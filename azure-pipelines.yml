@@ -16,6 +16,9 @@ variables:
   value: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
 
 steps:
+- checkout: self
+  lfs: 'true'
+
 - task: PowerShell@2
   displayName: 'Replace NuGet tokens'
   inputs:
