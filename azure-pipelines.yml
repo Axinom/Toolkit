@@ -9,8 +9,6 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   Tooling: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
-  'AxNuget.ReadKey': 'todo'
-  'AxNugetCb.ReadKey': 'todo'
 
 steps:
 - task: PowerShell@2
@@ -59,7 +57,7 @@ steps:
   condition: always()
   inputs:
     targetType: 'inline'
-    script:
+    script: |
       $logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetFramework", "bin", "Release", "Tests.log")
       if (Test-Path $logPath) {
           Write-Host "##vso[build.uploadlog]$logPath"
@@ -70,7 +68,7 @@ steps:
   condition: always()
   inputs:
     targetType: 'inline'
-    script:
+    script: |
       $logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetCore", "bin", "Release", "netcoreapp2.0", "Tests.log")
       if (Test-Path $logPath) {
           Write-Host "##vso[build.uploadlog]$logPath"
