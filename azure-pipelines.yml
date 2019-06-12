@@ -82,3 +82,51 @@ steps:
           Write-Host "##vso[build.uploadlog]$logPath"
       }
 
+- task: CmdLine@2
+  displayName: 'Generate documentation'
+  inputs:
+    script: 'GenerateDocumentation.cmd'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/Toolkit/bin/Release/netstandard2.0'
+    Contents: 'Axinom.Toolkit.*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/Toolkit.NetFramework/bin/Release'
+    Contents: 'Axinom.Toolkit.NetFramework.*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.NetFramework'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/Toolkit.NLog/bin/Release/netstandard2.0'
+    Contents: 'Axinom.Toolkit.*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.NLog'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/Toolkit.Jose/bin/Release/netstandard2.0'
+    Contents: 'Axinom.Toolkit.*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.Jose'
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'DeliveryProcess.Tooling'
+    targetPath: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'NuSpec'
+    targetPath: '$(Build.SourcesDirectory)/Resources/NuSpec'
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'Website'
+    targetPath: '$(Build.SourcesDirectory)/Resources/Documentation/_site'
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'NuGetContent'
+    targetPath: '$(Build.ArtifactStagingDirectory)/NuGetContent'
