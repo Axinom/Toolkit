@@ -13,15 +13,29 @@ Param(
     [Parameter(Mandatory = $False)]
     [string]$output = ".\TransformedConfiguration\",
 
-    [Parameter(Mandatory = $True)]
+    # If specified, expects to find the component configuration in a root level folder "componentName".
+    [Parameter(Mandatory = $False)]
     [string]$componentName,
 
-    [Parameter(Mandatory = $True)]
+    # If specified, expects to find the component configuration in a folder "environmentName/componentName".
+    # If not specified, expects to find the component configuration in a root level folder "componentName".
+    # Can also be specified as a path like "Testing/Delta". In such case, Configuration.cvf files are searched
+    # from the intermediate folders as well.
+    [Parameter(Mandatory = $False)]
     [string]$environmentName,
 
     # Specifies whether to fail if an undefined placeholder is found from configuration templates.
     [Parameter(Mandatory = $False)]
-    [switch]$failIfNoMatch = $False
+    [switch]$failIfNoMatch = $False,
+
+    # If specified, will show the values of variables on the standard output as asterisks.
+    [Parameter(Mandatory = $False)]
+    [switch]$hideValuesFromStdout = $False,
+
+    # Path to Terraform output file (JSON file) that contains variables and their values that should be used
+    # in the generation of the configuration.
+    [Parameter(Mandatory = $False)]
+    [string]$terraformFile
 )
 
 <#
@@ -40,7 +54,9 @@ The configuration files folder provided to the script via -values argument must 
 	environment-name-2/
 		component-name-2/
 			Configuration.cvf
-		Configuration.cvf
+        Configuration.cvf
+    component-name-3/
+        Configuration.cvf
 	Configuration.cvf
 	component-name-1.cvf
 	component-name-2.cvf
@@ -65,61 +81,61 @@ be copied to the output folder, just beside the transformed templates.
 
 $ErrorActionPreference = "Stop"
 
-. "$PSScriptRoot\FileUtilities.ps1"
+. "$PSScriptRoot\Functions.ps1"
 
 $fromFileMagicWord = "FROM_FILE"
 
 $tokenStart = "__"
 $tokenEnd = "__"
-$regex = $TokenStart + "[A-Za-z0-9._]+" + $TokenEnd
+$regex = $TokenStart + '[A-Za-z0-9._\-]+' + $TokenEnd
 $matches = @()
 
+# Replaces all placeholders in a file with actual values. The file encoding will become UTF-8 without BOM.
 function ProcessFile($file, $configuration) {
     Write-Host "Replacing placeholders in: $($file.FullName)"
 
-    $fileEncoding = Get-FileEncoding($file.FullName)
-
     $newlines = Get-NewlineCharacters($file.FullName)
-
-    $tempFile = $file.FullName + ".tmp"
-		
-    Copy-Item -Force $file.FullName $tempFile
 	
-    $matches = select-string -Path $tempFile -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }
+    $placeholders = Select-String -Path $file.FullName -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }
 
-    $matchesNotFound = @()
+    $configurationVariablesNotFound = @()
 
-    foreach ($match in $matches) {
-        $matchedItem = $match
-        $matchedItem = $matchedItem.TrimStart($TokenStart)
-        $matchedItem = $matchedItem.TrimEnd($TokenEnd)
-        $matchedItem = $matchedItem -replace "\.", "_"
+    $contentBeingTransformed = Get-Content $file.FullName
+
+    foreach ($placeholder in $placeholders) {
+        $configurationVariableName = $placeholder.TrimStart($TokenStart)
+        $configurationVariableName = $configurationVariableName.TrimEnd($TokenEnd)
+
+        $configurationVariableNameInEnvironment = $configurationVariableName -replace "\.", "_"
 		
-        if (Test-Path Env:$matchedItem) {
-            $matchValue = (Get-ChildItem Env:$matchedItem).Value
+        if (Test-Path Env:$configurationVariableNameInEnvironment) {
+            $configurationVariableValue = (Get-ChildItem Env:$configurationVariableNameInEnvironment).Value
 
-            Write-Host "Found matching variable from environment variables. Setting $matchedItem to '$matchValue'" -ForegroundColor Green
-        }
-        elseif ($configuration.ContainsKey($matchedItem)) {
-            $matchValue = $configuration[$matchedItem]
-        }
-        else {
-            $matchValue = ""
-            $matchesNotFound += $match
+            $valueToPrint = $configurationVariableValue
 
-            Write-Host "No variable '$matchedItem' defined. Replaced with empty string." -ForegroundColor Yellow
+            if ($hideValuesFromStdout) {
+                $valueToPrint = "*" * $configurationVariableValue.Length
+            }
+
+            Write-Host "Found matching variable from environment variables. Setting $configurationVariableNameInEnvironment to '$valueToPrint'" -ForegroundColor Green
+        } elseif ($configuration.ContainsKey($configurationVariableName)) {
+            $configurationVariableValue = $configuration[$configurationVariableName]
+        } else {
+            $configurationVariableValue = ""
+            $configurationVariablesNotFound += $configurationVariableName
+
+            Write-Host "No configuration variable '$configurationVariableName' defined. Placeholder replaced with empty string." -ForegroundColor Yellow
         }
-		
-        $newContent = (Get-Content $tempFile) | Foreach-Object { $_ -replace $match, $matchValue }
-        $newContentAsString = [string]::Join($newlines, $newContent)
-		
-        Set-Content $tempFile -Force -Encoding $fileEncoding -Value $newContentAsString -NoNewline
+        
+        $contentBeingTransformed = $contentBeingTransformed | Foreach-Object { $_ -replace $placeholder, $configurationVariableValue }
     }
 
-    Copy-Item -Force $tempFile $file.FullName
-    Remove-Item -Force $tempFile
+    $newContentAsString = [string]::Join($newlines, $contentBeingTransformed)
 
-    return $matchesNotFound
+    # This writes the file in UTF-8 without BOM encoding in PowerShell version independent way.
+    [IO.File]::WriteAllLines($file.FullName, $newContentAsString)
+
+    return $configurationVariablesNotFound
 }
 
 # Takes in an array of strings, each representing a key and value pair separated with a '=' sign.
@@ -127,25 +143,46 @@ function ProcessFile($file, $configuration) {
 # Outputs a hashtable representing the input.
 function ConvertFrom-KeyValuePairs {
     $object = @{}
+
     foreach ($line in $input) {
         $line = $line.Trim()
+
         if ($line -and !$line.StartsWith("#")) {
             $tokens = $line -split "=", 2
+
             if ($tokens.Length -ne 2) {
                 Write-Error "Bad input format: '$line'"
             }
+
             $name = $tokens[0].Trim()
             $value = $tokens[1].Trim()
             $object[$name] = $value
         }
     }
+
     $object
+}
+
+# Takes in a hashtable and returns another hashtable which has the values replaced with asterisks.
+# The number of asterisks will be the same as the number of characters in the value.
+function Hide-ValuesInHashtable {
+    foreach ($hashtable in $input) {
+        $result = @{}
+        $hashtable.GetEnumerator() | ForEach-Object {
+            $result[$_.Key] = "*" * $_.Value.Length
+        }
+        $result
+    }
 }
 
 function Get-ConfigurationFromFile([string] $configurationFile) {
     $configuration = (Get-Content $configurationFile) | ConvertFrom-KeyValuePairs
 
-    $configuration | Format-Table | Out-String | Write-Host
+    if ($hideValuesFromStdout) {
+        $configuration | Hide-ValuesInHashtable | Format-Table | Out-String | Write-Host
+    } else {
+        $configuration | Format-Table | Out-String | Write-Host
+    }
 
     $externalFiles = @() # Collecting the paths to files referenced by FROM_FILE magic word.
 
@@ -161,7 +198,76 @@ function Get-ConfigurationFromFile([string] $configurationFile) {
     return $configuration, $externalFiles
 }
 
+function ConvertFrom-Terraform([Parameter(ValueFromPipeline = $true)]$content) {
+    Process {
+        $configurationHashtable = @{}
+
+        $configuration = $content | ConvertFrom-Json
+
+        $configuration.PSObject.Properties | ForEach-Object {
+            if ($_.Value.type -eq "string") {
+                $configurationHashtable[$_.Name] = $_.Value.value
+            }
+        }
+
+        return $configurationHashtable
+    }
+}
+
+function Get-ConfigurationFromTerraformFile([string]$terraformFile) {
+    $configuration = (Get-Content $terraformFile -Raw) | ConvertFrom-Terraform
+
+    return $configuration
+}
+
+# Returns paths to Configuration.cvf files residing in all intermediate environment folders.
+function Get-ConfigurationFilesFromEnvironmentChain {
+    $configurationFiles = @()
+
+    $fullPath = Join-Path "$values" -ChildPath $environmentname
+
+    $nextPath = $fullPath
+
+    # Join-Path is a good way to compare paths.
+    while ((Join-Path (Resolve-Path $values) "") -ne (Join-Path (Resolve-Path $nextPath) "")) {
+        $configurationFiles += Join-Path $nextPath "Configuration.cvf"
+        $nextPath = Split-Path $nextPath
+    }
+
+    # Order is important.
+    [array]::Reverse($configurationFiles)
+
+    return $configurationFiles
+}
+
+function Get-ConfigurationFiles {
+    $configurationFiles = @(Join-Path "$values" -ChildPath "Configuration.cvf")
+
+    if ($componentName) {
+        $configurationFiles += Join-Path "$values" -ChildPath "$componentName.cvf"
+        $configurationFiles += Join-Path "$values" -ChildPath "$componentName\Configuration.cvf"
+    }
+
+    if ($environmentName) {
+        $configurationFiles += Get-ConfigurationFilesFromEnvironmentChain
+    }
+
+    if ($componentName -and $environmentname) {
+        $configurationFiles += Join-Path "$values" -ChildPath "$environmentName\$componentName\Configuration.cvf"
+    }
+
+    Write-Verbose "All potentially existing configuration value files that will be looked into:"
+    $configurationFiles | Write-Verbose
+
+    return $configurationFiles
+}
+
 function Copy-ArbitraryFilesToOutput([string] $fromFolder, [string[]] $filesToIgnore) {
+    if (!(Test-Path -Path $fromFolder)) {
+        Write-Verbose "Ignoring nonexistent path: $fromFolder"
+        return
+    }
+
     $arbitraryFiles = Get-ChildItem -Path $fromFolder -File | Where-Object { $_.FullName -notin $filesToIgnore -and $_.Extension -ne ".cvf" } | ForEach-Object { "$($_.FullName)" }
 
     if ($arbitraryFiles) {
@@ -187,15 +293,21 @@ if ($values) {
         Write-Error "$values folder not found. Exiting."
     }
 
-    # Create an array of all configuration files to use.
-    $configurationFiles = @((Join-Path "$values" -ChildPath "Configuration.cvf"),
-    (Join-Path "$values" -ChildPath "$componentName.cvf"),
-    (Join-Path "$values" -ChildPath "$environmentname\Configuration.cvf"),
-    (Join-Path "$values" -ChildPath "$environmentName\$componentName\Configuration.cvf"))
+    if ($terraformFile) {
+        # Get configuration values from the Terraform file.
+        $configuration = Get-ConfigurationFromTerraformFile -terraformFile $terraformFile
+        if ($configuration.Keys.Count -gt 0) {
+            $configuration.Keys | ForEach-Object { $configurationAsHashtable[$_] = $configuration[$_] }
+        }
+    }
+
+    $configurationFiles = Get-ConfigurationFiles
+
+    Write-Verbose "Looking into configuration value files."
 
     foreach ($configurationFile in $configurationFiles) {
         if (!(Test-Path $configurationFile)) {
-            Write-Host "Ignoring the nonexistent configuration file: $configurationFile"
+            Write-Verbose "Ignoring the nonexistent configuration value file: $configurationFile"
             Copy-ArbitraryFilesToOutput -fromFolder (Split-Path -Path $configurationFile)
             continue
         }

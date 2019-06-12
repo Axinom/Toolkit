@@ -1,6 +1,5 @@
 [CmdletBinding()]
 param(
-	# Namespace of the component on the server. Any server assets are unique in each namespace and isolated from other namespaces.
 	# Hostname or IP address of the server to remove the image from. The server must be configured according
 	# to the component hosting principles of the Axinom Service Delivery Process. Arbitrary Docker hosts are not supported.
 	[Parameter(Mandatory = $True)]
@@ -45,7 +44,8 @@ $webRequestTimeout = 30 + $timeout
 
 $response = Invoke-WebRequest -Uri $apiUrl -TimeoutSec $webRequestTimeout -UseBasicParsing
 
-if (!$response.BaseResponse.ContentType.StartsWith("application/json"))
+# On PowerShell Core, there is no ContentType, so assume success.
+if ($response.BaseResponse.ContentType -and !$response.BaseResponse.ContentType.StartsWith("application/json"))
 {
 	Write-Host "${$response.StatusCode} ${$response.StatusDescription}"
 	Write-Host $response.Content

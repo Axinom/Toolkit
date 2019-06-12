@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Resources</RootNamespace>
     <AssemblyName>Resources</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
     </SccProjectName>
@@ -19,6 +19,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,11 +55,13 @@
     <None Include="DeliveryProcess.Tooling\Execute-AllChecks.ps1" />
     <None Include="DeliveryProcess.Tooling\Export-ProcessVariables.ps1" />
     <None Include="DeliveryProcess.Tooling\FileUtilities.ps1" />
+    <None Include="DeliveryProcess.Tooling\Functions.ps1" />
     <None Include="DeliveryProcess.Tooling\Generate-Configuration.ps1" />
     <None Include="DeliveryProcess.Tooling\Get-Components.ps1" />
     <None Include="DeliveryProcess.Tooling\Get-ToolingVersion.ps1" />
     <None Include="DeliveryProcess.Tooling\Import-ProcessVariables.ps1" />
     <None Include="DeliveryProcess.Tooling\Internal-Await-Task.ps1" />
+    <None Include="DeliveryProcess.Tooling\Internal-Wait-GreenDashboard.ps1" />
     <None Include="DeliveryProcess.Tooling\Publish-Blob.ps1" />
     <None Include="DeliveryProcess.Tooling\Publish-DockerImage.ps1" />
     <None Include="DeliveryProcess.Tooling\Remove-Component.ps1" />
@@ -68,6 +71,15 @@
     <None Include="DeliveryProcess.Tooling\Set-NpmVersionString.ps1" />
     <None Include="DeliveryProcess.Tooling\Set-NuGetVersionString.ps1" />
     <None Include="DeliveryProcess.Tooling\Set-VersionStringBranchPrefix.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Create-DeploymentPackage.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Functions.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Install-Components.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Publish-Modules.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Pull-Images.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Remove-Components.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Save-Images.ps1" />
+    <None Include="DeliveryProcess.Tooling\StandaloneDeployment\Validate-Configuration.ps1" />
+    <None Include="DeliveryProcess.Tooling\Sync-Components.ps1" />
     <None Include="Documentation\.gitignore" />
     <None Include="Documentation\api\.gitignore" />
     <None Include="Documentation\api\index.md" />

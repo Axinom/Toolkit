@@ -47,8 +47,8 @@ if ($env:BuildConfiguration -and $env:BuildConfiguration -ne "Release")
 
 $assemblyInfo = [System.IO.File]::ReadAllText($assemblyInfoPath)
 
-$primaryRegex = New-Object System.Text.RegularExpressions.Regex('AssemblyFileVersion\("(.*)"\)')
-$fallbackRegex = New-Object System.Text.RegularExpressions.Regex('AssemblyVersion\("(.*)"\)')
+$primaryRegex = New-Object System.Text.RegularExpressions.Regex('AssemblyFileVersion(?:Attribute)?\("(.*)"\)')
+$fallbackRegex = New-Object System.Text.RegularExpressions.Regex('AssemblyVersion(?:Attribute)?\("(.*)"\)')
 
 $versionMatch = $primaryRegex.Matches($assemblyInfo)
 

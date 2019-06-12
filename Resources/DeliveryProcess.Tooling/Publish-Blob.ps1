@@ -26,6 +26,11 @@ param(
     [Parameter()]
     [string]$cdn,
 
+    # If you are going to overwrite the contents of this blob later, it may be desirable to disable caching.
+    # Otherwise the changes may not show up right away when the blob is accessed through caches/CDN.
+    [Parameter()]
+    [switch]$noCache,
+
     # Path to the file to publish if the input is a file.
 	[Parameter(ParameterSetName = "FromFile", Mandatory = $True)]
     [string]$path,
@@ -55,10 +60,19 @@ $azureContext = New-AzureStorageContext -ConnectionString $connectionString
 # Ensure the container exists.
 New-AzureStorageContainer $containerName -Context $azureContext -ErrorAction SilentlyContinue | Out-Null
 
+$properties = @{
+    "CacheControl" = ""
+}
+
+if ($noCache) {
+    # Stick a lot of directives in there, as different caches seem to (mis)behave differently.
+    $properties["CacheControl"] = "no-cache, no-store, must-revalidate, max-age=0"
+}
+
 if ($path) {
     Write-Host "Uploading $path to $containerName/$blobName"
 
-    $blob = Set-AzureStorageBlobContent -File $path -Blob $blobName -Container $containerName -Force -Context $azureContext
+    $blob = Set-AzureStorageBlobContent -File $path -Blob $blobName -Container $containerName -Force -Context $azureContext -Properties $properties
 }
 else {
     Write-Host "Copying $sourceContainerName/$sourceBlobName to $containerName/$blobName"
@@ -68,6 +82,9 @@ else {
     Write-Verbose "Waiting for copy to finish."
 
     $blob | Get-AzureStorageBlobCopyState -WaitForComplete | Out-Null
+
+    $blob.ICloudBlob.Properties.CacheControl = $properties["CacheControl"]
+    $blob.ICloudBlob.SetProperties()
 }
 
 # It needs an expiration but we do not want it to expire. 10 years should be enough for everybody.

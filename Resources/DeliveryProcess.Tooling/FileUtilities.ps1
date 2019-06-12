@@ -1,6 +1,15 @@
 ﻿function Get-FileEncoding($targetFilePath) {
-    [byte[]]$byte = get-content -Encoding byte -ReadCount 4 -TotalCount 4 -Path $targetFilePath
- 
+    if (!(Get-Content $targetFilePath)) {
+        return "UTF8"
+    }
+
+    if ($PSVersionTable.PSVersion.Major -le 5) {
+        [byte[]]$byte = Get-Content -Encoding Byte -ReadCount 4 -TotalCount 4 -Path $targetFilePath
+    }
+    else {
+        [byte[]]$byte = Get-Content -AsByteStream -ReadCount 4 -TotalCount 4 -Path $targetFilePath
+    }
+
     # EF BB BF (UTF8)
     if ( $byte[0] -eq 0xef -and $byte[1] -eq 0xbb -and $byte[2] -eq 0xbf )
     { return "UTF8" }
@@ -46,7 +55,7 @@
     { return "GB-18030" }
  
     else
-    { return "ASCII" }
+    { return "UTF8" }
 }
 
 function Get-NewlineCharacters($targetFilePath) {

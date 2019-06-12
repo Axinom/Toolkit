@@ -82,10 +82,9 @@ $args = $baseArgs
 $args += "login"
 $args += "--username"
 $args += $registryUsername
-$args += "--password"
-$args += $registryPassword
+$args += "--password-stdin"
 $args += $registryUrl
-& docker $args
+$registryPassword | & docker $args
 
 if ($LASTEXITCODE -ne 0)
 {
