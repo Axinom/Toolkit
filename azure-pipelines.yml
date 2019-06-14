@@ -1,186 +1,186 @@
 name: '$(date:yyyyMMdd)$(rev:.r)'
 
 trigger:
--   master
+- master
 
 variables:
--   group: 'Axinom NuGet API keys'
--   name: solution
-    value: '**/*.sln'
--   name: buildPlatform
-    value: 'Any CPU'
--   name: 'buildConfiguration'
-    value: 'Release'
--   name: 'Tooling'
-    value: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
+- group: 'Axinom NuGet API keys'
+- name: solution
+  value: '**/*.sln'
+- name: buildPlatform
+  value: 'Any CPU'
+- name: 'buildConfiguration'
+  value: 'Release'
+- name: 'Tooling'
+  value: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
 
 stages:
--   stage: Build
-    jobs:
-    -   job:
-        pool:
-            vmImage: 'windows-latest'
-        steps:
-        -   checkout: self
-            lfs: 'true'
+- stage: Build
+  jobs:
+  - job:
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - checkout: self
+      lfs: 'true'
 
-        -   pwsh: |
-                Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
-                Expand-Tokens -path "$(Build.SourcesDirectory)/Resources/AutomatedBuild/nuget.config" -secrets "AxNuget.ReadKey=$(AxNuget.ReadKey)","AxNugetCb.ReadKey=$(AxNugetCb.ReadKey)"
-                Set-DotNetBuildAndVersionStrings -assemblyInfoPath "$(Build.SourcesDirectory)/Resources/SolutionAssemblyInfo.cs" -buildId "$(Build.BuildId)" -commitId "$(Build.SourceVersion)"
+    - pwsh: |
+        Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
+        Expand-Tokens -path "$(Build.SourcesDirectory)/Resources/AutomatedBuild/nuget.config" -secrets "AxNuget.ReadKey=$(AxNuget.ReadKey)","AxNugetCb.ReadKey=$(AxNugetCb.ReadKey)"
+        Set-DotNetBuildAndVersionStrings -assemblyInfoPath "$(Build.SourcesDirectory)/Resources/SolutionAssemblyInfo.cs" -buildId "$(Build.BuildId)" -commitId "$(Build.SourceVersion)"
 
-        -   task: NuGetToolInstaller@0
-            inputs:
-                versionSpec: '4.5.0'
+    - task: NuGetToolInstaller@0
+      inputs:
+        versionSpec: '4.5.0'
 
-        -   task: NuGetCommand@2
-            displayName: 'NuGet restore'
-            inputs:
-                restoreSolution: '$(solution)'
-                feedsToUse: 'config'
-                nugetConfigPath: 'Resources/AutomatedBuild/nuget.config'
+    - task: NuGetCommand@2
+      displayName: 'NuGet restore'
+      inputs:
+        restoreSolution: '$(solution)'
+        feedsToUse: 'config'
+        nugetConfigPath: 'Resources/AutomatedBuild/nuget.config'
 
-        -   task: VSBuild@1
-            inputs:
-                solution: '$(solution)'
-                platform: '$(buildPlatform)'
-                configuration: '$(buildConfiguration)'
+    - task: VSBuild@1
+      inputs:
+        solution: '$(solution)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
 
-        -   task: VSTest@2
-            displayName: 'Run tests with .NET Framework'
-            inputs:
-                platform: '$(buildPlatform)'
-                configuration: '$(buildConfiguration)'
-                testAssemblyVer2: 'Tests.NetFramework/bin/$(BuildConfiguration)/Tests.*.dll'
+    - task: VSTest@2
+      displayName: 'Run tests with .NET Framework'
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        testAssemblyVer2: 'Tests.NetFramework/bin/$(BuildConfiguration)/Tests.*.dll'
 
-        -   task: CmdLine@2
-            displayName: 'Run tests with .NET Core'
-            condition: always()
-            inputs:
-                script: '"c:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/IDE/Extensions/TestPlatform/vstest.console.exe" "$(Build.SourcesDirectory)/Tests.NetCore/bin/Release/netcoreapp2.2/Tests.NetCore.dll" /Framework:FrameworkCore10'
+    - task: CmdLine@2
+      displayName: 'Run tests with .NET Core'
+      condition: always()
+      inputs:
+        script: '"c:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/IDE/Extensions/TestPlatform/vstest.console.exe" "$(Build.SourcesDirectory)/Tests.NetCore/bin/Release/netcoreapp2.2/Tests.NetCore.dll" /Framework:FrameworkCore10'
 
-        -   task: PowerShell@2
-            displayName: 'Attach test log (.NET Framework)'
-            condition: always()
-            inputs:
-                targetType: 'inline'
-                script: |
-                    $logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetFramework", "bin", "Release", "Tests.log")
-                    if (Test-Path $logPath) {
-                        Write-Host "##vso[build.uploadlog]$logPath"
-                    }
+    - task: PowerShell@2
+      displayName: 'Attach test log (.NET Framework)'
+      condition: always()
+      inputs:
+        targetType: 'inline'
+        script: |
+          $logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetFramework", "bin", "Release", "Tests.log")
+          if (Test-Path $logPath) {
+            Write-Host "##vso[build.uploadlog]$logPath"
+          }
 
-        -   task: PowerShell@2
-            displayName: 'Attach test log (.NET Core)'
-            condition: always()
-            inputs:
-                targetType: 'inline'
-                script: |
-                    $logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetCore", "bin", "Release", "netcoreapp2.0", "Tests.log")
-                    if (Test-Path $logPath) {
-                        Write-Host "##vso[build.uploadlog]$logPath"
-                    }
+    - task: PowerShell@2
+      displayName: 'Attach test log (.NET Core)'
+      condition: always()
+      inputs:
+        targetType: 'inline'
+        script: |
+          $logPath = [System.IO.Path]::Combine($env:BUILD_SOURCESDIRECTORY, "Tests.NetCore", "bin", "Release", "netcoreapp2.0", "Tests.log")
+          if (Test-Path $logPath) {
+            Write-Host "##vso[build.uploadlog]$logPath"
+          }
 
-        -   task: CmdLine@2
-            displayName: 'Generate documentation'
-            inputs:
-                script: 'GenerateDocumentation.cmd'
+    - task: CmdLine@2
+      displayName: 'Generate documentation'
+      inputs:
+        script: 'GenerateDocumentation.cmd'
 
-        -   task: CopyFiles@2
-            inputs:
-                SourceFolder: '$(Build.SourcesDirectory)/Toolkit/bin/Release/netstandard2.0'
-                Contents: 'Axinom.Toolkit.*'
-                TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/Toolkit/bin/Release/netstandard2.0'
+        Contents: 'Axinom.Toolkit.*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit'
 
-        -   task: CopyFiles@2
-            inputs:
-                SourceFolder: '$(Build.SourcesDirectory)/Toolkit.NetFramework/bin/Release'
-                Contents: 'Axinom.Toolkit.NetFramework.*'
-                TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.NetFramework'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/Toolkit.NetFramework/bin/Release'
+        Contents: 'Axinom.Toolkit.NetFramework.*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.NetFramework'
 
-        -   task: CopyFiles@2
-            inputs:
-                SourceFolder: '$(Build.SourcesDirectory)/Toolkit.NLog/bin/Release/netstandard2.0'
-                Contents: 'Axinom.Toolkit.*'
-                TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.NLog'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/Toolkit.NLog/bin/Release/netstandard2.0'
+        Contents: 'Axinom.Toolkit.*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.NLog'
 
-        -   task: CopyFiles@2
-            inputs:
-                SourceFolder: '$(Build.SourcesDirectory)/Toolkit.Jose/bin/Release/netstandard2.0'
-                Contents: 'Axinom.Toolkit.*'
-                TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.Jose'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/Toolkit.Jose/bin/Release/netstandard2.0'
+        Contents: 'Axinom.Toolkit.*'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.Jose'
 
-        -   task: PublishPipelineArtifact@0
-            inputs:
-                artifactName: 'NuSpec'
-                targetPath: '$(Build.SourcesDirectory)/Resources/NuGet'
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'NuSpec'
+        targetPath: '$(Build.SourcesDirectory)/Resources/NuGet'
 
-        -   task: PublishPipelineArtifact@0
-            inputs:
-                artifactName: 'Website'
-                targetPath: '$(Build.SourcesDirectory)/Resources/Documentation/_site'
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'Website'
+        targetPath: '$(Build.SourcesDirectory)/Resources/Documentation/_site'
 
-        -   task: PublishPipelineArtifact@0
-            inputs:
-                artifactName: 'NuGetContent'
-                targetPath: '$(Build.ArtifactStagingDirectory)/NuGetContent'
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: 'NuGetContent'
+        targetPath: '$(Build.ArtifactStagingDirectory)/NuGetContent'
 
--   stage: Publish_Preview
-    dependsOn: Build
-    jobs:
-    -   job:
-        pool:
-            vmImage: 'windows-latest'
-        steps:
-        -   pwsh: |
-                Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
-                Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -previewVersion
-                Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
+- stage: Publish_Preview
+  dependsOn: Build
+  jobs:
+  - job:
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - pwsh: |
+        Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
+        Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -previewVersion
+        Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
 
-        -   task: NuGetToolInstaller@0
-            inputs:
-                versionSpec: '4.5.0'
+    - task: NuGetToolInstaller@0
+      inputs:
+        versionSpec: '4.5.0'
 
-        -   task: NuGetCommand@2
-            displayName: 'Create nupkgs'
-            inputs:
-                command: 'pack'
-                packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
+    - task: NuGetCommand@2
+      displayName: 'Create nupkgs'
+      inputs:
+        command: 'pack'
+        packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
 
-        -   task: NuGetCommand@2
-            displayName: 'Publish nupkgs'
-            inputs:
-                command: 'push'
-                packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-                nuGetFeedType: 'external'
-                publishFeedCredentials: 'Axinom nuget.org'
+    - task: NuGetCommand@2
+      displayName: 'Publish nupkgs'
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'Axinom nuget.org'
 
--   stage: Publish_Stable
-    dependsOn: Build
-    jobs:
-    -   job:
-        pool:
-            vmImage: 'windows-latest'
-        steps:
-        -   pwsh: |
-                Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
-                Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -stableVersion
-                Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
+- stage: Publish_Stable
+  dependsOn: Build
+  jobs:
+  - job:
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - pwsh: |
+        Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
+        Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -stableVersion
+        Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
 
-        -   task: NuGetToolInstaller@0
-            inputs:
-                versionSpec: '4.5.0'
+    - task: NuGetToolInstaller@0
+      inputs:
+        versionSpec: '4.5.0'
 
-        -   task: NuGetCommand@2
-            displayName: 'Create nupkgs'
-            inputs:
-                command: 'pack'
-                packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
+    - task: NuGetCommand@2
+      displayName: 'Create nupkgs'
+      inputs:
+        command: 'pack'
+        packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
 
-        -   task: NuGetCommand@2
-            displayName: 'Publish nupkgs'
-            inputs:
-                command: 'push'
-                packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-                nuGetFeedType: 'external'
-                publishFeedCredentials: 'Axinom nuget.org'
+    - task: NuGetCommand@2
+      displayName: 'Publish nupkgs'
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'Axinom nuget.org'
