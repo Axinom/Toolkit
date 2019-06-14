@@ -125,7 +125,7 @@ stages:
                 artifactName: 'NuGetContent'
                 targetPath: '$(Build.ArtifactStagingDirectory)/NuGetContent'
 
--   stage: Publish-Preview
+-   stage: Publish_Preview
     dependsOn: Build
     jobs:
     -   job:
@@ -155,7 +155,7 @@ stages:
                 nuGetFeedType: 'external'
                 publishFeedCredentials: 'Axinom nuget.org'
 
--   stage: Publish-Stable
+-   stage: Publish_Stable
     dependsOn: Build
     jobs:
     -   job:
