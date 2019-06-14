@@ -125,62 +125,64 @@ stages:
         artifactName: 'NuGetContent'
         targetPath: '$(Build.ArtifactStagingDirectory)/NuGetContent'
 
-- stage: Publish_Preview
-  dependsOn: Build
-  jobs:
-  - job:
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - pwsh: |
-        Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
-        Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -previewVersion
-        Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
+# Waiting for "approvals" feature to be implemented in Azure Pipelines.
 
-    - task: NuGetToolInstaller@0
-      inputs:
-        versionSpec: '4.5.0'
+# - stage: Publish_Preview
+#   dependsOn: Build
+#   jobs:
+#   - job:
+#     pool:
+#       vmImage: 'windows-latest'
+#     steps:
+#     - pwsh: |
+#         Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
+#         Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -previewVersion
+#         Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
 
-    - task: NuGetCommand@2
-      displayName: 'Create nupkgs'
-      inputs:
-        command: 'pack'
-        packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
+#     - task: NuGetToolInstaller@0
+#       inputs:
+#         versionSpec: '4.5.0'
 
-    - task: NuGetCommand@2
-      displayName: 'Publish nupkgs'
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        nuGetFeedType: 'external'
-        publishFeedCredentials: 'Axinom nuget.org'
+#     - task: NuGetCommand@2
+#       displayName: 'Create nupkgs'
+#       inputs:
+#         command: 'pack'
+#         packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
 
-- stage: Publish_Stable
-  dependsOn: Build
-  jobs:
-  - job:
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - pwsh: |
-        Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
-        Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -stableVersion
-        Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
+#     - task: NuGetCommand@2
+#       displayName: 'Publish nupkgs'
+#       inputs:
+#         command: 'push'
+#         packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+#         nuGetFeedType: 'external'
+#         publishFeedCredentials: 'Axinom nuget.org'
 
-    - task: NuGetToolInstaller@0
-      inputs:
-        versionSpec: '4.5.0'
+# - stage: Publish_Stable
+#   dependsOn: Build
+#   jobs:
+#   - job:
+#     pool:
+#       vmImage: 'windows-latest'
+#     steps:
+#     - pwsh: |
+#         Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
+#         Set-NuGetVersionString -buildNumber "$(Build.BuildNumber)" -stableVersion
+#         Expand-Tokens -path "$(System.ArtifactsDirectory)/NuSpec/"
 
-    - task: NuGetCommand@2
-      displayName: 'Create nupkgs'
-      inputs:
-        command: 'pack'
-        packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
+#     - task: NuGetToolInstaller@0
+#       inputs:
+#         versionSpec: '4.5.0'
 
-    - task: NuGetCommand@2
-      displayName: 'Publish nupkgs'
-      inputs:
-        command: 'push'
-        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-        nuGetFeedType: 'external'
-        publishFeedCredentials: 'Axinom nuget.org'
+#     - task: NuGetCommand@2
+#       displayName: 'Create nupkgs'
+#       inputs:
+#         command: 'pack'
+#         packagesToPack: '$(System.ArtifactsDirectory)/NuSpec/*.nuspec'
+
+#     - task: NuGetCommand@2
+#       displayName: 'Publish nupkgs'
+#       inputs:
+#         command: 'push'
+#         packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+#         nuGetFeedType: 'external'
+#         publishFeedCredentials: 'Axinom nuget.org'
