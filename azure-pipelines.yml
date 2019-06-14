@@ -157,10 +157,10 @@ stages:
 
 -   stage: Publish-Stable
     dependsOn: Build
-    pool:
-        vmImage: 'windows-latest'
     jobs:
     -   job:
+        pool:
+            vmImage: 'windows-latest'
         steps:
         -   pwsh: |
                 Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
