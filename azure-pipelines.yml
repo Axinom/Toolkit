@@ -21,11 +21,10 @@ steps:
 - checkout: self
   lfs: 'true'
 
-- task: PowerShell@2
-  displayName: 'Replace NuGet tokens'
-  inputs:
-    filePath: '$(Tooling)/Replace-Tokens.ps1'
-    arguments: '-path "$(Build.SourcesDirectory)/Resources/AutomatedBuild/nuget.config" -secrets "AxNuget_ReadKey=$(AxNuget.ReadKey)","AxNugetCb_ReadKey=$(AxNugetCb.ReadKey)"'
+- pwsh: |
+    Install-Module Axinom.DevOpsTooling -Scope CurrentUser -Force
+    Expand-Tokens -path "$(Build.SourcesDirectory)/Resources/AutomatedBuild/nuget.config" -secrets "AxNuget.ReadKey=$(AxNuget.ReadKey)","AxNugetCb.ReadKey=$(AxNugetCb.ReadKey)"
+    Set-DotNetBuildAndVersionStrings -assemblyInfoPath "$(Build.SourcesDirectory)/Resources/SolutionAssemblyInfo.cs" -buildId "$(Build.BuildId)" -commitId "$(Build.SourceVersion)"
 
 - task: NuGetToolInstaller@0
   inputs:
@@ -37,12 +36,6 @@ steps:
     restoreSolution: '$(solution)'
     feedsToUse: 'config'
     nugetConfigPath: 'Resources/AutomatedBuild/nuget.config'
-
-- task: PowerShell@2
-  displayName: 'Update version string'
-  inputs:
-    filePath: '$(Tooling)/Set-BuildAndVersionStrings.ps1'
-    arguments: '-assemblyInfoPath "$(Build.SourcesDirectory)/Resources/SolutionAssemblyInfo.cs" -buildId "$(Build.BuildId)" -commitId "$(Build.SourceVersion)"'
 
 - task: VSBuild@1
   inputs:
@@ -113,11 +106,6 @@ steps:
     SourceFolder: '$(Build.SourcesDirectory)/Toolkit.Jose/bin/Release/netstandard2.0'
     Contents: 'Axinom.Toolkit.*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/NuGetContent/Toolkit.Jose'
-
-- task: PublishPipelineArtifact@0
-  inputs:
-    artifactName: 'DeliveryProcess.Tooling'
-    targetPath: '$(Build.SourcesDirectory)/Resources/DeliveryProcess.Tooling'
 
 - task: PublishPipelineArtifact@0
   inputs:

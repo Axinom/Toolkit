@@ -1,1 +1,0 @@
-﻿Write-Host "Delivery process tooling version is 7.0.0-006137-550e3f7"
