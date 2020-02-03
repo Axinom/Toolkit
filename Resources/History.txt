@@ -1,4 +1,6 @@
-﻿14.1.0
+﻿	* Add Helpers.Argument.ValidateLength(T[]) overload for disambiguation.
+
+14.1.0
 	* Add WidevineConstants.SystemId.
 
 14.0.0

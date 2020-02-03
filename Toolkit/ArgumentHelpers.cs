@@ -87,6 +87,11 @@
             }
         }
 
+        public static void ValidateLength<T>(this HelpersContainerClasses.Argument container, T[] array, string name, int? exact = null, int? min = null, int? max = null)
+        {
+            ValidateLength(container, (IReadOnlyCollection<T>)array, name, exact, min, max);
+        }
+
         public static void ValidateLength<T>(this HelpersContainerClasses.Argument container, ICollection<T> collection, string name, int? exact = null, int? min = null, int? max = null)
         {
             Helpers.Argument.ValidateIsNotNull(collection, name);
