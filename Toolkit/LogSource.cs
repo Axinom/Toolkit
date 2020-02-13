@@ -85,6 +85,13 @@ namespace Axinom.Toolkit
             _name = name;
         }
 
+        protected LogSource(LogSource wrapped)
+        {
+            Helpers.Argument.ValidateIsNotNull(wrapped, nameof(wrapped));
+
+            _name = wrapped._name;
+        }
+
         private readonly string _name;
 
         internal abstract void Write(LogEntrySeverity severity, string source, string message);
