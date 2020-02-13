@@ -1,5 +1,4 @@
 ﻿	* Add Helpers.Argument.ValidateLength(T[]) overload for disambiguation.
-	* Added LogSource(LogSource wrapped) constructor for easy LogSource wrapping.
 
 14.1.0
 	* Add WidevineConstants.SystemId.
