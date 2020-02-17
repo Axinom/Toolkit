@@ -2,6 +2,7 @@
 {
     using Axinom.Toolkit;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
     using System.IO;
 
     [TestClass]
@@ -31,5 +32,24 @@
                 Assert.IsTrue(Path.GetFileName(folder.Path).StartsWith(prefix));
             }
         }
+
+        [TestMethod]
+        public void TemporaryFolder_WithCustomParent_IsCreatedAndRemoved()
+        {
+            var parentPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+
+            string temporaryDirectory;
+
+            using (var folder = TemporaryDirectory.WithParentDirectory(parentPath))
+            {
+                temporaryDirectory = folder.Path;
+                Assert.IsTrue(Directory.Exists(folder.Path));
+
+                Assert.AreEqual(1, Directory.GetDirectories(parentPath).Length);
+            }
+
+            Assert.IsFalse(Directory.Exists(temporaryDirectory));
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿	* Add Helpers.Argument.ValidateLength(T[]) overload for disambiguation.
 	* EmbeddedPackage now keeps open handles to extracted files, to help keep them alive against temp file cleanup.
+	* TemporaryDirectory now accepts custom parent directory.
 
 14.1.0
 	* Add WidevineConstants.SystemId.
