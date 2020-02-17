@@ -62,10 +62,19 @@
 						if (assemblyStream == null)
 							throw new ArgumentException($"Embedded file {streamName} not found.");
 
-						using (var fileStream = File.Create(destinationPath))
-							assemblyStream.CopyTo(fileStream);
+						var fileStream = File.Open(destinationPath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read);
 
-						_keepaliveHandles.Add(File.Open(destinationPath, FileMode.Open, FileAccess.Read, FileShare.Read));
+						try
+						{
+							assemblyStream.CopyTo(fileStream);
+						}
+						catch
+						{
+							fileStream.Dispose();
+							throw;
+						}
+
+						_keepaliveHandles.Add(fileStream);
 					}
 				}
 			}
