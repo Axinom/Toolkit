@@ -22,6 +22,9 @@
             List<string> roots = new List<string>();
             roots.AddRange((Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator));
 
+            // The current directory is a valid root path, as well.
+            roots.Add(Environment.CurrentDirectory);
+
             foreach (string root in roots)
             {
                 string candidate = Path.Combine(root, inputPath);
