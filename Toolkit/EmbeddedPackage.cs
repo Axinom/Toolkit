@@ -23,7 +23,18 @@
 		/// <param name="assembly">The assembly from which the package is to be loaded.</param>
 		/// <param name="namespace">The namespace of the files contained within the package (e.g. My.Stuff.Package1).</param>
 		/// <param name="filenames">The names of the files to extract.</param>
-		public EmbeddedPackage(Assembly assembly, string @namespace, params string[] filenames)
+		public EmbeddedPackage(Assembly assembly, string @namespace, params string[] filenames) : this(assembly, @namespace, null, filenames)
+		{
+		}
+
+		/// <summary>
+		/// Extracts an embedded package from the specified assembly and enables its contents to be accessed.
+		/// </summary>
+		/// <param name="assembly">The assembly from which the package is to be loaded.</param>
+		/// <param name="namespace">The namespace of the files contained within the package (e.g. My.Stuff.Package1).</param>
+		/// <param name="filenames">The names of the files to extract.</param>
+		/// <param name="storageDirectory">Where to store the extracted files.</param>
+		public EmbeddedPackage(Assembly assembly, string @namespace, TemporaryDirectory storageDirectory, params string[] filenames)
 		{
 			Helpers.Argument.ValidateIsNotNull(assembly, nameof(assembly));
 			Helpers.Argument.ValidateIsNotNullOrWhitespace(@namespace, nameof(@namespace));
@@ -32,7 +43,10 @@
 			if (filenames.Length == 0)
 				throw new ArgumentException("No filenames specified.", nameof(filenames));
 
-			_directory = new TemporaryDirectory();
+			if (storageDirectory == null)
+				storageDirectory = new TemporaryDirectory();
+
+			_directory = storageDirectory;
 
 			try
 			{
