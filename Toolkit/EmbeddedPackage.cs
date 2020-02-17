@@ -50,6 +50,8 @@
 
 						using (var fileStream = File.Create(destinationPath))
 							assemblyStream.CopyTo(fileStream);
+
+						_keepaliveHandles.Add(File.Open(destinationPath, FileMode.Open, FileAccess.Read, FileShare.Read));
 					}
 				}
 			}
@@ -64,6 +66,11 @@
 		{
 			if (_directory != null)
 			{
+				foreach (var handle in _keepaliveHandles)
+					handle.Close();
+
+				_keepaliveHandles.Clear();
+
 				_directory.Delete();
 				_directory = null;
 
@@ -77,6 +84,10 @@
 		}
 
 		private TemporaryDirectory _directory;
+
+		// We keep an open handle to each extracted file to ensure the OS does not delete them.
+		// This is important because sometimes "temp files cleanup" features will delete our files.
+		private List<FileStream> _keepaliveHandles = new List<FileStream>();
 
 		private static readonly LogSource _log = Log.Default.CreateChildSource(nameof(EmbeddedPackage));
 	}
