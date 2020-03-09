@@ -1,4 +1,5 @@
-﻿	* Add Helpers.Argument.ValidateLength(T[]) overload for disambiguation.
+﻿14.2.0
+	* Add Helpers.Argument.ValidateLength(T[]) overload for disambiguation.
 	* TemporaryDirectory now accepts custom parent directory.
 	* EmbeddedPackage now accepts custom TemporaryDirectory instance for storage.
 	* ExternalTool now accepts paths relative to the current directory.
