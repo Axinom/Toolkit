@@ -10,6 +10,27 @@ namespace Axinom.Toolkit
     public static partial class NetStandardHelpers
     {
         /// <summary>
+        /// Just to state what exactly we are dealing with when an app starts up.
+        /// </summary>
+        public static string GetLoadedAssembliesInfodump(this HelpersContainerClasses.Debug container)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Loaded assemblies:");
+
+            var loadedAssemblyNames = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetName());
+
+            // We filter out system assemblies because they are boring.
+            foreach (var assemblyName in loadedAssemblyNames
+                .Where(a => !a.Name.StartsWith("System."))
+                .OrderBy(a => a.Name))
+            {
+                sb.AppendLine($"{assemblyName.Name} {assemblyName.Version}");
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Gets the Message properties of an exception and all its inner exceptions and all the exception type names.
         /// 
         /// Useful if you have top-level exceptions with pointless generic messages but also want to see deeper

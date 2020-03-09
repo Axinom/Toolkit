@@ -2,6 +2,7 @@
 	* TemporaryDirectory now accepts custom parent directory.
 	* EmbeddedPackage now accepts custom TemporaryDirectory instance for storage.
 	* ExternalTool now accepts paths relative to the current directory.
+	* Add Helpers.Debug.GetLoadedAssembliesInfodump().
 
 14.1.0
 	* Add WidevineConstants.SystemId.
